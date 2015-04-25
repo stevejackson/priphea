@@ -1,0 +1,10 @@
+<h1>Settings</h1>
+
+<%= form_tag(save_settings_path, method: :post) do %>
+  <fieldset>
+    <%= label_tag :library_path, "Library path" %>
+    <%= text_field_tag :library_path, params[:library_path] || @settings[:library_path], size: 50, placeholder: "/Users/steve/musiclibrary" %>
+  </fieldset>
+
+  <%= submit_tag "Save settings" %>
+<% end %>
