@@ -1,0 +1,6 @@
+development:
+  sessions:
+    default:
+      database: priphea-development
+      hosts:
+        - localhost:27017
