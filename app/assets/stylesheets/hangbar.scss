@@ -1,0 +1,83 @@
+$hangbar-height: 80px;
+
+div#hangbar {
+  height: $hangbar-height;
+  background-color: white;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+
+#song_controls {
+  margin-top: 10px;
+
+  div.control {
+    display: inline-block;
+    padding-right: 15px;
+
+    a, a:visited {
+      color: black;
+    }
+  }
+}
+
+#volume {
+  margin-top: 15px;
+}
+
+#now_playing {
+  margin-top: 5px;
+  height: 50px;
+
+  #song_art {
+    float: left;
+
+    padding-right: 5px;
+  }
+
+  #song_info {
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0;
+  }
+
+  #progress_bar {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    #current_time, #total_length {
+      width: 10%;
+      font-size: 0.8em;
+    }
+
+    progress {
+      width: 75%;
+    }
+  }
+}
+
+#playback_mode {
+  margin-top: 15px;
+  a, a:visited {
+    color: black;
+  }
+}
+
+#search {
+  margin-top: 15px;
+  font-size: 1em;
+
+  input {
+    padding: 5px;
+    width: 100%;
+  }
+}
+
+div#hangbar #settings {
+  margin-top: 15px;
+
+  a, a:visited {
+    color: black;
+  }
+
+}

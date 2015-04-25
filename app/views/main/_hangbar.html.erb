@@ -1,0 +1,67 @@
+<div id="hangbar" class="row">
+
+  <div id="song_controls" class="four columns">
+    <div id="previous_song" class="control">
+      <a href="#">
+        <i class="fa fa-backward fa-2x"></i>
+      </a>
+    </div>
+
+    <div id="play" class="control">
+      <a href="#">
+        <i class="fa fa-play fa-2x"></i>
+      </a>
+    </div>
+
+    <div id="next_song" class="control">
+      <a href="#">
+        <i class="fa fa-forward fa-2x"></i>
+      </a>
+    </div>
+  </div> <!-- song_controls -->
+
+  <div id="volume" class="four columns">
+    <i class="fa fa-volume-down"></i>
+    <input type="range" min="0" max="100" step="1">
+    <i class="fa fa-volume-up"></i>
+  </div> <!-- volume -->
+
+  <div id="now_playing" class="eight columns">
+    <div id="song_art">
+      <img src="/images/fakecovers/918.jpg" width="50" length="50" />
+    </div>
+
+    <span id="song_info">
+      <strong>Oasis From A Window</strong>
+      by
+      <strong>Kenji Ito / Tsuyoshi Sekito</strong>
+    </span>
+
+    <div id="progress_bar">
+      <span id="current_time">01:34</span>
+      <progress value="0" max="100"></progress>
+      <span id="total_length">04:40</span>
+    </div>
+  </div> <!-- now_playing -->
+
+  <div id="playback_mode" class="one column">
+    <div class="medium primary button">
+      <a href="#">
+        <i class="fa fa-repeat fa-2x"></i>
+      </a>
+    </div>
+  </div> <!-- playback_mode -->
+
+  <div id="search" class="four columns">
+    <input type="text" placeholder="Search for music">
+  </div> <!-- search -->
+
+  <div id="settings" class="one column">
+    <div class="medium default button">
+      <a href="/settings">
+        <i class="fa fa-cog fa-2x"></i>
+      </a>
+    </div>
+  </div> <!-- settings -->
+
+</div>

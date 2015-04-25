@@ -1,0 +1,12 @@
+div#song_list {
+  font-size: 0.9em;
+  overflow: scroll;
+  height: 300px;
+  margin: 0;
+}
+
+#song_list table {
+  th {
+    background-color: grey;
+  }
+}

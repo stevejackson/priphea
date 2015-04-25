@@ -1,0 +1,44 @@
+
+@import "vendor/font-awesome.min";
+@import "vendor/skeleton";
+
+@import "base";
+@import "hangbar";
+@import "sidebar";
+@import "songlist";
+
+body {
+  overflow: hidden; // hide main scrollbar
+}
+
+main {
+}
+
+// contains the sidebar, browser, and songlist
+div#outer_container {
+}
+
+div#sidebar {
+  height: 100%;
+  background-color: white;
+}
+
+div#browser {
+  margin: 0;
+  height: 600px;
+}
+
+#cover_art_gallery {
+  height: 600px;
+  overflow: scroll;
+
+  .cover {
+    display: inline;
+  }
+}
+
+div#song_list {
+  height: 150px;
+  background-color: white;
+  overflow: scroll;
+}
