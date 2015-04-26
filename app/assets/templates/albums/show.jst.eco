@@ -1,0 +1,23 @@
+<table>
+  <thead>
+    <th>Disc #</th>
+    <th>Track #</th>
+    <th>Title</th>
+    <th>Artist</th>
+  </thead>
+
+  <tbody>
+
+    <% if @album? and @album.attributes? and @album.attributes.songs?: %>
+      <% for song in @album.attributes.songs: %>
+        <tr>
+          <td><%= song['title'] %></td>
+          <td></td>
+          <td></td>
+          <td>Blah</td>
+        </tr>
+      <% end %>
+    <% end %>
+
+  </tbody>
+</table>

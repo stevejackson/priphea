@@ -10,7 +10,10 @@ gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'therubyracer', platforms: :ruby
 
-gem 'jquery-rails'
+gem 'jquery-rails', '~> 4.0'
+gem 'backbone-on-rails', '~> 1.1'
+
+gem 'mini_exiftool', '~> 2.5'
 
 group :development do
   gem 'thin', '~> 1.6'
@@ -22,4 +25,7 @@ end
 
 group :development, :test do
   gem 'pry-byebug', '~> 1'
+
+  gem 'rspec-rails', '~> 3.0'
+  gem 'database_cleaner', '~> 1.2'
 end

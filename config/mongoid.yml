@@ -4,3 +4,10 @@ development:
       database: priphea-development
       hosts:
         - localhost:27017
+
+test:
+  sessions:
+    default:
+      database: priphea-test
+      hosts:
+        - localhost:27017

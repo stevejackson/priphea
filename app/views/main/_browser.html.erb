@@ -1,16 +1,18 @@
 <div id="browser" class="twenty-one columns">
 
   <div id="cover_art_gallery">
-    <%= @albums.each do |album| %>
+    <% @albums.each do |album| %>
       <div class="cover">
-        <a href="#">
-          <img src="<%= album.cover_art_url %>.jpg" class="" width="250" height="250" />
+        <a href="#albums/<%= album.id %>">
+          <%= image_tag cover_art_path(album.id), { width: "250", height: "250" } %>
         </a>
       </div>
     <% end %>
 
   </div>
 
-  <%= render partial: 'song_list' %>
+  <div id="song_list">
+    <%= render partial: 'song_list' %>
+  </div>
 
 </div>

@@ -1,12 +1,11 @@
 class MainController < ApplicationController
 
   def index
-    # (875..1311).each do |i|
-    #   album = Album.new
-    #   album.title = "Album title of Fakeness #{i}"
-    #   album.cover_art_url = "/fakecovers/#{i}"
-    #   album.save!
-    # end
+    Album.destroy_all
+
+    scanner = Scanner.new(Settings.library_path)
+    scanner.scan
+
     @albums = Album.all
   end
 
