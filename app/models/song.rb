@@ -30,9 +30,6 @@ class Song
       song.album = Album.find_by_title_or_create_new(metadata['album'])
     end
 
-    puts "Metadata: #{metadata.inspect}"
-    puts song.inspect
-
     song
   end
 

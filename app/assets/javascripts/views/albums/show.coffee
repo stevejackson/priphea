@@ -21,5 +21,6 @@ class Priphea.Views.AlbumsShow extends Backbone.View
 
   playSong: (event) ->
     songId = $(this).data('song-id')
-    window.player = AV.Player.fromURL("/api/songs/#{songId}")
-    player.play()
+    player = new Player
+    player.setActiveSong(songId)
+    player.playActiveSong()

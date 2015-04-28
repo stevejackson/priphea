@@ -18,6 +18,8 @@
 //= require vendor/mp3
 //= require underscore
 //= require resizer
+//= require player
+//= require handlers
 //= require backbone
 //= require priphea
 //= require_tree ../templates
