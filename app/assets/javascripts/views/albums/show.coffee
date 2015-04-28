@@ -10,9 +10,16 @@ class Priphea.Views.AlbumsShow extends Backbone.View
     console.log("Fetching album ID: #{@id}")
 
   render: ->
-    console.log("Rendering AlbumShow")
-    console.log("#{@album?}")
-    console.log("#{@album?.attributes?}")
-    console.log("#{@album?.attributes.songs?}")
+    console.log("Rendering Album#Show")
     $(@el).html(@template(album: @album))
+    $('#song_list').tablesorter({ sortList: [[0,0], [1,0]] })
+    @applyJquery()
     this
+
+  applyJquery: ->
+    $('#song_list tbody tr').on('click', @playSong)
+
+  playSong: (event) ->
+    songId = $(this).data('song-id')
+    window.player = AV.Player.fromURL("/api/songs/#{songId}")
+    player.play()

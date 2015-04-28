@@ -1,20 +1,24 @@
-<table>
+<table id="song_list" class="tablesorter">
   <thead>
-    <th>Disc #</th>
-    <th>Track #</th>
-    <th>Title</th>
-    <th>Artist</th>
+    <tr>
+      <th>Disc #</th>
+      <th>Track #</th>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Album</th>
+    </tr>
   </thead>
 
   <tbody>
 
     <% if @album? and @album.attributes? and @album.attributes.songs?: %>
       <% for song in @album.attributes.songs: %>
-        <tr>
+        <tr data-song-id="<%= song['id'] %>">
+          <td><%= song['disc_number'] %></td>
+          <td><%= song['track_number'] %></td>
           <td><%= song['title'] %></td>
-          <td></td>
-          <td></td>
-          <td>Blah</td>
+          <td><%= song['artist'] %></td>
+          <td><%= @album.get('title') %></td>
         </tr>
       <% end %>
     <% end %>

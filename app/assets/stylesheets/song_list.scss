@@ -1,0 +1,28 @@
+div#song_list {
+  font-size: 0.9em;
+  overflow: scroll;
+  height: 300px;
+  margin: 0;
+}
+
+#song_list table {
+  min-width: 100%;
+
+  tr:nth-child(even) {
+    background-color: #fbfbfb;
+  }
+
+  tr:hover {
+    background-color: #dfffff;
+  }
+
+  tr {
+    line-height: 0.7em;
+    margin: 0;
+    padding: 0;
+  }
+
+  th {
+    background-color: #f7f7f7;
+  }
+}

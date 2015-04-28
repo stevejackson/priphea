@@ -12,6 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require vendor/jquery.tablesorter.min
+//= require vendor/aurora
+//= require vendor/flac
+//= require vendor/mp3
 //= require underscore
 //= require resizer
 //= require backbone

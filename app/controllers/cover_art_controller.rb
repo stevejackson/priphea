@@ -8,6 +8,8 @@ class CoverArtController < ApplicationController
         disposition: 'inline',
         x_sendfile: true
       )
+    else
+      not_found
     end
   end
 end

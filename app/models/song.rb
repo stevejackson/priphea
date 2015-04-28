@@ -7,6 +7,8 @@ class Song
 
   field :title, type: String
   field :artist, type: String
+  field :track_number, type: String
+  field :disc_number, type: String
   field :album_artist, type: String
 
   def self.build_from_file(filename)
@@ -14,14 +16,22 @@ class Song
 
     metadata = AudioMetadata.from_file(filename)
 
-    song.title = metadata.title
-    song.artist = metadata.artist
+    fields = %w{title artist track_number disc_number}
+
+    fields.each do |field_name|
+      song.send(field_name + "=", metadata[field_name])
+      puts "#{field_name}, #{metadata[field_name]}"
+    end
+
     song.full_path = filename
 
     # find this song's album or create it if it's new
-    if metadata.album
-      song.album = Album.find_by_title_or_create_new(metadata.album)
+    if metadata["album"]
+      song.album = Album.find_by_title_or_create_new(metadata['album'])
     end
+
+    puts "Metadata: #{metadata.inspect}"
+    puts song.inspect
 
     song
   end

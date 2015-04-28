@@ -2,7 +2,10 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :albums, only: [:index, :show]
+    resources :songs, only: [:show] do
+    end
   end
+
 
   resources :settings, only: [:index] do
     collection do
