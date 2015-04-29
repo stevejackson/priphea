@@ -19,6 +19,7 @@
 //= require underscore
 //= require resizer
 //= require player
+//= require volume
 //= require handlers
 //= require backbone
 //= require priphea
