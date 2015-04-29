@@ -33,6 +33,17 @@ div#hangbar {
     float: left;
 
     padding-right: 5px;
+
+    div#thumbnail {
+      img, & {
+        width: 50px;
+        height: 50px;
+      }
+
+      &.no_art {
+        border: 1px dashed black;
+      }
+    }
   }
 
   #song_info {
@@ -51,7 +62,43 @@ div#hangbar {
     }
 
     progress {
-      width: 75%;
+      width: 70%;
+
+      background-color: #f3f3f3;
+      border: 0;
+      height: 15px;
+      border-radius: 9px;
+
+      color: $color-major-theme-lightened;
+    }
+
+    // Background
+    progress::-webkit-progress-bar {
+    	background: black;
+    	border-radius: 2px;
+    	padding: 2px;
+    	box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.2);
+    }
+
+    // Actual value bar
+    progress::-webkit-progress-value {
+    	border-radius: 2px;
+    	box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
+    	background: $color-major-theme-lightened;
+    		// -webkit-linear-gradient(45deg, transparent, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%),
+    		// -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.2)),
+    		// -webkit-linear-gradient(left, $color-major-theme-lightened, $color-major-theme-lightened);
+
+      // Animation
+    	background-size: 25px 14px, 100% 100%, 100% 100%;
+    	-webkit-animation: move 5s linear 0 infinite;
+    }
+
+    /* That's it! Now let's try creating a new stripe pattern and animate it using animation and keyframes properties  */
+
+    @-webkit-keyframes move {
+    	0% {background-position: 0px 0px, 0 0, 0 0}
+    	100% {background-position: -100px 0px, 0 0, 0 0}
     }
   }
 }

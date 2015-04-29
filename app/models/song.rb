@@ -39,6 +39,8 @@ class Song
     res["id"] = res.delete("_id").to_s
     res["album_id"] = res["album_id"].to_s
 
+    res["has_cover_art"] = self.album.has_cover_art?
+
     res
   end
 

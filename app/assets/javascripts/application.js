@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require vendor/sprintf
 //= require vendor/jquery.tablesorter.min
 //= require vendor/aurora
 //= require vendor/flac

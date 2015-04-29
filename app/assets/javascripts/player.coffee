@@ -1,3 +1,16 @@
+# converts "3400" as milliseconds to "00:03"
+millisecondsToReadableString = (ms) ->
+  x = ms / 1000
+  seconds = Math.round(x % 60)
+  x /= 60
+  minutes = Math.round(x % 60)
+  x /= 60
+  hours = x % 24
+  x /= 24
+  days = x
+
+  sprintf("%02d:%02d", minutes, seconds)
+
 class @Player
   instance = null # singleton instance
 
@@ -11,6 +24,10 @@ class @Player
   setActiveSong: (songId) ->
     localStorage.setItem("activeSong", songId)
     localStorage.setItem("paused", "false")
+
+    # update the progress bar
+    @progressIntervalId = setInterval(@updateSongProgress, 100)
+
 
   playActiveSong: ->
     songId = localStorage.getItem("activeSong")
@@ -30,7 +47,7 @@ class @Player
       if window.player?
         window.player.stop()
 
-      window.player = AV.Player.fromURL("/api/songs/#{songId}")
+      window.player = AV.Player.fromURL("/api/song_files/#{songId}")
       window.player.play()
 
     window.player.play()
@@ -52,16 +69,26 @@ class @Player
 
 
   handlePausePlayClick: (event) ->
-    console.log("-----")
-    console.log("handling pause play click event")
     icon = $('.pause-play-icon')
 
     # this instance is corrupted, so just make a new instance to call of self
     p = new Player
 
     if icon.hasClass('fa-pause')
-      console.log("Preparing to pause..")
       p.pauseActiveSong()
     else
-      console.log("Preparing to play..")
       p.playActiveSong()
+
+  updateSongProgress: ->
+    if window.player?
+      progressBar = $("#now_playing #progress_bar progress")
+
+      currentTime = window.player.currentTime
+      totalDuration = window.player.duration
+
+      percent = (currentTime / totalDuration) * 100
+
+      $("#now_playing #progress_bar progress").val(percent)
+
+      $("#now_playing #total_length").text(millisecondsToReadableString(totalDuration))
+      $("#now_playing #current_time").text(millisecondsToReadableString(currentTime))

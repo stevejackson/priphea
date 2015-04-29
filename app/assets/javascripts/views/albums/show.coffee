@@ -12,7 +12,7 @@ class Priphea.Views.AlbumsShow extends Backbone.View
   render: ->
     console.log("Rendering Album#Show")
     $(@el).html(@template(album: @album))
-    $('#song_list').tablesorter({ sortList: [[0,0], [1,0]] })
+    $('div#song_list').tablesorter({ sortList: [[0,0], [1,0]] })
     @applyJquery()
     this
 
@@ -24,3 +24,6 @@ class Priphea.Views.AlbumsShow extends Backbone.View
     player = new Player
     player.setActiveSong(songId)
     player.playActiveSong()
+
+    nowPlayingView = new Priphea.Views.NowPlaying(songId)
+    $('div#now_playing').html(nowPlayingView.render().el)

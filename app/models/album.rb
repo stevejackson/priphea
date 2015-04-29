@@ -13,7 +13,7 @@ class Album
   end
 
   def has_cover_art?
-    cover_art_file || cover_art_cache_file?
+    (cover_art_file || cover_art_cache_file?) ? true : false
   end
 
   def update_cover_art_cache

@@ -2,8 +2,8 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :albums, only: [:index, :show]
-    resources :songs, only: [:show] do
-    end
+    resources :songs, only: [:show]
+    resources :song_files, only: [:show]
   end
 
 
