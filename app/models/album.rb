@@ -12,6 +12,10 @@ class Album
     album = Album.where(title: title).first_or_create
   end
 
+  def has_cover_art?
+    cover_art_file || cover_art_cache_file?
+  end
+
   def update_cover_art_cache
     make_cache_directory()
     if songs.any?

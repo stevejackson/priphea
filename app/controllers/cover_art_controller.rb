@@ -10,6 +10,9 @@ class CoverArtController < ApplicationController
       )
     else
       not_found
+      # file = File.join(Rails.root, "public", "transparent.png")
+      # send_file(file,
+      #   type: "image/png")
     end
   end
 end
