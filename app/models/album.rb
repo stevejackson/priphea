@@ -36,10 +36,10 @@ class Album
       cover_art_filenames.each do |cover_art_filename|
         file = File.join(song_directory, cover_art_filename)
 
-        puts "Checking if file exists: #{file}"
+        Rails.logger.info "Checking if file exists: #{file}"
 
         if File.exists?(file)
-          puts "File exists: #{file}"
+          Rails.logger.info "File exists: #{file}"
           self.cover_art_file = file
 
           md5 = Digest::MD5.hexdigest(File.read(file)) + File.extname(file)

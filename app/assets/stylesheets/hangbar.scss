@@ -32,7 +32,7 @@ div#hangbar {
   #song_art {
     float: left;
 
-    padding-right: 5px;
+    padding-right: 10px;
 
     div#thumbnail {
       img, & {
@@ -66,7 +66,7 @@ div#hangbar {
 
       background-color: #f3f3f3;
       border: 0;
-      height: 15px;
+      height: 7px;
       border-radius: 9px;
 
       color: $color-major-theme-lightened;

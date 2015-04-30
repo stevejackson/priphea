@@ -20,7 +20,6 @@ class Song
 
     fields.each do |field_name|
       song.send(field_name + "=", metadata[field_name])
-      puts "#{field_name}, #{metadata[field_name]}"
     end
 
     song.full_path = filename

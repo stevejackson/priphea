@@ -13,7 +13,7 @@ gem 'therubyracer', platforms: :ruby
 gem 'jquery-rails', '~> 4.0'
 gem 'backbone-on-rails', '~> 1.1'
 
-gem 'mini_exiftool', '~> 2.5'
+gem 'mini_exiftool', git: 'https://github.com/stevejackson/mini_exiftool.git', branch: 'master'
 
 group :development do
   gem 'thin', '~> 1.6'

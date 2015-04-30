@@ -1,4 +1,4 @@
-<table id="song_list" class="tablesorter">
+<table id="song_list_table" class="tablesorter">
   <thead>
     <tr>
       <th>Disc #</th>

@@ -2,6 +2,7 @@
 @import "vendor/skeleton";
 
 @import "_variables";
+@import "_typography";
 @import "base";
 @import "hangbar";
 @import "sidebar";
@@ -24,19 +25,6 @@ div#sidebar {
   background-color: white;
 }
 
-div#browser {
-  margin: 0;
-  height: 600px;
-}
-
-#cover_art_gallery {
-  height: 600px;
-  overflow: scroll;
-
-  .cover {
-    display: inline;
-  }
-}
 
 div#song_list {
   height: 150px;

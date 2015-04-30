@@ -1,9 +1,9 @@
 # converts "3400" as milliseconds to "00:03"
 millisecondsToReadableString = (ms) ->
   x = ms / 1000
-  seconds = Math.round(x % 60)
+  seconds = x % 60
   x /= 60
-  minutes = Math.round(x % 60)
+  minutes = x % 60
   x /= 60
   hours = x % 24
   x /= 24
@@ -26,7 +26,7 @@ class @Player
     localStorage.setItem("paused", "false")
 
     # update the progress bar
-    @progressIntervalId = setInterval(@updateSongProgress, 100)
+    @progressIntervalId = setInterval(@updateSongProgress, 75)
 
 
   playActiveSong: ->
@@ -86,9 +86,19 @@ class @Player
       currentTime = window.player.currentTime
       totalDuration = window.player.duration
 
+      # console.log currentTime
+      # console.log(totalDuration)
+
       percent = (currentTime / totalDuration) * 100
 
       $("#now_playing #progress_bar progress").val(percent)
 
-      $("#now_playing #total_length").text(millisecondsToReadableString(totalDuration))
-      $("#now_playing #current_time").text(millisecondsToReadableString(currentTime))
+
+      readableTotal = millisecondsToReadableString(totalDuration)
+      readableCurrent = millisecondsToReadableString(currentTime)
+
+      # console.log readableTotal
+      # console.log readableCurrent
+
+      $("#now_playing #total_length").text(readableTotal)
+      $("#now_playing #current_time").text(readableCurrent)

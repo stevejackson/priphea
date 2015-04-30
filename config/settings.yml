@@ -1,2 +1,3 @@
 library_path: /Users/steve/fakemusiclib
 cover_art_cache: /Users/steve/.priphea/cover_art_cache
+scanning_threads: 1

@@ -1,8 +1,37 @@
-.no_cover {
-  display: inline-block;
+$cover-art-thumbnail-size: 250px;
 
-  width: 250px;
-  height: 250px;
+div#browser {
+  margin: 0;
+  height: 600px;
+}
 
-  border: 1px dashed black;
+#cover_art_gallery {
+  height: 600px;
+  overflow: scroll;
+
+  .album {
+    display: inline-block;
+    .cover {
+    }
+
+    .no_cover {
+      width: $cover-art-thumbnail-size;
+      height: $cover-art-thumbnail-size;
+
+      border: 1px dashed black;
+    }
+
+    .album_title {
+      text-align: center;
+      width: $cover-art-thumbnail-size;
+      height: 2.5em;
+      line-height: 1.3em;
+      overflow: hidden;
+
+      font-size: 14px;
+
+      margin-top: 0.5em;
+      margin-bottom: 1.3em;
+    }
+  }
 }
