@@ -1,9 +1,8 @@
-$hangbar-height: 80px;
 
 div#hangbar {
   height: $hangbar-height;
-  background-color: white;
-  margin-top: 15px;
+  background-color: $color-hangbar-background;
+  padding-top: 15px;
   margin-bottom: 10px;
   overflow: hidden;
 }

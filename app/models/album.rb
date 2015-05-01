@@ -16,8 +16,15 @@ class Album
     (cover_art_file || cover_art_cache_file?) ? true : false
   end
 
+  def cover_art_cache_file_full_path
+    has_cover_art? ? File.join(Settings.cover_art_cache, cover_art_cache_file) : nil
+  end
+
   def update_cover_art_cache
-    make_cache_directory()
+    Rails.logger.debug "---- "
+    Rails.logger.debug " Updating cover art cache for: #{self.inspect}"
+    make_cache_directory
+
     if songs.any?
       song = songs.first
       song_directory = File.dirname(song.full_path)
@@ -51,6 +58,21 @@ class Album
           self.save!
 
           break
+        end
+      end
+
+      # if cover art file does not exist, we should also check a song in this
+      # album for embedded art.
+      if self.cover_art_cache_file.blank?
+        song = self.songs.first
+        Rails.logger.info "Trying to extract embedded art from: #{song.inspect}"
+
+        cache_location = AudioMetadata.copy_embedded_art_to_cache(song.full_path)
+        Rails.logger.info "Cache location: #{cache_location}"
+
+        if cache_location
+          self.cover_art_cache_file = cache_location
+          self.save!
         end
       end
 

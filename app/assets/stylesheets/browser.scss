@@ -3,6 +3,8 @@ $cover-art-thumbnail-size: 250px;
 div#browser {
   margin: 0;
   height: 600px;
+
+  background-color: $color-browser-background;
 }
 
 #cover_art_gallery {

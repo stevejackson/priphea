@@ -11,6 +11,9 @@
 
 body {
   overflow: hidden; // hide main scrollbar
+  margin: 0;
+  padding: 0;
+  background: $color-background;
 }
 
 main {
@@ -22,12 +25,10 @@ div#outer_container {
 
 div#sidebar {
   height: 100%;
-  background-color: white;
 }
 
 
 div#song_list {
   height: 150px;
-  background-color: white;
   overflow: scroll;
 }

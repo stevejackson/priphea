@@ -13,7 +13,7 @@ class Scanner
     files.each do |f|
       file_queue.push(f)
     end
-    
+
     threads = []
 
     # create a queue pool to process all files
@@ -30,17 +30,8 @@ class Scanner
         end
       end
     end
-    #
-    # files.each do |file|
-    #   # if this is a supported audio file, import it.
-    #   if is_supported_audio_format?(file)
-    #     add_song_to_database(file)
-    #   end
-    # end
-    #
-    # update cover art cache
 
-    threads.each { |t| t.join }
+    threads.each { |t| t.join } # don't proceed until all threads are complete
 
     Album.all.each do |album|
       album.update_cover_art_cache

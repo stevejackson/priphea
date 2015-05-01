@@ -8,18 +8,24 @@ div#song_list {
 #song_list table {
   min-width: 100%;
 
+  tr:nth-child(odd) {
+    background-color: white;
+  }
+  
   tr:nth-child(even) {
     background-color: #fbfbfb;
   }
 
   tr:hover {
-    background-color: #dfffff;
+    background-color: $color-major-theme-lightened;
   }
 
   tr {
     line-height: 0.7em;
     margin: 0;
     padding: 0;
+
+    cursor: pointer;
   }
 
   th {

@@ -40,4 +40,41 @@ class AudioMetadata
       disc_number_string
     end
   end
+
+  def self.copy_embedded_art_to_cache(filename)
+    # for now, 4 commands can be run to try and export art. after, we'll check
+    # if any of the art was extracted by exiftool.
+
+    # if so, we'll copy it to the cover art cache and return the filename.
+
+    random_string = Random.rand(2000000).to_s
+
+    full_path_jpg = File.join("/", "tmp", "#{random_string}.jpg")
+    full_path_png = File.join("/", "tmp", "#{random_string}.png")
+
+    null = ">/dev/null 2>&1"
+
+    output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext flac "#{filename}" #{null} }
+    output =system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext flac "#{filename}" #{null} }
+
+    output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext mp3 "#{filename}" #{null} }
+    output = system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext mp3 "#{filename}" #{null} }
+
+    if File.exists?(full_path_jpg)
+      md5 = Digest::MD5.hexdigest(File.read(full_path_jpg)) + File.extname(full_path_jpg)
+
+      destination = File.join(Settings.cover_art_cache, md5)
+      FileUtils.copy(full_path_jpg, destination)
+
+      return File.basename(destination)
+    elsif File.exists?(full_path_png)
+      md5 = Digest::MD5.hexdigest(File.read(full_path_png)) + File.extname(full_path_png)
+
+      destination = File.join(Settings.cover_art_cache, md5)
+      FileUtils.copy(full_path_png, destination)
+
+      return File.basename(destination)
+    end
+
+  end
 end
