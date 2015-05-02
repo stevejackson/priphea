@@ -17,9 +17,10 @@ $ ->
 
   console.log stringData[0]
   console.log stringData[1]
-  
+
   clusterize = new Clusterize({
       rows: stringData,
       scrollId: 'cover_art_gallery',
-      contentId: 'content_area'
+      contentId: 'content_area',
+      rows_in_block: 150
   })
