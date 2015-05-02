@@ -33,6 +33,9 @@ class @Player
     songId = localStorage.getItem("activeSong")
     console.log("Playing active song: #{songId}")
 
+    nowPlayingView = new Priphea.Views.NowPlaying(songId)
+    $('div#now_playing').html(nowPlayingView.render().el)
+
     currentlyPaused = localStorage.getItem("paused")
 
     console.log("Paused: #{currentlyPaused}")
@@ -49,6 +52,7 @@ class @Player
 
       window.player = AV.Player.fromURL("/api/song_files/#{songId}")
       window.player.play()
+      window.player.on('end', @playNextSongInQueue)
 
     window.player.play()
 
@@ -58,6 +62,7 @@ class @Player
 
     $("#play_pause_button").off("click")
     $("#play_pause_button").on("click", @handlePausePlayClick)
+
 
   pauseActiveSong: ->
     console.log("Pausing song.")
@@ -86,19 +91,62 @@ class @Player
       currentTime = window.player.currentTime
       totalDuration = window.player.duration
 
-      # console.log currentTime
-      # console.log(totalDuration)
+      if currentTime? and totalDuration?
+        percent = (currentTime / totalDuration) * 100
 
-      percent = (currentTime / totalDuration) * 100
-
-      $("#now_playing #progress_bar progress").val(percent)
-
+        unless isNaN(percent)
+          $("#now_playing #progress_bar progress").val(percent)
 
       readableTotal = millisecondsToReadableString(totalDuration)
       readableCurrent = millisecondsToReadableString(currentTime)
 
-      # console.log readableTotal
-      # console.log readableCurrent
-
       $("#now_playing #total_length").text(readableTotal)
       $("#now_playing #current_time").text(readableCurrent)
+
+  selectedSongInAlbumSongList:  ->
+    console.log "SelectedSongInAlbumList function called to re-evaluate playQueue"
+    window.playQueue = []
+
+    currentlyPlaying = localStorage.getItem("activeSong")
+    console.log "Currently playing: #{currentlyPlaying}"
+
+    songElements = $("#song_list tr")
+
+    # sit 1: double click album. Album replaces entire playQueue.
+    # sit 2: playlist clicked: replaces entire playQueue
+    # sit 3: click song halfway through album list. that's when this is used.
+
+    # loop through each song in the #song_list.
+    # once we find the song currently playing, then start adding
+    # the elements after it to the song queue.
+
+    foundCurrentSong = false
+    $.each(songElements, (index, value) =>
+      songId = $(value).data('song-id')
+      console.log "Iterating over song id: #{songId}"
+
+      if currentlyPlaying? and songId? and songId == currentlyPlaying
+        foundCurrentSong = true
+
+      if songId? and foundCurrentSong
+        window.playQueue.push(songId)
+    )
+
+    console.log "Items in play queue: #{window.playQueue.length}"
+
+
+  playNextSongInQueue: =>
+    console.log "-----------------"
+    console.log("Playing next song in queue...")
+    console.log("Song queue: #{window.playQueue}")
+
+    if window.playQueue? && window.playQueue.length > 0
+      # Remove first item from queue
+      window.playQueue.shift()
+
+      console.log "#{window.playQueue.length} items left in queue."
+
+      if window.playQueue.length > 0
+        console.log(this)
+        @setActiveSong(window.playQueue[0])
+        @playActiveSong()

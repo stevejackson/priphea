@@ -7,6 +7,7 @@ class Priphea.Views.AlbumsShow extends Backbone.View
     @album = new Priphea.Models.Album({ id: @id })
     @album.fetch()
     @album.on('change', @render, this)
+
     console.log("Fetching album ID: #{@id}")
 
   render: ->
@@ -25,5 +26,4 @@ class Priphea.Views.AlbumsShow extends Backbone.View
     player.setActiveSong(songId)
     player.playActiveSong()
 
-    nowPlayingView = new Priphea.Views.NowPlaying(songId)
-    $('div#now_playing').html(nowPlayingView.render().el)
+    player.selectedSongInAlbumSongList()
