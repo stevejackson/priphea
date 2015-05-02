@@ -1,29 +1,31 @@
 <div id="browser" class="twenty-one columns">
 
-  <div id="cover_art_gallery">
-    <% @albums.each do |album| %>
-      <div class="album">
-        <div class="cover">
-          <a href="#albums/<%= album.id %>">
-            <% if album.has_cover_art? %>
-              <%= image_tag cover_art_path(album.id), { width: "250", height: "250" } %>
-            <% else %>
-              <div class="no_cover">
-              </div>
-            <% end %>
-          </a>
+  <div id="cover_art_gallery" class="clusterize-scroll">
+    <div id="content_area" class="clusterize-content">
+      <% @albums.each do |album| %>
+        <div class="album">
+          <div class="cover">
+            <a href="#albums/<%= album.id %>" data-album-id="<%= album.id %>">
+              <% if album.has_cover_art? %>
+                <%= image_tag cover_art_path(album.id), { width: "250", height: "250" } %>
+              <% else %>
+                <div class="no_cover">
+                </div>
+              <% end %>
+            </a>
+          </div>
+
+          <div class="album_title">
+            <p>
+              <%= album.title %>
+            </p>
+          </div>
+
         </div>
+      <% end %>
+    </div> <!-- #content_area -->
 
-        <div class="album_title">
-          <p>
-            <%= album.title %>
-          </p>
-        </div>
-
-      </div>
-    <% end %>
-
-  </div>
+  </div> <!-- #cover_art_gallery -->
 
   <div id="song_list">
     <%= render partial: 'song_list' %>

@@ -1,7 +1,7 @@
 $ ->
 
   updateVolume = ->
-    console.log("Trying to volume...")
+    console.log("Trying to update volume...")
     if window.player?
       value = $("#volume_control").val()
       window.player.volume = value

@@ -2,11 +2,14 @@ class Priphea.Views.AlbumsShow extends Backbone.View
 
   template: JST['albums/show']
 
-  initialize: (id) ->
+  initialize: (id, playFirstSong) ->
     @id = id
     @album = new Priphea.Models.Album({ id: @id })
     @album.fetch()
     @album.on('change', @render, this)
+
+    if playFirstSong
+      @album.on('change', @playFirstSong)
 
     console.log("Fetching album ID: #{@id}")
 
@@ -19,11 +22,26 @@ class Priphea.Views.AlbumsShow extends Backbone.View
   applyJquery: ->
     $('#song_list tbody tr').on('click', @playSong)
     $('table#song_list_table').tablesorter({ sortList: [[0,0], [1,0]] })
+    player = new Player
+    player.updateActiveSongIcon()
 
   playSong: (event) ->
     songId = $(this).data('song-id')
+
     player = new Player
     player.setActiveSong(songId)
     player.playActiveSong()
 
     player.selectedSongInAlbumSongList()
+
+  playFirstSong: ->
+    song = $('table#song_list_table tbody tr').first()
+
+    if song?
+      songId = $(song).data("song-id")
+
+      player = new Player
+      player.setActiveSong(songId)
+      player.playActiveSong()
+
+      player.selectedSongInAlbumSongList()

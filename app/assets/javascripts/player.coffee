@@ -51,6 +51,8 @@ class @Player
         window.player.stop()
 
       window.player = AV.Player.fromURL("/api/song_files/#{songId}")
+      value = $("#volume_control").val()
+      window.player.volume = value
       window.player.play()
       window.player.on('end', @playNextSongInQueue)
 
@@ -62,6 +64,14 @@ class @Player
 
     $("#play_pause_button").off("click")
     $("#play_pause_button").on("click", @handlePausePlayClick)
+
+    @updateActiveSongIcon()
+
+  updateActiveSongIcon: ->
+    songId = localStorage.getItem("activeSong")
+
+    $("tr td.now_playing.active").removeClass("active").html("")
+    $("tr[data-song-id='" + songId + "'] td.now_playing").addClass("active").html("<i class='fa fa-volume-up'></i>")
 
 
   pauseActiveSong: ->
@@ -123,7 +133,6 @@ class @Player
     foundCurrentSong = false
     $.each(songElements, (index, value) =>
       songId = $(value).data('song-id')
-      console.log "Iterating over song id: #{songId}"
 
       if currentlyPlaying? and songId? and songId == currentlyPlaying
         foundCurrentSong = true

@@ -1,6 +1,7 @@
 <table id="song_list_table" class="tablesorter">
   <thead>
     <tr>
+      <th></th>
       <th>Disc #</th>
       <th>Track #</th>
       <th>Title</th>
@@ -14,6 +15,7 @@
     <% if @album? and @album.attributes? and @album.attributes.songs?: %>
       <% for song in @album.attributes.songs: %>
         <tr data-song-id="<%= song['id'] %>">
+          <td class="now_playing"></td>
           <td><%= song['disc_number'] %></td>
           <td><%= song['track_number'] %></td>
           <td><%= song['title'] %></td>
