@@ -8,9 +8,18 @@ $ ->
     albumRouter.navigate("#albums/" + albumId + "/play", { trigger: true })
   )
 
-  data = $('#cover_art_gallery #album')
+  data = $('#album_invisible .album')
+  stringData = []
+
+  $.each(data, (index, value) ->
+    stringData.push($(value)[0].outerHTML)
+  )
+
+  console.log stringData[0]
+  console.log stringData[1]
+  
   clusterize = new Clusterize({
-      rows: data,
+      rows: stringData,
       scrollId: 'cover_art_gallery',
       contentId: 'content_area'
-  });
+  })

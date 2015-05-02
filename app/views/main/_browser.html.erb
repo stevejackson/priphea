@@ -1,7 +1,5 @@
 <div id="browser" class="twenty-one columns">
-
-  <div id="cover_art_gallery" class="clusterize-scroll">
-    <div id="content_area" class="clusterize-content">
+  <div id="album_invisible" style="display: none;">
       <% @albums.each do |album| %>
         <div class="album">
           <div class="cover">
@@ -23,6 +21,11 @@
 
         </div>
       <% end %>
+  </div> <!-- album_invisible -->
+
+  <div id="cover_art_gallery" class="clusterize-scroll">
+    <div id="content_area" class="clusterize-content">
+      <div class="clusterize-no-data">Loading data...</div>
     </div> <!-- #content_area -->
 
   </div> <!-- #cover_art_gallery -->
