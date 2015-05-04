@@ -21,9 +21,10 @@ class Priphea.Views.AlbumsShow extends Backbone.View
 
   applyJquery: ->
     $('#song_list tbody tr').on('click', @playSong)
-    $('table#song_list_table').tablesorter({ sortList: [[0,0], [1,0]] })
+    $('table#song_list_table').tablesorter({ sortList: [[1,0], [2,0]] })
     player = new Player
     player.updateActiveSongIcon()
+    player.renderSongRatings()
 
   playSong: (event) ->
     songId = $(this).data('song-id')

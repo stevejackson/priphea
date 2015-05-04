@@ -1,5 +1,6 @@
 class Song
   include Mongoid::Document
+  include Mongoid::Attributes::Dynamic
 
   belongs_to :album
 
@@ -10,6 +11,7 @@ class Song
   field :track_number, type: String
   field :disc_number, type: String
   field :album_artist, type: String
+  field :rating, type: Integer # out of 100
 
   def self.build_from_file(filename)
     song = self.new

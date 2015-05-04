@@ -11,6 +11,21 @@ millisecondsToReadableString = (ms) ->
 
   sprintf("%02d:%02d", minutes, seconds)
 
+
+
+generateStarRatingHTML = (rating) ->
+  ratingHtml = ""
+  i = 0
+  while i < 10
+    if i < rating # filled star
+      ratingHtml += "<i class='fa fa-star' data-star-number='" + (i+1) + "'></i>"
+    else # empty star
+      ratingHtml += "<i class='fa fa-star-o' data-star-number='" + (i+1) + "'></i>"
+
+    i++
+
+  ratingHtml
+
 class @Player
   instance = null # singleton instance
 
@@ -159,3 +174,58 @@ class @Player
         console.log(this)
         @setActiveSong(window.playQueue[0])
         @playActiveSong()
+
+  renderSongRatings: ->
+    console.log "Rendering song ratings..."
+    songs = $('table#song_list_table tr')
+
+    $.each(songs, (index, value) ->
+      p = new Player
+      p.renderSingleSongRating($(value))
+    )
+
+    $('table#song_list_table td.rating i').off('click')
+    $('table#song_list_table td.rating i').on('click', @ratingClickHandler)
+
+  ratingClickHandler: (e) ->
+    e.stopPropagation() # don't activate other click handlers
+
+    starNumber = $(this).data('star-number')
+    starNumberInt = parseInt(starNumber)
+
+    songId = $(this).closest('tr').data('song-id')
+
+    # update song in the database
+    song = new Priphea.Models.Song({ id: songId })
+
+    song.set({
+      rating: starNumberInt * 10 # Convert star number to "out of 100" rating system
+    })
+
+    song.save()
+
+    # update the DOM storing the rating
+    $(this).closest('td').attr('data-rating', starNumberInt * 10)
+    $(this).closest('td').data('rating', starNumberInt * 10)
+
+    # re-render this song's rating now that it's updated
+    p = new Player
+    p.renderSingleSongRating $(this).closest('tr')
+
+    console.log "Should have synced song rating."
+
+  renderSingleSongRating: (song_tr) ->
+    rating_td = $(song_tr).find('td.rating')
+
+    existing_rating = $(rating_td).data('rating')
+    if existing_rating?
+      existing_rating = Math.round(existing_rating / 10)
+      existingRatingString = generateStarRatingHTML(existing_rating)
+      $(rating_td).html(existingRatingString)
+    else
+      emptyRatingString = generateStarRatingHTML(0)
+      $(rating_td).html(emptyRatingString)
+
+    # reapply click handlers
+    $('table#song_list_table td.rating i').off('click')
+    $('table#song_list_table td.rating i').on('click', @ratingClickHandler)

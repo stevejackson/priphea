@@ -4,3 +4,17 @@ production:
       database: priphea-production
       hosts:
         - localhost:27017
+
+development:
+  sessions:
+    default:
+      database: priphea-development
+      hosts:
+        - localhost:27017
+
+test:
+  sessions:
+    default:
+      database: priphea-development
+      hosts:
+        - localhost:27017
