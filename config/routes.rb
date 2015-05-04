@@ -17,10 +17,12 @@ Rails.application.routes.draw do
   resources :main, only: [:index] do
     collection do
       get 'rescan'
+      get 'destroy_and_rescan'
     end
   end
 
   get '/rescan' => 'main#rescan', as: :rescan
+  get '/destroy_and_rescan' => 'main#destroy_and_rescan', as: :destroy_and_rescan
 
   root to: "main#index"
 end

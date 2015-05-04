@@ -1,16 +1,23 @@
 class Song
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
+  include Mongoid::Timestamps # created_at & updated_at
+
 
   belongs_to :album
 
-  field :full_path, type: String
 
+  # metadata fields
   field :title, type: String
   field :artist, type: String
   field :track_number, type: String
   field :disc_number, type: String
   field :album_artist, type: String
+  field :duration, type: String
+
+  # custom fields
+  field :full_path, type: String
+
   field :rating, type: Integer # out of 100
 
   def self.build_from_file(filename)
@@ -18,7 +25,7 @@ class Song
 
     metadata = AudioMetadata.from_file(filename)
 
-    fields = %w{title artist track_number disc_number}
+    fields = %w{title artist track_number disc_number duration}
 
     fields.each do |field_name|
       song.send(field_name + "=", metadata[field_name])
@@ -43,6 +50,10 @@ class Song
     res["has_cover_art"] = self.album.has_cover_art?
 
     res
+  end
+
+  def self.already_exists?(song)
+    Song.where({ full_path: song.full_path }).exists?
   end
 
 end

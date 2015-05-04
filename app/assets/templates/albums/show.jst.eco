@@ -6,6 +6,7 @@
       <th>Track #</th>
       <th>Title</th>
       <th>Artist</th>
+      <th>Duration</th>
       <th>Album</th>
       <th>Rating</th>
     </tr>
@@ -21,6 +22,7 @@
           <td><%= song['track_number'] %></td>
           <td><%= song['title'] %></td>
           <td><%= song['artist'] %></td>
+          <td><%= song['duration'] %></td>
           <td><%= @album.get('title') %></td>
           <td class="rating" data-rating="<%= song['rating'] %>"></td>
         </tr>

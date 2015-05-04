@@ -45,6 +45,11 @@ class Scanner
 
   def add_song_to_database(filename)
     song = Song.build_from_file(filename)
-    song.save!
+    
+    if Song.already_exists?(song)
+      false
+    else
+      song.save!
+    end
   end
 end

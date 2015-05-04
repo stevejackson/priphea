@@ -76,4 +76,36 @@ RSpec.describe Scanner do
     end
   end
 
+  describe "Metadata" do
+    before :each do
+      @scanner.scan
+
+      @mp3 = Song.where({ title: "The Labyrinth" }).first
+      @flac = Song.where({ title: "Sea-Cat Walkway [Boy Meets Girl]" }).first
+    end
+
+    it "duration" do
+      expect(@mp3.duration).to eq("05:54")
+      expect(@flac.duration).to eq("04:07")
+    end
+
+  end
+
+  describe "Handling rescanning of same files" do
+    before :each do
+      @scanner = Scanner.new(Settings.library_path)
+    end
+
+    it "should not recreate same files based on identical full_path" do
+      @scanner.scan
+
+      before_song_count = Song.count
+
+      @scanner.scan
+
+      expect(Song.count).to equal(before_song_count)
+    end
+  end
+
+
 end

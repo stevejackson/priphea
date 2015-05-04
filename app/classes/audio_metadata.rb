@@ -8,9 +8,11 @@ class AudioMetadata
     if %w(.mp3 .MP3).include?(file_extension)
       metadata['track_number'] = AudioMetadata::mp3_track_number(song.track.to_s)
       metadata['disc_number'] = AudioMetadata::mp3_disc_number(song.part_of_set.to_s)
+      metadata['duration'] = AudioMetadata::mp3_duration(song.duration.to_s)
     elsif %w(.flac .FLAC).include?(file_extension)
       metadata['track_number'] = song.track_number
       metadata['disc_number'] = song.disc
+      metadata['duration'] = AudioMetadata::mp3_duration(song.duration.to_s)
     end
 
     # same for both FLAC and MP3
@@ -38,6 +40,22 @@ class AudioMetadata
       disc_number_string[0, index]
     else
       disc_number_string
+    end
+  end
+
+  # in format like: 0:02:43 (approx)
+  def self.mp3_duration(duration)
+    # in format like: 0:02:43 (approx)
+    if duration.match /(\d{1,2}):(\d{1,2}):(\d{1,2})/
+      hours = $1.strip
+      minutes = $2.strip
+      seconds = $3.strip
+
+      if hours.to_i == 0
+        return sprintf("%02s:%02s", minutes, seconds)
+      else
+        return sprintf("%01s:%02s:%02s", hours, minutes, seconds)
+      end
     end
   end
 

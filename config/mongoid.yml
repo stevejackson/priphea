@@ -15,6 +15,6 @@ development:
 test:
   sessions:
     default:
-      database: priphea-development
+      database: priphea-test
       hosts:
         - localhost:27017
