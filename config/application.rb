@@ -12,8 +12,6 @@ Bundler.require(*Rails.groups)
 
 module Priphea
   class Application < Rails::Application
-    Mongoid.logger.level = Logger::DEBUG
-    Mongoid.raise_not_found_error = false
     #Moped.logger.level = Logger::DEBUG
 
     config.autoload_paths += %W( #{config.root}/app/classes )
