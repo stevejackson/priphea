@@ -15,12 +15,16 @@ gem 'backbone-on-rails', '~> 1.1'
 
 gem 'mini_exiftool', git: 'https://github.com/stevejackson/mini_exiftool.git', branch: 'master'
 
+
 group :development do
   gem 'thin', '~> 1.6'
   gem 'pry-rails', '~> 0.3'
   gem 'meta_request', '~> 0.3'
   gem 'better_errors', '~> 1.1'
   gem 'binding_of_caller', '~> 0.7'
+
+  gem 'sequel'
+  gem 'sqlite3'
 end
 
 group :development, :test do
