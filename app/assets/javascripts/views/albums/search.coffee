@@ -8,9 +8,11 @@ class Priphea.Views.AlbumsSearch extends Backbone.View
     @albums = new Priphea.Collections.Albums()
 
     params = { 'query': @query }
-    @albums.bind('add', @render, this)
-    @albums.fetch(data: $.param(params))
-
+    @albums.on('reset', @render, this)
+    @albums.fetch({
+      data: $.param(params),
+      reset: true
+    })
 
   render: ->
     console.log("Rendering Album#Search")
