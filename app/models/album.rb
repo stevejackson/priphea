@@ -84,6 +84,15 @@ class Album
     res = super
 
     res["id"] = res.delete("_id").to_s
+    res["has_cover_art"] = self.has_cover_art?
+
+    res
+  end
+
+  def as_json_with_songs(*args)
+    res = super
+
+    res["id"] = res.delete("_id").to_s
     res["songs"] = self.songs.as_json
     res["has_cover_art"] = self.has_cover_art?
 

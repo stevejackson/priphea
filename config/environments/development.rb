@@ -1,4 +1,7 @@
 Rails.application.configure do
+  Mongoid.logger.level = Logger::DEBUG
+  Mongoid.raise_not_found_error = false
+  
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded on
