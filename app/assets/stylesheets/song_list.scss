@@ -5,15 +5,15 @@ div#song_list {
   margin: 0;
 }
 
-#song_list table {
+table#song_list_table {
   min-width: 100%;
 
   tr:nth-child(odd) {
     background-color: white;
   }
-  
+
   tr:nth-child(even) {
-    background-color: #fbfbfb;
+    background-color: #f5f5f5;
   }
 
   tr:hover {
@@ -21,14 +21,21 @@ div#song_list {
   }
 
   tr {
-    line-height: 0.7em;
+    line-height: 0.7em !important;
     margin: 0;
-    padding: 0;
 
     cursor: pointer;
   }
 
+  td {
+    padding-bottom: 5px;
+    padding-right: 3px;
+    padding-top: 5px;
+  }
+
   th {
     background-color: #f7f7f7;
+
+    padding: 10px 5px;
   }
 }

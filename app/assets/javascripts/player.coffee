@@ -68,10 +68,10 @@ class @Player
       window.player = AV.Player.fromURL("/api/song_files/#{songId}")
       value = $("#volume_control").val()
       window.player.volume = value
+      window.player.preload()
+      window.player.on('buffer', @buffered)
       window.player.play()
       window.player.on('end', @playNextSongInQueue)
-
-    window.player.play()
 
     output = "<a href='#'> <i class='pause-play-icon fa fa-pause fa-2x'></i> </a>"
 
@@ -81,6 +81,9 @@ class @Player
     $("#play_pause_button").on("click", @handlePausePlayClick)
 
     @updateActiveSongIcon()
+
+  buffered: (percent) ->
+    console.log(percent)
 
   updateActiveSongIcon: ->
     songId = localStorage.getItem("activeSong")

@@ -15,6 +15,7 @@ gem 'backbone-on-rails', '~> 1.1'
 
 gem 'mini_exiftool', git: 'https://github.com/stevejackson/mini_exiftool.git', branch: 'master'
 
+gem 'ransack'
 
 group :development do
   gem 'thin', '~> 1.6'

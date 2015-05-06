@@ -1,26 +1,17 @@
 $ ->
   localStorage.setItem("paused", false)
 
-  $(".album a").on("dblclick", ->
-    albumId = $(this).data("album-id")
+  beginAlbumSearch = ->
+    query = $('input#search').val()
 
-    albumRouter = new Priphea.Routers.Albums
-    albumRouter.navigate("#albums/" + albumId + "/play", { trigger: true })
+    albumRouter = new Priphea.Routers.Albums()
+    if query? && query.length > 0
+      albumRouter.navigate("#search/" + query, { trigger: true })
+    else
+      albumRouter.navigate("#albums", { trigger: true })
+
+  $('input#search').on('blur copy paste cut change', beginAlbumSearch)
+  $('input#search').keyup( (e) ->
+      if e.keyCode == 13
+        beginAlbumSearch()
   )
-
-  # data = $('#album_invisible .album')
-  # stringData = []
-  #
-  # $.each(data, (index, value) ->
-  #   stringData.push($(value)[0].outerHTML)
-  # )
-  #
-  # console.log stringData[0]
-  # console.log stringData[1]
-  #
-  # clusterize = new Clusterize({
-  #     rows: stringData,
-  #     scrollId: 'cover_art_gallery',
-  #     contentId: 'content_area',
-  #     rows_in_block: 150
-  # })

@@ -4,10 +4,14 @@ class Priphea.Views.AlbumsSearch extends Backbone.View
 
   initialize: (query) ->
     @query = query
-
     @albums = new Priphea.Collections.Albums()
 
-    params = { 'query': @query }
+    params = {
+      'q': {
+        'search_terms_special_match': @query
+      }
+    }
+    
     @albums.on('reset', @render, this)
     @albums.fetch({
       data: $.param(params),
@@ -22,3 +26,9 @@ class Priphea.Views.AlbumsSearch extends Backbone.View
     this
 
   applyJquery: ->
+    $(".album a").on("dblclick", ->
+      albumId = $(this).data("album-id")
+
+      albumRouter = new Priphea.Routers.Albums
+      albumRouter.navigate("#albums/" + albumId + "/play", { trigger: true })
+    )

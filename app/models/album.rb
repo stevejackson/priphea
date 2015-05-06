@@ -8,6 +8,10 @@ class Album
   field :cover_art_file, type: String
   field :cover_art_cache_file, type: String
 
+  field :search_terms, type: String
+
+  before_save :update_search_terms
+
   def self.find_by_title_or_create_new(title)
     album = Album.where(title: title).first_or_create
   end
@@ -79,6 +83,19 @@ class Album
     end
   end
 
+  def update_search_terms
+    artist = ""
+    album_artist = ""
+
+    if self.songs
+      artist = self.songs.first.artist
+      album_artist = self.songs.first.album_artist
+    end
+
+    terms = "#{self.title} #{artist} #{album_artist}"
+    self.search_terms = SearchUtils::search_format(terms)
+  end
+
 
   def as_json(*args)
     res = super
@@ -98,11 +115,17 @@ class Album
     res
   end
 
+
   private
     def make_cache_directory
       unless File.directory?(Settings.cover_art_cache)
         FileUtils.mkdir_p(Settings.cover_art_cache)
       end
+    end
+
+    def self.ransackable_attributes(auth_object = nil)
+      # whitelist the following attributes to be searchable
+      super & %w(search_terms)
     end
 
 

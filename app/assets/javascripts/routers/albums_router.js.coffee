@@ -3,6 +3,7 @@ class Priphea.Routers.Albums extends Backbone.Router
     'albums/:id': 'show'
     'albums/:id/play': 'show_and_play'
     'albums': 'all'
+    'search': 'search'
     'search/:query': 'search'
 
   show: (id) ->
