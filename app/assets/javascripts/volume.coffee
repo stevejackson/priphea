@@ -2,12 +2,10 @@ $ ->
 
   updateVolume = ->
     console.log("Trying to update volume...")
-    if window.player?
-      value = $("#volume_control").val()
-      window.player.volume = value
 
-      console.log("Changing volume to #{value}")
-    else
-      console.log("No active player, can't change volume.")
+    value = $("#volume_control").val()
+
+    player = new Player
+    player.apiSetVolume(value)
 
   $("#volume_control").on("change", updateVolume)

@@ -7,11 +7,22 @@ class Player
   end
 
   def play
-    @active_song = @song_queue.pop
+    @active_song = @song_queue.shift
 
     if @active_song
       cli_command = %Q{ cmus-remote --file "#{@active_song.full_path}" }
       system(cli_command)
+    end
+  end
+
+  # is the current song finished playing?
+  def finished_song?
+    results = self.status
+    puts "Checking if song is finished playing: #{results[:position]} / #{results[:duration]}"
+    if results[:position] == results[:duration]
+      true
+    else
+      false
     end
   end
 
@@ -25,6 +36,11 @@ class Player
     system(cli_command)
   end
 
+  def set_volume(volume_percent)
+    cli_command = %Q{ cmus-remote --volume #{volume_percent} }
+    system(cli_command)
+  end
+
   def status
     cli_command = %Q{ cmus-remote --query }
     output = %x[cmus-remote --query]
@@ -32,9 +48,12 @@ class Player
 
     puts "Got results of cmus-remote --query into hash: #{results.inspect}"
 
-    if results[:status] == "playing"
+    if %w(playing).include?(results[:status])
       puts "Playing!"
+      results[:song] = @active_song.as_json
     end
+
+    results
   end
 
   private

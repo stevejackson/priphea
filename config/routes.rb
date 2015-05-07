@@ -4,6 +4,16 @@ Rails.application.routes.draw do
     resources :albums, only: [:index, :show]
     resources :songs, only: [:show, :update]
     resources :song_files, only: [:show]
+    resources :player, only: [] do
+      collection do
+        post 'set_song_queue'
+        post 'set_song_queue_and_play'
+        get 'pause'
+        get 'resume'
+        get 'update_and_get_status'
+        post 'set_volume'
+      end
+    end
   end
 
   resources :settings, only: [:index] do

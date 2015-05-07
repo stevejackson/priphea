@@ -14,9 +14,6 @@
 //= require jquery_ujs
 //= require vendor/sprintf
 //= require vendor/jquery.tablesorter.min
-//= require vendor/aurora
-//= require vendor/flac
-//= require vendor/mp3
 //= require underscore
 //= require resizer
 //= require player

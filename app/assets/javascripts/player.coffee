@@ -11,7 +11,18 @@ millisecondsToReadableString = (ms) ->
 
   sprintf("%02d:%02d", minutes, seconds)
 
+# converts "3400" as milliseconds to "00:03"
+secondsToReadableString = (sec) ->
+  x = sec
+  seconds = x % 60
+  x /= 60
+  minutes = x % 60
+  x /= 60
+  hours = x % 24
+  x /= 24
+  days = x
 
+  sprintf("%02d:%02d", minutes, seconds)
 
 generateStarRatingHTML = (rating) ->
   ratingHtml = ""
@@ -36,42 +47,63 @@ class @Player
     else
       instance = this
 
+  apiSetSongQueue: (songQueue) ->
+    params = {
+      "song_queue": songQueue
+    }
+
+    $.post("/api/player/set_song_queue", params)
+    console.log("Sent API request to set play queue (but don't begin playback).")
+
+  apiSetSongQueueAndPlay: (songQueue) ->
+    params = {
+      "song_queue": songQueue
+    }
+
+    $.post("/api/player/set_song_queue_and_play", params)
+    console.log("Sent API request to set play queue and then begin playback.")
+
+  apiPause: ->
+    $.get("/api/player/pause")
+    console.log("Sent API request to pause playback.")
+
+  apiResume: ->
+    $.get("/api/player/resume")
+    console.log("Sent API request to resume playback.")
+
+  apiSetVolume: (volumePercent) ->
+    params = {
+      volume: volumePercent
+    }
+    $.post("/api/player/set_volume", params)
+    console.log("Sent API request to set volume to #{volumePercent}.")
+
+  apiUpdateStatus: ->
+    $.get("/api/player/update_and_get_status", (data) ->
+      console.log "Received successful api status update response."
+      player = new Player
+      player.updatePlayerStatus(data)
+    )
+    console.log "Sent request for status update."
+
   setActiveSong: (songId) ->
     localStorage.setItem("activeSong", songId)
-    localStorage.setItem("paused", "false")
 
-    # update the progress bar
-    @progressIntervalId = setInterval(@updateSongProgress, 75)
+    songQueue = [songId]
+    @apiSetSongQueue(songQueue)
 
-
+  # called to begin new playback of a selected song, NOT to resume
   playActiveSong: ->
     songId = localStorage.getItem("activeSong")
     console.log("Playing active song: #{songId}")
 
-    nowPlayingView = new Priphea.Views.NowPlaying(songId)
-    $('div#now_playing').html(nowPlayingView.render().el)
+    @apiSetSongQueueAndPlay([songId])
+    @updateActiveSongIcon()
+    @renderNowPlayingView(songId)
 
-    currentlyPaused = localStorage.getItem("paused")
 
-    console.log("Paused: #{currentlyPaused}")
-    console.log("player already exists?: #{window.player?}")
-
-    # if we're currently paused, don't load an entirely new song, just resume it
-    if (currentlyPaused == "true") and (window.player?)
-      console.log("Paused, just resuming.")
-      window.player.play()
-    else
-      console.log("Creating new song from URL and playing...")
-      if window.player?
-        window.player.stop()
-
-      window.player = AV.Player.fromURL("/api/song_files/#{songId}")
-      value = $("#volume_control").val()
-      window.player.volume = value
-      window.player.preload()
-      window.player.on('buffer', @buffered)
-      window.player.play()
-      window.player.on('end', @playNextSongInQueue)
+    ###### Update pause/play icon to "can pause" icon
+    localStorage.setItem("paused", "false")
 
     output = "<a href='#'> <i class='pause-play-icon fa fa-pause fa-2x'></i> </a>"
 
@@ -80,10 +112,24 @@ class @Player
     $("#play_pause_button").off("click")
     $("#play_pause_button").on("click", @handlePausePlayClick)
 
-    @updateActiveSongIcon()
+    ###### Begin interval polling of song status
+    clearInterval(window.updateStatusIntervalId)
+    window.updateStatusIntervalId = setInterval(@apiUpdateStatus, 1000)
 
-  buffered: (percent) ->
-    console.log(percent)
+  # called resume playback of the current song
+  resume: ->
+    localStorage.setItem("paused", "false")
+    songId = localStorage.getItem("activeSong")
+    console.log("Resuming active song: #{songId}")
+
+    @apiResume()
+
+    output = "<a href='#'> <i class='pause-play-icon fa fa-pause fa-2x'></i> </a>"
+
+    $("#play_pause_button").html(output)
+
+    $("#play_pause_button").off("click")
+    $("#play_pause_button").on("click", @handlePausePlayClick)
 
   updateActiveSongIcon: ->
     songId = localStorage.getItem("activeSong")
@@ -91,11 +137,10 @@ class @Player
     $("tr td.now_playing.active").removeClass("active").html("")
     $("tr[data-song-id='" + songId + "'] td.now_playing").addClass("active").html("<i class='fa fa-volume-up'></i>")
 
-
-  pauseActiveSong: ->
+  pause: ->
     console.log("Pausing song.")
     localStorage.setItem("paused", "true")
-    window.player.pause()
+    @apiPause()
 
     output = "<a href='#'> <i class='pause-play-icon fa fa-play fa-2x'></i> </a>"
     $("#play_pause_button").html(output)
@@ -108,28 +153,41 @@ class @Player
     p = new Player
 
     if icon.hasClass('fa-pause')
-      p.pauseActiveSong()
+      p.pause()
     else
-      p.playActiveSong()
+      p.resume()
 
-  updateSongProgress: ->
-    if window.player?
-      progressBar = $("#now_playing #progress_bar progress")
+  updatePlayerStatus: (status) ->
+    currentSong = status["song"]["id"]
+    localCurrentSong = localStorage.getItem("activeSong")
 
-      currentTime = window.player.currentTime
-      totalDuration = window.player.duration
+    # if the active song has changed, re-render the now playing area
+    if currentSong != localCurrentSong
+      localStorage.setItem("activeSong", currentSong)
+      @renderNowPlayingView(currentSong)
+      @updateActiveSongIcon()
 
-      if currentTime? and totalDuration?
-        percent = (currentTime / totalDuration) * 100
+    # always update the stuff that changes often (progress bar, song duration)
+    progressBar = $("#now_playing #progress_bar progress")
 
-        unless isNaN(percent)
-          $("#now_playing #progress_bar progress").val(percent)
+    currentTime = status["position"] # seconds
+    totalDuration = status["duration"] # seconds
 
-      readableTotal = millisecondsToReadableString(totalDuration)
-      readableCurrent = millisecondsToReadableString(currentTime)
+    if currentTime? and totalDuration?
+      percent = (currentTime / totalDuration) * 100
 
-      $("#now_playing #total_length").text(readableTotal)
-      $("#now_playing #current_time").text(readableCurrent)
+      unless isNaN(percent)
+        $("#now_playing #progress_bar progress").val(percent)
+
+    readableTotal = secondsToReadableString(totalDuration)
+    readableCurrent = secondsToReadableString(currentTime)
+
+    $("#now_playing #total_length").text(readableTotal)
+    $("#now_playing #current_time").text(readableCurrent)
+
+  renderNowPlayingView: (songId) ->
+    nowPlayingView = new Priphea.Views.NowPlaying(songId)
+    $('div#now_playing').html(nowPlayingView.render().el)
 
   selectedSongInAlbumSongList:  ->
     console.log "SelectedSongInAlbumList function called to re-evaluate playQueue"
@@ -140,8 +198,8 @@ class @Player
 
     songElements = $("#song_list tr")
 
-    # sit 1: double click album. Album replaces entire playQueue.
-    # sit 2: playlist clicked: replaces entire playQueue
+    # sit 1: double click album. Album replaces entire playQueue. this is used.
+    # sit 2: playlist clicked: replaces entire playQueue.
     # sit 3: click song halfway through album list. that's when this is used.
 
     # loop through each song in the #song_list.
@@ -152,31 +210,17 @@ class @Player
     $.each(songElements, (index, value) =>
       songId = $(value).data('song-id')
 
+      if songId? and foundCurrentSong
+        window.playQueue.push(songId)
+
+      # don't add the currently playing song to the playlist, it's already playing
       if currentlyPlaying? and songId? and songId == currentlyPlaying
         foundCurrentSong = true
 
-      if songId? and foundCurrentSong
-        window.playQueue.push(songId)
     )
 
+    @apiSetSongQueue(window.playQueue)
     console.log "Items in play queue: #{window.playQueue.length}"
-
-
-  playNextSongInQueue: =>
-    console.log "-----------------"
-    console.log("Playing next song in queue...")
-    console.log("Song queue: #{window.playQueue}")
-
-    if window.playQueue? && window.playQueue.length > 0
-      # Remove first item from queue
-      window.playQueue.shift()
-
-      console.log "#{window.playQueue.length} items left in queue."
-
-      if window.playQueue.length > 0
-        console.log(this)
-        @setActiveSong(window.playQueue[0])
-        @playActiveSong()
 
   renderSongRatings: ->
     console.log "Rendering song ratings..."
