@@ -1,0 +1,3 @@
+---
+servers: 5
+max_persistent_conns: 100
