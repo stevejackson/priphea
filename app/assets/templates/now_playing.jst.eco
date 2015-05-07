@@ -9,14 +9,16 @@
   <% end %>
 </div>
 
-<span id="song_info">
-  <strong><%= @song.get("title") %></strong>
-  by
-  <strong><%= @song.get("artist") %></strong>
-</span>
+<div id="now_playing_right_side">
+  <span id="song_info">
+    <strong><%= @song.get("title") %></strong>
+    by
+    <strong><%= @song.get("artist") %></strong>
+  </span>
 
-<div id="progress_bar">
-  <span id="current_time">01:34</span>
-  <progress value="0" max="100"></progress>
-  <span id="total_length">04:40</span>
+  <div id="progress_bar">
+    <span id="current_time">01:34</span>
+    <progress value="0" max="100"></progress>
+    <span id="total_length">04:40</span>
+  </div>
 </div>

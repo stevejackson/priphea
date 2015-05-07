@@ -29,30 +29,40 @@ div#hangbar {
 
 #now_playing {
   margin-top: 0px;
-  height: 70px; // 50px + 10px padding + 10px padding
+  height: 72px; // 50px + 10px padding + 10px padding + 2px of border
 
-  padding: 10px;
+  padding: 0px;
 
   background-color: $color-now-playing-background;
-  border-radius: 3px;
+  border-radius: 10px;
+
+  border: 1px solid $color-sidebar-border;
 
   #song_art {
     float: left;
 
-    padding-right: 0px;
+    padding-right: 10px;
 
     div#thumbnail {
       img, & {
-        width: 50px;
-        height: 50px;
+        width: 70px;
+        height: 70px;
+        border-top-left-radius: 10px;
+        border-bottom-left-radius: 10px;
       }
 
       &.no_art {
+        width: 69px;
+        height: 69px;
+        z-index: -1;
         border: 1px dashed black;
       }
     }
   }
 
+  #now_playing_right_side {
+    padding-top: 10px;
+  }
   #song_info {
     font-size: 0.9em;
     margin: 0;
