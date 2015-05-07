@@ -2,6 +2,7 @@ $cover-art-thumbnail-size: 250px;
 
 div#browser {
   margin: 0;
+  //padding-top: 10px;
   height: 600px;
 
   background-color: $color-browser-background;
@@ -10,6 +11,9 @@ div#browser {
 #cover_art_gallery {
   height: 600px;
   overflow: scroll;
+  padding-top: 15px;
+  padding-left: 15px;
+
 
   .album {
     display: inline-block;

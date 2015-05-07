@@ -1,14 +1,16 @@
 
 div#hangbar {
   height: $hangbar-height;
-  background-color: $color-hangbar-background;
-  padding-top: 15px;
-  margin-bottom: 10px;
+  padding-top: 10px;
   overflow: hidden;
+  //background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #E5E5E5), color-stop(100%, #EEE));
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f5f5f5), color-stop(100%, #E5E5E5));
+  box-shadow: 0px 3px 5px rgba(50, 50, 50, 0.40);
+  position: relative;
 }
 
 #song_controls {
-  margin-top: 10px;
+  margin-top: 20px;
 
   div.control {
     display: inline-block;
@@ -21,12 +23,17 @@ div#hangbar {
 }
 
 #volume {
-  margin-top: 15px;
+  margin-top: 25px;
 }
 
 #now_playing {
-  margin-top: 5px;
-  height: 50px;
+  margin-top: 0px;
+  height: 70px; // 50px + 10px padding + 10px padding
+
+  padding: 10px;
+
+  background-color: $color-now-playing-background;
+  border-radius: 3px;
 
   #song_art {
     float: left;
@@ -70,7 +77,6 @@ div#hangbar {
 
       width: 70%;
 
-      background-color: #f3f3f3;
       border: 0;
       height: 1em;
       border-radius: 9px;
@@ -81,7 +87,7 @@ div#hangbar {
 
     // Background
     progress::-webkit-progress-bar {
-    	background: black;
+      background-color: $color-now-playing-progress-bar-background;
     	border-radius: 2px;
     	padding: 2px;
     	box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.2);
@@ -91,10 +97,7 @@ div#hangbar {
     progress::-webkit-progress-value {
     	border-radius: 2px;
     	box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
-    	background: $color-major-theme-lightened;
-    		// -webkit-linear-gradient(45deg, transparent, transparent 33%, rgba(0, 0, 0, 0.1) 33%, rgba(0, 0, 0, 0.1) 66%, transparent 66%),
-    		// -webkit-linear-gradient(top, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.2)),
-    		// -webkit-linear-gradient(left, $color-major-theme-lightened, $color-major-theme-lightened);
+    	background: $color-now-playing-progress-bar-foreground;
 
       // Animation
     	background-size: 25px 14px, 100% 100%, 100% 100%;
@@ -119,11 +122,106 @@ div#hangbar {
 
 #search_area {
   margin-top: 15px;
-  font-size: 1em;
 
-  input {
-    padding: 5px;
-    width: 100%;
+  * {
+    box-sizing:border-box;
+    transition:.25s ease-in-out;
+  }
+
+  form {
+    position:relative;
+
+    > #search {
+      display:block;
+
+      width:100%;
+      height:36px;
+      padding:10px 10px 10px 30px;
+      position:absolute;
+      z-index:1;
+      border:none;
+      background:transparent;
+
+      font-size: 12px;
+
+      opacity:0;
+      box-shadow:0 0 3px 10px #92bcea;
+      border-radius:5px;
+
+      &:valid {
+        opacity:1;
+        box-shadow:0 0 0px 0px #92bcea;
+      }
+      &:focus {
+        opacity:1;
+        outline:none;
+        box-shadow:0 0 0px 3px #92bcea;
+      }
+      &:focus + #search-bar-label, &:valid + #search-bar-label {
+        > #search-placeholder {
+          left:-40%;
+          > i {
+            opacity: 0;
+          }
+          > #placeholder-text {
+            opacity:0;
+          }
+        }
+      }
+      &:focus ~ #close-btn {
+        z-index:3;
+        i {
+          font-size:14px;
+          cursor:pointer;
+        }
+      }
+      &:valid ~ #close-btn {
+        z-index:0;
+        i {
+          font-size:0px;
+          cursor:pointer;
+        }
+      }
+    }
+    > #search-bar-label {
+      display:block;
+      position:relative;
+      padding:10px;
+      width:100%;
+      background:white;
+      border-radius:5px;
+      box-shadow: 0 1px 0 rgba(0,0,0,.2);
+
+      > #search-placeholder {
+        display: block;
+        position: relative;
+        left: 0%;
+        text-align: center;
+        width: 100%;
+        color: #585858;
+        font-size: 14px;
+        > #placeholder-text {
+          opacity: 1;
+          color: #b2b2b2;
+          font-size: 14px;
+        }
+      }
+    }
+    #close-btn {
+      width:36px;
+      height:36px;
+      position:absolute;
+      top:0px;
+      right:0px;
+      z-index:0;
+      > i {
+        width:36px;
+        line-height:36px;
+        font-size:0px;
+        text-align:center;
+        color:#7d7d7d;
+      }
+    }
   }
 }
 

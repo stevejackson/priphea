@@ -118,7 +118,7 @@ class @Player
 
     ###### Begin interval polling of song status
     clearInterval(window.updateStatusIntervalId)
-    window.updateStatusIntervalId = setInterval(@apiUpdateStatus, 1000)
+    window.updateStatusIntervalId = setInterval(@apiUpdateStatus, 250)
 
   # called resume playback of the current song
   resume: ->

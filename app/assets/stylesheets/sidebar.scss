@@ -1,6 +1,11 @@
 #sidebar {
   margin: 0;
   padding-bottom: 0;
+  padding-left: 10px;
+  padding-top: 25px;
+  background: $color-sidebar-background;
+
+  border-right: 1px solid $color-sidebar-border;
 
   h3 {
     font-size: 18px;

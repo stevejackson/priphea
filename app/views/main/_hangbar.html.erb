@@ -43,6 +43,7 @@
     </div>
   </div> <!-- now_playing -->
 
+<!--
   <div id="playback_mode" class="one column">
     <div class="medium primary button">
       <a href="#">
@@ -51,8 +52,19 @@
     </div>
   </div> <!-- playback_mode -->
 
-  <div id="search_area" class="four columns">
-    <input type="text" id="search" placeholder="Search for music">
+  <div id="search_area" class="five columns">
+    <form>
+      <input id="search" type="text" required />
+      <label for="search-bar" id="search-bar-label">
+        <span id="search-placeholder">
+          <i class="fa fa-search"></i>
+          <span id="placeholder-text">Search</span>
+        </span>
+      </label>
+      <div id="close-btn">
+        <i class="fa fa-times-circle"></i>
+      </div>
+    </form>
   </div> <!-- search -->
 
   <div id="settings" class="one column">
