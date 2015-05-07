@@ -9,3 +9,5 @@ $ ->
     player.apiSetVolume(value)
 
   $("#volume_control").on("change", updateVolume)
+
+  updateVolume()

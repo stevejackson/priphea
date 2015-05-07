@@ -63,6 +63,10 @@ class @Player
     $.post("/api/player/set_song_queue_and_play", params)
     console.log("Sent API request to set play queue and then begin playback.")
 
+    # set proper volume, as cmus defaults to 100 otherwise.
+    value = $("#volume_control").val()
+    @apiSetVolume(value)
+
   apiPause: ->
     $.get("/api/player/pause")
     console.log("Sent API request to pause playback.")
