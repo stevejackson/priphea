@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require vendor/sprintf
 //= require vendor/jquery.tablesorter.min
+//= require vendor/mousetrap
 //= require underscore
 //= require resizer
 //= require player
@@ -21,6 +22,7 @@
 //= require handlers
 //= require backbone
 //= require priphea
+//= require hotkeys
 //= require_tree ../templates
 //= require_tree ./models
 //= require_tree ./collections
