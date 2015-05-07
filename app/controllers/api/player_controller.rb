@@ -56,4 +56,9 @@ class Api::PlayerController < ApplicationController
 
     render json: status
   end
+
+  def next_song
+    $player.play
+    render json: {}, status: 200
+  end
 end

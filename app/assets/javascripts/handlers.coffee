@@ -15,3 +15,8 @@ $ ->
       if e.keyCode == 13
         beginAlbumSearch()
   )
+
+  $('#next_song').on('click', ->
+    player = new Player
+    player.apiNextSong()
+  )

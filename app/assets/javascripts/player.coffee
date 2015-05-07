@@ -90,6 +90,10 @@ class @Player
     )
     console.log "Sent request for status update."
 
+  apiNextSong: ->
+    $.post("/api/player/next_song")
+    console.log "Sent request to move to next song."
+
   setActiveSong: (songId) ->
     localStorage.setItem("activeSong", songId)
 
@@ -118,7 +122,7 @@ class @Player
 
     ###### Begin interval polling of song status
     clearInterval(window.updateStatusIntervalId)
-    window.updateStatusIntervalId = setInterval(@apiUpdateStatus, 250)
+    window.updateStatusIntervalId = setInterval(@apiUpdateStatus, 500)
 
   # called resume playback of the current song
   resume: ->

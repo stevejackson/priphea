@@ -12,6 +12,7 @@ Rails.application.routes.draw do
         get 'resume'
         get 'update_and_get_status'
         post 'set_volume'
+        post 'next_song'
       end
     end
   end
