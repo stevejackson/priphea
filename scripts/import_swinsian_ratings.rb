@@ -25,15 +25,22 @@ puts "Swinsian total #{with_ratings.length} songs with ratings"
 
 matches = []
 with_ratings.each do |track|
-  puts Song.first.full_path
-  puts track[:path]
+  swinsian_track = track[:path].force_encoding('UTF-8')
+  swinsian_track.unicode_normalize! # ruby 2.2 method
+  puts "Swinsian track that has a rating: #{swinsian_track.inspect}"
+  # if swinsian_track.match(/07 Guilty/i)
+  #   binding.pry
+  # end
   # check if this song exists in Priphea's database.
-  if Song.where({ full_path: track[:path] }).exists?
-    song = Song.where({ full_path: track[:path] }).first
+  if Song.where({ full_path: swinsian_track }).exists?
+    song = Song.where({ full_path: swinsian_track }).first
+    puts "Found track in Priphea database, updating rating: #{song.id}"
     song.rating = track[:rating] * 2 * 10 # convert "2" to "20" (out of 5 to out of 100)
     song.save!
 
     matches << song
+  else
+    puts "That file wasn't found in Priphea database."
   end
 end
 

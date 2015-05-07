@@ -17,9 +17,10 @@ gem 'mini_exiftool', git: 'https://github.com/stevejackson/mini_exiftool.git', b
 
 gem 'ransack'
 
+gem 'pry-rails', '~> 0.3'
+
 group :development do
   gem 'thin', '~> 1.6'
-  gem 'pry-rails', '~> 0.3'
   gem 'meta_request', '~> 0.3'
   gem 'better_errors', '~> 1.1'
   gem 'binding_of_caller', '~> 0.7'
