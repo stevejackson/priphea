@@ -12,6 +12,7 @@ $ ->
 
   $('input#search').on('blur copy paste cut change', beginAlbumSearch)
   $('input#search').keyup( (e) ->
+      e.preventDefault()
       if e.keyCode == 13
         beginAlbumSearch()
   )
