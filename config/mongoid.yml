@@ -8,7 +8,7 @@ production:
 development:
   sessions:
     default:
-      database: priphea-production
+      database: priphea-development
       hosts:
         - localhost:27017
 

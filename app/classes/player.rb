@@ -41,6 +41,29 @@ class Player
     system(cli_command)
   end
 
+  # takes a percent like "50"
+  def seek(percent)
+    # cmus-remote --seek takes a parameter in seconds.
+    results = self.status
+    if status[:duration]
+      # example:
+      # --------
+      # duration: 90 seconds
+      # percent to seek: 50
+      # 90.0f * (50 / 100)
+      # 90 * 0.5
+      # 45 seconds
+
+      duration = status[:duration].to_f
+      percent = percent.to_f * 0.01
+
+      seek_seconds = (duration * percent).to_i
+      cli_command = %Q{ cmus-remote --seek #{seek_seconds} }
+
+      system(cli_command)
+    end
+  end
+
   def status
     cli_command = %Q{ cmus-remote --query }
     output = %x[cmus-remote --query]

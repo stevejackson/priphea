@@ -47,6 +47,11 @@ class Api::PlayerController < ApplicationController
     render json: {}, status: 200
   end
 
+  def seek
+    $player.seek(params[:percent])
+    render json: {}, status: 200
+  end
+
   def update_and_get_status
     if $player.finished_song?
       $player.play

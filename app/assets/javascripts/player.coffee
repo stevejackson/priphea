@@ -75,6 +75,15 @@ class @Player
     $.get("/api/player/resume")
     console.log("Sent API request to resume playback.")
 
+  apiSeek: (percent) ->
+    params = {
+      percent: percent
+    }
+
+    $.post("/api/player/seek", params)
+
+    console.log("Sent API request to seek to #{percent}")
+
   apiSetVolume: (volumePercent) ->
     params = {
       volume: volumePercent

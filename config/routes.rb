@@ -11,6 +11,7 @@ Rails.application.routes.draw do
         get 'pause'
         get 'resume'
         get 'update_and_get_status'
+        post 'seek'
         post 'set_volume'
         post 'next_song'
       end
