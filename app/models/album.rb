@@ -5,8 +5,11 @@ class Album
   has_many :songs
 
   field :title, type: String
+
   field :cover_art_file, type: String
   field :cover_art_cache_file, type: String
+  field :cover_art_width, type: Integer
+  field :cover_art_height, type: Integer
 
   field :search_terms, type: String
 
@@ -59,6 +62,10 @@ class Album
 
           FileUtils.copy(file, cache_location)
 
+          image_size = ImageMetadata::image_size(cache_location)
+          self.cover_art_width = image_size[:width]
+          self.cover_art_height = image_size[:height]
+
           self.cover_art_cache_file = md5
           self.save!
 
@@ -77,6 +84,13 @@ class Album
 
         if cache_location
           self.cover_art_cache_file = cache_location
+
+
+          full_art_path = File.join(Settings.cover_art_cache, cache_location)
+          image_size = ImageMetadata::image_size(full_art_path)
+          self.cover_art_width = image_size[:width]
+          self.cover_art_height = image_size[:height]
+
           self.save!
         end
       end
@@ -88,7 +102,7 @@ class Album
     artist = ""
     album_artist = ""
 
-    if self.songs
+    if self.songs.any?
       artist = self.songs.first.artist
       album_artist = self.songs.first.album_artist
     end
