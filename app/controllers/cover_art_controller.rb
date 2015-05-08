@@ -2,7 +2,7 @@ class CoverArtController < ApplicationController
   def cover_art_cache
     album = Album.find(params[:album_id])
 
-    if album.cover_art_cache_file
+    if album.has_cover_art?
       file = File.join(Settings.cover_art_cache, album.cover_art_cache_file)
       send_file(file,
         disposition: 'inline',
@@ -10,9 +10,6 @@ class CoverArtController < ApplicationController
       )
     else
       not_found
-      # file = File.join(Rails.root, "public", "transparent.png")
-      # send_file(file,
-      #   type: "image/png")
     end
   end
 end

@@ -5,7 +5,7 @@
       <div class="album">
         <div class="cover">
           <a href="#albums/<%= album['id'] %>" data-album-id="<%= album['id'] %>">
-            <% if album['has_cover_art']?: %>
+            <% if album['has_cover_art'] == true: %>
               <img src="/cover_art/<%= album['id'] %>" width="250" height='250'>
             <% else: %>
               <div class="no_cover">

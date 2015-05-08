@@ -72,13 +72,20 @@ class AudioMetadata
 
     null = ">/dev/null 2>&1"
 
+    puts "Trying to copy embedded art to cover art cache..."
+
     output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext flac "#{filename}" #{null} }
+    puts output
     output =system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext flac "#{filename}" #{null} }
+    puts output
 
     output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext mp3 "#{filename}" #{null} }
+    puts output
     output = system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext mp3 "#{filename}" #{null} }
+    puts output
 
     if File.exists?(full_path_jpg)
+      puts "Successfully copied embedded JPG art."
       md5 = Digest::MD5.hexdigest(File.read(full_path_jpg)) + File.extname(full_path_jpg)
 
       destination = File.join(Settings.cover_art_cache, md5)
@@ -86,12 +93,15 @@ class AudioMetadata
 
       return File.basename(destination)
     elsif File.exists?(full_path_png)
+      puts "Successfully copied embedded PNG art."
       md5 = Digest::MD5.hexdigest(File.read(full_path_png)) + File.extname(full_path_png)
 
       destination = File.join(Settings.cover_art_cache, md5)
       FileUtils.copy(full_path_png, destination)
 
       return File.basename(destination)
+    else
+      puts "Failed to find or copy embedded art."
     end
 
   end

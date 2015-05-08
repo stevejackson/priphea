@@ -27,13 +27,15 @@ Rails.application.routes.draw do
 
   resources :main, only: [:index] do
     collection do
-      get 'rescan'
-      get 'destroy_and_rescan'
+      post 'rescan'
+      post 'destroy_and_rescan'
+      post 'update_cover_art_cache'
     end
   end
 
-  get '/rescan' => 'main#rescan', as: :rescan
-  get '/destroy_and_rescan' => 'main#destroy_and_rescan', as: :destroy_and_rescan
+  post '/rescan' => 'main#rescan', as: :rescan
+  post '/destroy_and_rescan' => 'main#destroy_and_rescan', as: :destroy_and_rescan
+  post '/update_cover_art_cache' => 'main#update_cover_art_cache', as: :update_cover_art_cache
 
   root to: "main#index"
 end

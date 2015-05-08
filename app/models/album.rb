@@ -17,7 +17,7 @@ class Album
   end
 
   def has_cover_art?
-    (cover_art_file || cover_art_cache_file?) ? true : false
+    (cover_art_file || cover_art_cache_file) ? true : false
   end
 
   def cover_art_cache_file_full_path
@@ -28,6 +28,7 @@ class Album
     Rails.logger.debug "---- "
     Rails.logger.debug " Updating cover art cache for: #{self.inspect}"
     make_cache_directory
+    self.cover_art_cache_file = nil
 
     if songs.any?
       song = songs.first

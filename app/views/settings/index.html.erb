@@ -1,10 +1,19 @@
 <h1>Settings</h1>
 
-<%= form_tag(save_settings_path, method: :post) do %>
-  <fieldset>
-    <%= label_tag :library_path, "Library path" %>
-    <%= text_field_tag :library_path, params[:library_path] || @settings[:library_path], size: 50, placeholder: "/Users/steve/musiclibrary" %>
-  </fieldset>
+<fieldset>
+  <%= form_tag(rescan_path, method: :post) do %>
+    <%= submit_tag "Rescan library", data: { confirm: "This may take awhile to rescan. You sure?" } %>
+  <% end %>
+</fieldset>
 
-  <%= submit_tag "Save settings" %>
-<% end %>
+<fieldset>
+  <%= form_tag(destroy_and_rescan_path, method: :post) do %>
+    <%= submit_tag "Destroy and rescan library", data: { confirm: "THIS WILL DESTROY ALL YOUR CUSTOM DATA!" } %>
+  <% end %>
+</fieldset>
+
+<fieldset>
+  <%= form_tag(update_cover_art_cache_path, method: :post) do %>
+    <%= submit_tag "Update cover art cache", data: { confirm: "You want to reprocess your artworks?" } %>
+  <% end %>
+</fieldset>

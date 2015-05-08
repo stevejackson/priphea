@@ -21,5 +21,13 @@ class MainController < ApplicationController
     redirect_to root_path
   end
 
+  def update_cover_art_cache
+    Album.all.each do |album|
+      album.update_cover_art_cache
+    end
+
+    redirect_to root_path
+  end
+
 
 end
