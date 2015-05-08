@@ -17,21 +17,18 @@ div#browser {
 
   .album {
     display: inline-block;
-    width: $cover-art-thumbnail-size;
-    height: $cover-art-thumbnail-size;
 
     .cover {
       img {
         width: $cover-art-thumbnail-size;
         height: $cover-art-thumbnail-size;
         object-fit: scale-down;
-
       }
     }
 
     .no_cover {
-      // width: $cover-art-thumbnail-size;
-      // height: $cover-art-thumbnail-size;
+      width: $cover-art-thumbnail-size;
+      height: $cover-art-thumbnail-size;
 
       border: 1px dashed black;
     }
