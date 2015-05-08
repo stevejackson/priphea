@@ -47,15 +47,21 @@ class AudioMetadata
   def self.mp3_duration(duration)
     # in format like: 0:02:43 (approx)
     if duration.match /(\d{1,2}):(\d{1,2}):(\d{1,2})/
-      hours = $1.strip
-      minutes = $2.strip
-      seconds = $3.strip
+      hours = $1.strip.to_i
+      minutes = $2.strip.to_i
+      seconds = $3.strip.to_i
 
       if hours.to_i == 0
-        return sprintf("%02s:%02s", minutes, seconds)
+        return sprintf("%02d:%02d", minutes, seconds)
       else
-        return sprintf("%01s:%02s:%02s", hours, minutes, seconds)
+        return sprintf("%01s:%02d:%02d", hours, minutes, seconds)
       end
+    elsif duration.match /(\d{1,2})\.(\d{1,2}) s/i
+      # in format like: 23.41 s (approx)
+      # $1 = 23
+      # $2 = 41
+      seconds = $1.strip.to_i
+      return sprintf("%02d:%02d", 0, seconds)
     end
   end
 

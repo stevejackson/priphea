@@ -54,6 +54,7 @@ class Api::PlayerController < ApplicationController
 
   def update_and_get_status
     if $player.finished_song?
+      $player.next_song
       $player.play
     end
 
