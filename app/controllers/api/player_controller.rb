@@ -63,7 +63,7 @@ class Api::PlayerController < ApplicationController
   end
 
   def next_song
-    $player.play
+    $player.next_song
     render json: {}, status: 200
   end
 end

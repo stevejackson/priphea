@@ -7,7 +7,8 @@ class Player
   end
 
   def play
-    @active_song = @song_queue.shift
+    @active_song = @song_queue.first
+    puts "Next song: #{@song_queue.inspect}"
 
     if @active_song
       cli_command = %Q{ cmus-remote --file "#{@active_song.full_path}" }
@@ -62,6 +63,12 @@ class Player
 
       system(cli_command)
     end
+  end
+
+  def next_song
+    puts "Next song: #{@song_queue.inspect}"
+    @song_queue.shift
+    self.play
   end
 
   def status

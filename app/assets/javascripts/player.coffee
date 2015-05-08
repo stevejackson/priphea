@@ -131,7 +131,7 @@ class @Player
 
     ###### Begin interval polling of song status
     clearInterval(window.updateStatusIntervalId)
-    window.updateStatusIntervalId = setInterval(@apiUpdateStatus, 500)
+    window.updateStatusIntervalId = setInterval(@apiUpdateStatus, 1000)
 
   # called resume playback of the current song
   resume: ->
@@ -175,6 +175,9 @@ class @Player
       p.resume()
 
   updatePlayerStatus: (status) ->
+    console.log("Updating player status with response")
+    console.log status
+    return false if !status or !status["song"] or !status["song"]["id"]
     currentSong = status["song"]["id"]
     localCurrentSong = localStorage.getItem("activeSong")
 
@@ -227,13 +230,11 @@ class @Player
     $.each(songElements, (index, value) =>
       songId = $(value).data('song-id')
 
-      if songId? and foundCurrentSong
-        window.playQueue.push(songId)
-
-      # don't add the currently playing song to the playlist, it's already playing
       if currentlyPlaying? and songId? and songId == currentlyPlaying
         foundCurrentSong = true
 
+      if songId? and foundCurrentSong
+        window.playQueue.push(songId)
     )
 
     @apiSetSongQueue(window.playQueue)

@@ -11,10 +11,12 @@ class Api::AlbumsController < ApplicationController
 
   def show
     album = Album.find(params[:id])
-    puts '-----'
-    puts "Album#show Returning JSON: "
-    puts album.as_json
-    puts '-----'
-    render json: album.as_json_with_songs
+
+    if album
+      render json: album.as_json_with_songs
+    else
+      render json: {}, status: 404
+    end
   end
+  
 end

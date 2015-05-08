@@ -20,7 +20,7 @@ class Priphea.Views.NowPlaying extends Backbone.View
     # apply the "seek" handler to the progress bar.
     $("#progress_bar progress").on('click', (e) ->
       percent = e.offsetX / $(this).width() * 100;
-      
+
       player = new Player
       player.apiSeek(percent)
     )

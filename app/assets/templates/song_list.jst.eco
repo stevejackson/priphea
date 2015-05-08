@@ -1,0 +1,36 @@
+<table id="song_list_table" class="tablesorter">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Disc #</th>
+      <th>Track #</th>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Duration</th>
+      <th>Album</th>
+      <th>Rating</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <% if @songs?: %>
+      <% for song in @songs.models: %>
+        <% song = song.attributes %>
+
+        <tr data-song-id="<%= song['id'] %>">
+          <td class="now_playing"></td>
+          <td><%= song['disc_number'] %></td>
+          <td><%= song['track_number'] %></td>
+          <td><%= song['title'] %></td>
+          <td><%= song['artist'] %></td>
+          <td><%= song['duration'] %></td>
+          <td><%= song['album']['title'] %></td>
+          <td class="rating" data-rating="<%= song['rating'] %>"></td>
+        </tr>
+        
+      <% end %>
+    <% end %>
+
+  </tbody>
+</table>
