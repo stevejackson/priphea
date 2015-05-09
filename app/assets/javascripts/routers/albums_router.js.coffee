@@ -46,7 +46,7 @@ class Priphea.Routers.Albums extends Backbone.Router
     view = new Priphea.Views.Library()
     # using "childnodes" avoids the output being wrapped in a div by default
     $("div#browser").html("").append(view.render().el.childNodes);
-    recalculateSizes();
+    recalculateSizes()
 
     # instantiate cover art browser
     view = new Priphea.Views.AlbumsSearch("")

@@ -5,6 +5,13 @@ div#song_list {
   margin: 0;
 }
 
+// Used by playlist view, playback queue
+div#song_list_fullscreen {
+  height: 100%;
+  overflow: scroll;
+  margin: 0;
+}
+
 table#song_list_table {
   min-width: 100%;
 

@@ -37,6 +37,8 @@ class Priphea.Views.PlaybackQueue extends Backbone.View
     player = new Player
     player.updateActiveSongIcon()
     player.renderSongRatings()
+    
+    recalculateSizes()
 
   playSong: (event) ->
     console.log 'wtaffs'

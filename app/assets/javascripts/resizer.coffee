@@ -1,5 +1,6 @@
 $ ->
   window.recalculateSizes = ->
+    console.log "Recalculating sizes...."
     marginTop = parseInt($('#hangbar').css('marginTop'))
     marginBottom = parseInt($('#hangbar').css('marginBottom'))
     hangbarHeight = parseInt($('#hangbar').height())
@@ -18,6 +19,10 @@ $ ->
     # song list
     songListHeight = windowHeight * (1.00 - coverArtPercent)
     $('#song_list').css('height', songListHeight)
+
+    # song list fullscreen (used by playlists, etc)
+    songListFullscreenHeight = windowHeight
+    $('#song_list_fullscreen').css('height', songListFullscreenHeight)
 
   window.recalculateSizes()
   $(window).resize(window.recalculateSizes)

@@ -33,6 +33,8 @@ class Priphea.Views.ShowSmartPlaylist extends Backbone.View
     player = new Player
     player.updateActiveSongIcon()
     player.renderSongRatings()
+    
+    recalculateSizes()
 
   playSong: (event) ->
     songId = $(this).data('song-id')
