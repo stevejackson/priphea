@@ -26,8 +26,16 @@ class Priphea.Views.AlbumsShow extends Backbone.View
   applyJquery: ->
     $('#song_list tbody tr').on('click', @playSong)
     if $('table#song_list_table tr').length > 1
-      console.log $('table#song_list_table tr').length
-      $('table#song_list_table').tablesorter({ sortList: [[1,0], [2,0]] })
+      # enable sorting by rating, via data-sort-value
+      if $('table#song_list_table tr').length > 1
+        $('table#song_list_table').tablesorter({
+          # enable sorting by rating, via data-sort-value
+          textExtraction: (node) ->
+            attr = $(node).attr('data-sort-value')
+            if typeof attr != 'undefined' && attr != false
+              return attr
+            return $(node).text()
+        })
 
     player = new Player
     player.updateActiveSongIcon()

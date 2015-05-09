@@ -15,8 +15,7 @@
   <tbody>
 
     <% if @songs?: %>
-      <% for song in @songs.models: %>
-        <% song = song.attributes %>
+      <% for song in @songs: %>
 
         <tr data-song-id="<%= song['id'] %>">
           <td class="now_playing"></td>
@@ -26,9 +25,9 @@
           <td><%= song['artist'] %></td>
           <td><%= song['duration'] %></td>
           <td><%= song['album']['title'] %></td>
-          <td class="rating" data-rating="<%= song['rating'] %>"></td>
+          <td class="rating" data-sort-value="<%= song['rating'] %>" data-rating="<%= song['rating'] %>"></td>
         </tr>
-        
+
       <% end %>
     <% end %>
 

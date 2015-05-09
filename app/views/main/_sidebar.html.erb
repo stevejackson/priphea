@@ -1,6 +1,6 @@
 <div id="sidebar" class="three columns">
   <ul>
-    
+
     <li>
       <i class="fa fa-book"></i>
       <a href="#library">Library</a>
@@ -15,21 +15,22 @@
 
   <h3>Smart Playlists</h3>
 
-  <ul>
-    <li>
-      <i class="fa fa-list-ul"></i>
-      >= 3 stars
-    </li>
-    <li>
-      <i class="fa fa-list-ul"></i>
-      5 stars
-    </li>
-    <li>
-      <i class="fa fa-list-ul"></i>
-      Recently added
-    </li>
-  </ul>
+  <div id="smart_playlist_list">
+    <ul>
+    <% SmartPlaylist.all.each do |playlist| %>
+      <li>
+        <i class="fa fa-list-ul"></i>
+        <%= link_to playlist.name, "#smart_playlists/#{playlist.id}" %>
+        (<%= link_to "Edit", edit_smart_playlist_path(playlist) %>)
+      </li>
 
+    <% end %>
+    </ul>
+  </div>
+
+  <%= link_to "Create new...", new_smart_playlist_path %>
+
+<!--
   <h3>Playlists</h3>
   <ul>
     <li>
@@ -45,4 +46,6 @@
       Relaxing
     </li>
   </ul>
+
+-->
 </div>

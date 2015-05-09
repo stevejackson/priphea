@@ -19,7 +19,14 @@ class Priphea.Views.PlaybackQueue extends Backbone.View
 
   render: ->
     console.log("Rendering Album#Show")
-    $(@el).html(@template(songs: @queue))
+
+    # need to convert the songs to a JSON format before passing
+    json = []
+    for song in @queue.models
+      song = song.attributes
+      json.push song
+
+    $(@el).html(@template(songs: json))
     @applyJquery()
     this
 

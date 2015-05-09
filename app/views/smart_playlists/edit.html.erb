@@ -1,0 +1,10 @@
+<h3>Edit Smart Playlist</h3>
+
+<%= render partial: "form" %>
+
+
+<div>
+<%= link_to "Delete this playlist", smart_playlist_path(@smart_playlist), method: :delete, data: { confirm: "You sure you want to delete this smart playlist?"} %>
+</div>
+
+<%= link_to "Back", root_path %>

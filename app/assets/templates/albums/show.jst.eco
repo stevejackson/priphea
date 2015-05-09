@@ -24,7 +24,7 @@
           <td><%= song['artist'] %></td>
           <td><%= song['duration'] %></td>
           <td><%= @album.get('title') %></td>
-          <td class="rating" data-rating="<%= song['rating'] %>"></td>
+          <td class="rating" data-sort-value="<%= song['rating'] %>" data-rating="<%= song['rating'] %>"></td>
         </tr>
       <% end %>
     <% end %>

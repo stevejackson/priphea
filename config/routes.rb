@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     resources :albums, only: [:index, :show]
     resources :songs, only: [:index, :show, :update]
     resources :song_files, only: [:show]
+    resources :smart_playlists, only: [:index, :show]
     resources :player, only: [] do
       collection do
         post 'set_song_queue'
@@ -17,6 +18,8 @@ Rails.application.routes.draw do
       end
     end
   end
+
+  resources :smart_playlists
 
   resources :settings, only: [:index] do
     collection do

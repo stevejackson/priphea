@@ -7,6 +7,7 @@ class Priphea.Routers.Albums extends Backbone.Router
     'search/:query': 'search'
     'playback_queue': 'playbackQueue'
     'library': 'library'
+    'smart_playlists/:id': 'showSmartPlaylist'
 
   show: (id) ->
     console.log "Showing album #{id}"
@@ -54,3 +55,9 @@ class Priphea.Routers.Albums extends Backbone.Router
     # instantiate album song list
     view = new Priphea.Views.AlbumsShow(0, false, true)
     $('div#song_list').html(view.render().el)
+
+  showSmartPlaylist: (id) ->
+    console.log "Showing smart playlist: #{id}"
+
+    view = new Priphea.Views.ShowSmartPlaylist(id)
+    $("div#browser").html(view.render().el)

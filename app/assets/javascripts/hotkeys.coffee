@@ -2,7 +2,6 @@ $ ->
   focusSearch = ->
     $('#search').focus()
 
-  console.log 'ohe'
   Mousetrap.bind('command+f', ->
     focusSearch()
     return false
