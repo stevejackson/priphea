@@ -21,7 +21,16 @@ class Song
   field :rating, type: Integer # out of 100
 
   def self.build_from_file(filename)
-    song = self.new
+    # if this song already exists, find it first
+    song = Song.find_by(full_path: filename) rescue nil
+    # puts "-$$$$$_$_$_$_$_$"
+    # puts filename.inspect
+    # puts song.inspect
+
+    # otherwise, create a new song from scratch
+    song ||= self.new
+    puts '----'
+    puts song.inspect
 
     metadata = AudioMetadata.from_file(filename)
 
@@ -30,6 +39,7 @@ class Song
     fields.each do |field_name|
       song.send(field_name + "=", metadata[field_name])
     end
+    puts song.inspect
 
     song.full_path = filename
 

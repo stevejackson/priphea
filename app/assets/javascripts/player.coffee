@@ -80,7 +80,10 @@ class @Player
       percent: percent
     }
 
-    $.post("/api/player/seek", params)
+    $.post("/api/player/seek", params, (data) ->
+      player = new Player
+      player.apiUpdateStatus()
+    )
 
     console.log("Sent API request to seek to #{percent}")
 

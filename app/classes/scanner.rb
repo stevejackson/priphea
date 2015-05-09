@@ -25,7 +25,7 @@ class Scanner
           file = file_queue.pop(true) rescue nil
 
           if file && is_supported_audio_format?(file)
-            add_song_to_database(file)
+            import_song_to_database(file)
           end
         end
       end
@@ -43,13 +43,14 @@ class Scanner
     supported.include?(File.extname(filename))
   end
 
-  def add_song_to_database(filename)
+  def import_song_to_database(filename)
     song = Song.build_from_file(filename)
-    
-    if Song.already_exists?(song)
-      false
-    else
-      song.save!
-    end
+    song.save!
+
+    # if Song.already_exists?(song)
+    #   false
+    # else
+    #   song.save!
+    # end
   end
 end
