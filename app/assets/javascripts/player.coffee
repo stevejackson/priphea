@@ -94,11 +94,13 @@ class @Player
     $.post("/api/player/set_volume", params)
     console.log("Sent API request to set volume to #{volumePercent}.")
 
-  apiUpdateStatus: ->
+  # "hardReset" is whether or not to re-render the entire now_playing area with
+  # the latest data.
+  apiUpdateStatus: (hardReset) ->
     $.get("/api/player/update_and_get_status", (data) ->
       console.log "Received successful api status update response."
       player = new Player
-      player.updatePlayerStatus(data)
+      player.updatePlayerStatus(data, hardReset)
     )
     console.log "Sent request for status update."
 
@@ -134,7 +136,10 @@ class @Player
 
     ###### Begin interval polling of song status
     clearInterval(window.updateStatusIntervalId)
-    window.updateStatusIntervalId = setInterval(@apiUpdateStatus, 1000)
+    window.updateStatusIntervalId = setInterval( ->
+        @apiUpdateStatus(false)
+      1000
+    )
 
   # called resume playback of the current song
   resume: ->
@@ -177,7 +182,7 @@ class @Player
     else
       p.resume()
 
-  updatePlayerStatus: (status) ->
+  updatePlayerStatus: (status, hardReset) ->
     console.log("Updating player status with response")
     console.log status
     return false if !status or !status["song"] or !status["song"]["id"]
@@ -185,7 +190,8 @@ class @Player
     localCurrentSong = localStorage.getItem("activeSong")
 
     # if the active song has changed, re-render the now playing area
-    if currentSong != localCurrentSong
+    if hardReset == true or (currentSong != localCurrentSong)
+      console.log "Re-rendering entire now playing area"
       localStorage.setItem("activeSong", currentSong)
       @renderNowPlayingView(currentSong)
       @updateActiveSongIcon()
@@ -219,7 +225,7 @@ class @Player
     currentlyPlaying = localStorage.getItem("activeSong")
     console.log "Currently playing: #{currentlyPlaying}"
 
-    songElements = $("#song_list tr")
+    songElements = $("#song_list_table tr")
 
     # sit 1: double click album. Album replaces entire playQueue. this is used.
     # sit 2: playlist clicked: replaces entire playQueue.
@@ -249,7 +255,7 @@ class @Player
 
     $.each(songs, (index, value) ->
       p = new Player
-      p.renderSingleSongRating($(value))
+      p.renderSingleSongRating($(value), false)
     )
 
     $('table#song_list_table td.rating i').off('click')
@@ -278,11 +284,11 @@ class @Player
 
     # re-render this song's rating now that it's updated
     p = new Player
-    p.renderSingleSongRating $(this).closest('tr')
+    p.renderSingleSongRating($(this).closest('tr'), true)
 
     console.log "Should have synced song rating."
 
-  renderSingleSongRating: (song_tr) ->
+  renderSingleSongRating: (song_tr, clickHandler) ->
     rating_td = $(song_tr).find('td.rating')
 
     existing_rating = $(rating_td).data('rating')
@@ -295,5 +301,6 @@ class @Player
       $(rating_td).html(emptyRatingString)
 
     # reapply click handlers
-    $('table#song_list_table td.rating i').off('click')
-    $('table#song_list_table td.rating i').on('click', @ratingClickHandler)
+    if clickHandler == true
+      $('table#song_list_table td.rating i').off('click')
+      $('table#song_list_table td.rating i').on('click', @ratingClickHandler)

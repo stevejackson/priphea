@@ -13,7 +13,6 @@ class Priphea.Views.ShowSmartPlaylist extends Backbone.View
   render: ->
     console.log("Rendering Album#Show")
 
-    console.log @smart_playlist
     $(@el).html(@template(songs: @smart_playlist.attributes['songs']))
     @applyJquery()
     this
@@ -33,7 +32,7 @@ class Priphea.Views.ShowSmartPlaylist extends Backbone.View
     player = new Player
     player.updateActiveSongIcon()
     player.renderSongRatings()
-    
+
     recalculateSizes()
 
   playSong: (event) ->

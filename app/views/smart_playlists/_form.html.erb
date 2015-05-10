@@ -21,6 +21,12 @@
     <%= f.label "Shuffle on load" %>
     <%= f.check_box :shuffle_on_load %>
   </fieldset>
+
+  <fieldset>
+    <%= f.label "Song limit" %>
+    <%= f.number_field :song_limit %>
+  </fieldset>
+
   <%= f.submit "Save" %>
 
 <% end %>
