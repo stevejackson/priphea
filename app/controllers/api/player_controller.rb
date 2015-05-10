@@ -21,9 +21,6 @@ class Api::PlayerController < ApplicationController
     if !song_ids.empty?
       songs = song_ids.collect { |id| Song.find(id) }
 
-      puts "--------"
-      songs.each { |s| puts s.title }
-
       $player.song_queue = songs
     end
 

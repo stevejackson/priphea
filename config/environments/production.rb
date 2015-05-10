@@ -1,7 +1,7 @@
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
-  Mongoid.logger.level = Logger::DEBUG
-  Mongoid.raise_not_found_error = false
+  # Mongoid.logger.level = Logger::DEBUG
+  # Mongoid.raise_not_found_error = false
 
   # Code is not reloaded between requests.
   config.cache_classes = true
