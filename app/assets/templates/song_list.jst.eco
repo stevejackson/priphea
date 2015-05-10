@@ -3,8 +3,15 @@
     <thead>
       <tr>
         <th></th>
+
+        <% if @show_disc == true: %>
         <th>Disc #</th>
+        <% end %>
+
+        <% if @show_track == true: %>
         <th>Track #</th>
+        <% end %>
+
         <th>Title</th>
         <th>Artist</th>
         <th>Duration</th>
@@ -20,8 +27,15 @@
 
           <tr data-song-id="<%= song['id'] %>">
             <td class="now_playing"></td>
+
+            <% if @show_track == true: %>
             <td><%= song['disc_number'] %></td>
+            <% end %>
+
+            <% if @show_track == true: %>
             <td><%= song['track_number'] %></td>
+            <% end %>
+
             <td><%= song['title'] %></td>
             <td><%= song['artist'] %></td>
             <td><%= song['duration'] %></td>

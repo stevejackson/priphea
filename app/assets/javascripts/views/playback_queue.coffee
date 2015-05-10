@@ -26,18 +26,17 @@ class Priphea.Views.PlaybackQueue extends Backbone.View
       song = song.attributes
       json.push song
 
-    $(@el).html(@template(songs: json))
+    $(@el).html(@template(songs: json, show_disc: false, show_track: false))
     @applyJquery()
     this
 
   applyJquery: ->
     $('#song_list_table tbody tr').on('click', @playSong)
-    #$('table#song_list_table').tablesorter({ sortList: [[1,0], [2,0]] })
 
     player = new Player
     player.updateActiveSongIcon()
     player.renderSongRatings()
-    
+
     recalculateSizes()
 
   playSong: (event) ->

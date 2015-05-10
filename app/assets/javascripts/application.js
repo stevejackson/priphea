@@ -15,6 +15,7 @@
 //= require vendor/sprintf
 //= require vendor/jquery.tablesorter.min
 //= require vendor/mousetrap
+//= require vendor/jquery.lazyload
 //= require underscore
 //= require resizer
 //= require player

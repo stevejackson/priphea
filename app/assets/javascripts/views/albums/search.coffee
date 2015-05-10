@@ -11,7 +11,7 @@ class Priphea.Views.AlbumsSearch extends Backbone.View
         'search_terms_special_match': @query
       }
     }
-    
+
     @albums.on('reset', @render, this)
     @albums.fetch({
       data: $.param(params),
@@ -32,3 +32,9 @@ class Priphea.Views.AlbumsSearch extends Backbone.View
       albumRouter = new Priphea.Routers.Albums
       albumRouter.navigate("#albums/" + albumId + "/play", { trigger: true })
     )
+
+    console.log "Yeahp"
+    $('img.lazy').lazyload({
+      container: $('#cover_art_gallery')
+    })
+    console.log "Oh yeah."

@@ -13,7 +13,7 @@ class Priphea.Views.ShowSmartPlaylist extends Backbone.View
   render: ->
     console.log("Rendering Album#Show")
 
-    $(@el).html(@template(songs: @smart_playlist.attributes['songs']))
+    $(@el).html(@template(songs: @smart_playlist.attributes['songs'], show_disc: false, show_track: false))
     @applyJquery()
     this
 
