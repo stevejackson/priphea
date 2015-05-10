@@ -12,8 +12,6 @@ Bundler.require(*Rails.groups)
 
 module Priphea
   class Application < Rails::Application
-    #Moped.logger.level = Logger::DEBUG
-
     config.autoload_paths += %W( #{config.root}/app/classes )
 
     # disables strong parameters entirely

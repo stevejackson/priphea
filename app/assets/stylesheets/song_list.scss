@@ -40,6 +40,10 @@ table#song_list_table {
     padding-top: 5px;
   }
 
+  td.rating {
+    min-width: 150px;
+  }
+
   th {
     background-color: #f7f7f7;
 
