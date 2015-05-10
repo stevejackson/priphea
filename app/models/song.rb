@@ -23,14 +23,9 @@ class Song
   def self.build_from_file(filename)
     # if this song already exists, find it first
     song = Song.find_by(full_path: filename) rescue nil
-    # puts "-$$$$$_$_$_$_$_$"
-    # puts filename.inspect
-    # puts song.inspect
 
     # otherwise, create a new song from scratch
     song ||= self.new
-    puts '----'
-    puts song.inspect
 
     metadata = AudioMetadata.from_file(filename)
 
