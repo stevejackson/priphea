@@ -12,11 +12,11 @@
 </div>
 
 <div id="now_playing_right_side">
-  <span id="song_info">
+  <a id="song_info" href="#now_playing_to_show_album/<%= @song.get('album_id') %>">
     <strong><%= @song.get("title") %></strong>
     by
     <strong><%= @song.get("artist") %></strong>
-  </span>
+  </a>
 
   <div id="progress_bar">
     <span id="current_time">00:00</span>

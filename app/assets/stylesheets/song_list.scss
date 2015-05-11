@@ -41,12 +41,15 @@ table#song_list_table {
   }
 
   td.rating {
-    min-width: 160px;
+    min-width: 165px;
+    color: $color-medium-gray;
+
     i {
       display: inline-block;
       font-style: normal;
       text-align: center;
       width: 15px;
+
 
       &.empty {
         color: $color-medium-gray;

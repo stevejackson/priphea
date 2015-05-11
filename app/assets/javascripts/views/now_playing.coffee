@@ -26,6 +26,3 @@ class Priphea.Views.NowPlaying extends Backbone.View
     )
 
     $("#now_playing a.lightbox").featherlight('image')
-    # # lightbox for cover art
-    # $("#now_playing #thumbnail").on('click', ->
-    # )

@@ -45,8 +45,11 @@ div#hangbar {
 
     div#thumbnail {
       img, &, a {
+        cursor: pointer;
+
         width: 70px;
         height: 70px;
+
         border-top-left-radius: 10px;
         border-bottom-left-radius: 10px;
 
@@ -64,11 +67,22 @@ div#hangbar {
 
   #now_playing_right_side {
     padding-top: 10px;
+    overflow: hidden;
   }
-  #song_info {
+
+  a#song_info, a#song_info:visited {
+    display: inline-block;
     font-size: 0.9em;
     margin: 0;
     padding: 0;
+
+    width: 90%;
+    height: 1.3em;
+    overflow: hidden;
+
+    text-decoration: none;
+
+    //color: black;
   }
 
   #progress_bar {
@@ -80,6 +94,7 @@ div#hangbar {
     #current_time, #total_length {
       display: inline-block;
       font-size: 0.8em;
+      color: black;
 
       margin: 0;
       padding: 0;

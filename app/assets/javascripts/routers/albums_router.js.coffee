@@ -8,6 +8,7 @@ class Priphea.Routers.Albums extends Backbone.Router
     'playback_queue': 'playbackQueue'
     'library': 'library'
     'smart_playlists/:id': 'showSmartPlaylist'
+    'now_playing_to_show_album/:id': 'nowPlayingToShowAlbum'
 
   show: (id) ->
     console.log "Showing album #{id}"
@@ -61,3 +62,26 @@ class Priphea.Routers.Albums extends Backbone.Router
 
     view = new Priphea.Views.ShowSmartPlaylist(id)
     $("div#browser").html(view.render().el)
+
+  # when clicking a song in the "now_playing" area, it should render the
+  # library view and show that album
+  nowPlayingToShowAlbum: (id) ->
+    console.log "In nowPlayingToShowAlbum router"
+
+    # instantiate base library view
+    view = new Priphea.Views.Library()
+    # using "childnodes" avoids the output being wrapped in a div by default
+    $("div#browser").html("").append(view.render().el.childNodes);
+    recalculateSizes()
+
+    # instantiate cover art browser
+    view = new Priphea.Views.AlbumsSearch("")
+    $("div#cover_art_gallery").html(view.render().el)
+
+    # instantiate album song list
+    view = new Priphea.Views.AlbumsShow(0, false, true)
+    $('div#song_list').html(view.render().el)
+
+    # redirect to "show_album"
+    #albumRouter = new Priphea.Routers.Albums()
+    @navigate("#albums/" + id, { trigger: true })
