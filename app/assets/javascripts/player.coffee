@@ -34,6 +34,10 @@ generateStarRatingHTML = (rating) ->
       #ratingHtml += "<i class='fa fa-star-o' data-star-number='" + (i+1) + "'></i>"
       ratingHtml += "<i class='empty' data-star-number='" + (i+1) + "'>&#9675;</i>"
 
+    # after 5th star, output a 'separator'
+    if i == 4
+      ratingHtml += " - "
+
     i++
 
   ratingHtml
