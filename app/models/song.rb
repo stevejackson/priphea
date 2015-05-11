@@ -20,6 +20,9 @@ class Song
 
   field :rating, type: Integer # out of 100
 
+  # indices
+  index( { rating: 1 }, { unique: false, name: "rating_index" })
+
   def self.build_from_file(filename)
     # if this song already exists, find it first
     song = Song.find_by(full_path: filename) rescue nil
