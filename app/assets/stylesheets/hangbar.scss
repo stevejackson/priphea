@@ -44,7 +44,7 @@ div#hangbar {
     padding-right: 10px;
 
     div#thumbnail {
-      img, & {
+      img, &, a {
         width: 70px;
         height: 70px;
         border-top-left-radius: 10px;

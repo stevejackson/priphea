@@ -24,3 +24,8 @@ class Priphea.Views.NowPlaying extends Backbone.View
       player = new Player
       player.apiSeek(percent)
     )
+
+    $("#now_playing a.lightbox").featherlight('image')
+    # # lightbox for cover art
+    # $("#now_playing #thumbnail").on('click', ->
+    # )

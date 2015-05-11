@@ -16,6 +16,7 @@
 //= require vendor/jquery.tablesorter.min
 //= require vendor/mousetrap
 //= require vendor/jquery.lazyload
+//= require vendor/featherlight.min
 //= require underscore
 //= require resizer
 //= require player

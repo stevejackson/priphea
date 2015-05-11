@@ -1,7 +1,9 @@
 <div id="song_art">
   <% if @song.get('has_cover_art'): %>
     <div id="thumbnail">
-      <img src="/cover_art/<%= @song.get('album_id') %>" />
+      <a class="lightbox" data-featherlight="/cover_art/<%= @song.get('album_id') %>">
+        <img src="/cover_art/<%= @song.get('album_id') %>" />
+      </a>
     </div>
   <% else: %>
     <div id="thumbnail" class="no_art">
