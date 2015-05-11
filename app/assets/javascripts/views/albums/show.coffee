@@ -37,6 +37,8 @@ class Priphea.Views.AlbumsShow extends Backbone.View
             return $(node).text()
         })
 
+    $('table#song_list_table th.now_playing').off('click')
+
     player = new Player
     player.updateActiveSongIcon()
     player.renderSongRatings()

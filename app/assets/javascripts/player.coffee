@@ -189,9 +189,11 @@ class @Player
       p.resume()
 
   updatePlayerStatus: (status, hardReset) ->
-    console.log("Updating player status with response")
-    console.log status
+    # console.log("Updating player status with response")
+    # console.log status
+
     return false if !status or !status["song"] or !status["song"]["id"]
+    
     currentSong = status["song"]["id"]
     localCurrentSong = localStorage.getItem("activeSong")
 

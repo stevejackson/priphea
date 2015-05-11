@@ -122,8 +122,8 @@ class Album
   end
 
   def as_json_with_songs(*args)
-    res = as_json(*args)
-    res["id"] = res.delete("_id").to_s
+    res = self.as_json
+    #res["id"] = res.delete("_id").to_s
     res["songs"] = self.songs.as_json
     res["has_cover_art"] = self.has_cover_art?
 

@@ -2,7 +2,7 @@
   <% if @albums?: %>
     <% for album in @albums.models:  %>
       <% album = album.attributes %>
-      <div class="album">
+      <div class="album" id="album_<%= album['id'] %>">
         <div class="cover">
           <a href="#albums/<%= album['id'] %>" data-album-id="<%= album['id'] %>">
             <% if album['has_cover_art'] == true: %>

@@ -1,6 +1,7 @@
 class Priphea.Routers.Albums extends Backbone.Router
   routes:
     'albums/:id': 'show'
+    'albums_scroll/:id': 'show_and_scroll'
     'albums/:id/play': 'show_and_play'
     'albums': 'all'
     'search': 'search'
@@ -15,6 +16,21 @@ class Priphea.Routers.Albums extends Backbone.Router
 
     view = new Priphea.Views.AlbumsShow(id, false, false)
     $('div#song_list').html(view.render().el)
+
+  show_and_scroll: (id) ->
+    console.log "Scrolling to Album #{id}"
+
+
+    albumSelector = "#album_#{id}"
+    albumTop = $(albumSelector).offset().top
+
+    console.log "AlbumTop: #{albumTop}"
+    console.log "selector: #{albumSelector}"
+    console.log "selector: " + $(albumSelector).html()
+    
+    $("#cover_art_gallery").animate({
+      scrollTop: albumTop
+    }, "slow")
 
   show_and_play: (id) ->
     console.log "Showing and playing album #{id}"
