@@ -35,6 +35,7 @@ class Priphea.Views.AlbumsSearch extends Backbone.View
 
     console.log "Yeahp"
     $('img.lazy').lazyload({
-      container: $('#cover_art_gallery')
+      container: $('#cover_art_gallery'),
+      effect: 'fadeIn'
     })
     console.log "Oh yeah."

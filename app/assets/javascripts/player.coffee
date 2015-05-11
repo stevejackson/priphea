@@ -29,9 +29,10 @@ generateStarRatingHTML = (rating) ->
   i = 0
   while i < 10
     if i < rating # filled star
-      ratingHtml += "<i class='fa fa-star' data-star-number='" + (i+1) + "'></i>"
+      ratingHtml += "<i class='fa fa-star star' data-star-number='" + (i+1) + "'></i>"
     else # empty star
-      ratingHtml += "<i class='fa fa-star-o' data-star-number='" + (i+1) + "'></i>"
+      #ratingHtml += "<i class='fa fa-star-o' data-star-number='" + (i+1) + "'></i>"
+      ratingHtml += "<i class='empty' data-star-number='" + (i+1) + "'>&#9675;</i>"
 
     i++
 
