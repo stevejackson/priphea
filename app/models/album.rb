@@ -1,5 +1,4 @@
 class Album
-
   include Mongoid::Document
 
   has_many :songs
@@ -13,7 +12,12 @@ class Album
 
   field :search_terms, type: String
 
+
   before_save :update_search_terms
+
+  def active?
+    self.songs.any? && self.songs.active.count > 0
+  end
 
   def self.find_by_title_or_create_new(title)
     album = Album.where(title: title).first_or_create
@@ -117,15 +121,15 @@ class Album
 
     res["id"] = res.delete("_id").to_s
     res["has_cover_art"] = self.has_cover_art?
+    res["active"] = self.active?
 
     res
   end
 
   def as_json_with_songs(*args)
     res = self.as_json
-    #res["id"] = res.delete("_id").to_s
-    res["songs"] = self.songs.as_json
-    res["has_cover_art"] = self.has_cover_art?
+
+    res["songs"] = self.songs.active.as_json
 
     res
   end

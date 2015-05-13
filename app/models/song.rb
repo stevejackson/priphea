@@ -3,9 +3,7 @@ class Song
   include Mongoid::Attributes::Dynamic
   include Mongoid::Timestamps # created_at & updated_at
 
-
   belongs_to :album
-
 
   # metadata fields
   field :title, type: String
@@ -20,8 +18,13 @@ class Song
 
   field :rating, type: Integer # out of 100
 
+  field :state, type: String
+
   # indices
   index( { rating: 1 }, { unique: false, name: "rating_index" })
+  index( { state: 1 }, { unique: false, name: "state_index" })
+
+  scope :active, -> { where(state: "active") }
 
   def self.build_from_file(filename)
     # if this song already exists, find it first
@@ -29,6 +32,15 @@ class Song
 
     # otherwise, create a new song from scratch
     song ||= self.new
+
+    if !File.exists?(filename)
+      # if the file doesn't exist, we still want to import
+      #  keep this in the database. sometimes files will be
+      #  changed or moved and reimported and their files are missing,
+      #  but we want them in the database to save their ratings/tags.
+      song.state = 'missing'
+      return song
+    end
 
     metadata = AudioMetadata.from_file(filename)
 
@@ -45,6 +57,8 @@ class Song
     if metadata["album"]
       song.album = Album.find_by_title_or_create_new(metadata['album'])
     end
+
+    song.state = 'active'
 
     song
   end

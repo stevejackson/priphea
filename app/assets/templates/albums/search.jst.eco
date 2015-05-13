@@ -2,25 +2,28 @@
   <% if @albums?: %>
     <% for album in @albums.models:  %>
       <% album = album.attributes %>
-      <div class="album" id="album_<%= album['id'] %>">
-        <div class="cover">
-          <a href="#albums/<%= album['id'] %>" data-album-id="<%= album['id'] %>">
-            <% if album['has_cover_art'] == true: %>
-              <img class="lazy" src="" data-original="/cover_art/<%= album['id'] %>">
-            <% else: %>
-              <div class="no_cover">
-              </div>
-            <% end %>
-          </a>
-        </div>
+      <% console.log album["active"] %>
+      <% unless album['active'] == false: %>
+        <div class="album" id="album_<%= album['id'] %>">
+          <div class="cover">
+            <a href="#albums/<%= album['id'] %>" data-album-id="<%= album['id'] %>">
+              <% if album['has_cover_art'] == true: %>
+                <img class="lazy" src="" data-original="/cover_art/<%= album['id'] %>">
+              <% else: %>
+                <div class="no_cover">
+                </div>
+              <% end %>
+            </a>
+          </div>
 
-        <div class="album_title">
-          <p>
-            <%= album.title %>
-          </p>
-        </div>
+          <div class="album_title">
+            <p>
+              <%= album.title %>
+            </p>
+          </div>
 
-      </div>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 </div> <!-- #content_area -->

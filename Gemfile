@@ -15,9 +15,13 @@ gem 'backbone-on-rails', '~> 1.1'
 
 gem 'mini_exiftool', git: 'https://github.com/stevejackson/mini_exiftool.git', branch: 'master'
 
-gem 'ransack'
+gem 'ransack', '~> 1.6'
 
 gem 'pry-rails', '~> 0.3'
+
+# file change monitoring
+gem 'guard', '~> 2.12'
+gem 'guard-compat', '~> 1.2'
 
 group :development do
   gem 'thin', '~> 1.6'

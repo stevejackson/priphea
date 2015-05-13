@@ -2,11 +2,14 @@ class MainController < ApplicationController
 
   def index
     @albums = Album.asc(:title).all
+    @albums = @albums.select(&:active?)
   end
 
   def rescan
-    scanner = Scanner.new(Settings.library_path)
-    scanner.scan
+    background do
+      scanner = Scanner.new(Settings.library_path)
+      scanner.scan
+    end
 
     redirect_to root_path
   end
