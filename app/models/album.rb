@@ -21,6 +21,8 @@ class Album
 
   def update_active
     self.active = (self.songs.any? && self.songs.active.count > 0)
+    
+    true
   end
 
   def self.find_by_title_or_create_new(title)

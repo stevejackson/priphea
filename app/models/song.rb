@@ -33,6 +33,8 @@ class Song
       self.album.update_active
       self.album.save!
     end
+
+    true
   end
 
   def self.build_from_file(filename)
