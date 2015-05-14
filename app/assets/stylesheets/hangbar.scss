@@ -73,6 +73,11 @@ div#hangbar {
   a#scroll_to_album, a#scroll_to_album:visited {
     display: inline;
     text-decoration: none;
+    height: 1.3em;
+    font-size: 0.9em;
+    margin: 0;
+    padding: 0;
+    padding-right: 5px;
   }
 
   a#song_info, a#song_info:visited {

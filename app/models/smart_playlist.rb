@@ -21,15 +21,15 @@ class SmartPlaylist
 
     if self.shuffle_on_load
       if self.song_limit
-        songs = Song.for_js(self.mongoid_query).sort_by { rand }.first(self.song_limit)
+        songs = Song.active.for_js(self.mongoid_query).sort_by { rand }.first(self.song_limit)
       else
-        songs = Song.for_js(self.mongoid_query).sort_by { rand }
+        songs = Song.active.for_js(self.mongoid_query).sort_by { rand }
       end
     else
       if self.song_limit
-        songs = Song.for_js(self.mongoid_query).limit(self.song_limit)
+        songs = Song.active.for_js(self.mongoid_query).limit(self.song_limit)
       else
-        songs = Song.for_js(self.mongoid_query)
+        songs = Song.active.for_js(self.mongoid_query)
       end
     end
 
