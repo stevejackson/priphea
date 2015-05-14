@@ -6,11 +6,6 @@ Prerequisites:
 * exiftool
 * mongodb
 
-```
-bundle install
-rails s thin -p 3000
-```
-
 ## To view database
 
 Could vary, check `config/mongoid.yml`, but probably:
@@ -39,3 +34,20 @@ mongorestore --host 127.0.0.1 --port 27017 /tmp/mongodump1
 ```
 
 The database is selected automatically (the same database that was used for exporting it.)
+
+
+## To run the application
+
+I add the following to my `~/.zshrc`:
+
+```
+alias priphea='/bin/zsh -l -i -c "/Users/steve/dev/priphea_production/run.sh"'
+```
+
+Now I run "priphea" in shell, and it runs the application.
+
+You must add the following to your crontab to handle file change notifications:
+
+```
+* * * * * /bin/zsh -l -i -c 'cd /Users/steve/dev/priphea_production && bin/rails runner -e production '\''FileNotificationProcessor.process!'\'' >> /tmp/priphea_cron.log 2>&1'
+```
