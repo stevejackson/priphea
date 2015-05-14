@@ -22,7 +22,7 @@ class Priphea.Routers.Albums extends Backbone.Router
 
 
     albumSelector = "#album_#{id}"
-    albumTop = $(albumSelector).offset().top - $('#hangbar').height()
+    albumTop = $(albumSelector).offset().top - $('#hangbar').height() - 20
 
     console.log "AlbumTop: #{albumTop}"
     console.log "selector: #{albumSelector}"
