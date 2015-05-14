@@ -12,7 +12,11 @@
 </div>
 
 <div id="now_playing_right_side">
+  <a id="scroll_to_album" href="#albums_scroll/<%= @song.get('album_id') %>">
+    <i class="fa fa-binoculars"></i>
+  </a>
   <a id="song_info" href="#now_playing_to_show_album/<%= @song.get('album_id') %>">
+    -
     <strong><%= @song.get("title") %></strong>
     by
     <strong><%= @song.get("artist") %></strong>

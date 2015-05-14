@@ -70,6 +70,11 @@ div#hangbar {
     overflow: hidden;
   }
 
+  a#scroll_to_album, a#scroll_to_album:visited {
+    display: inline;
+    text-decoration: none;
+  }
+
   a#song_info, a#song_info:visited {
     display: inline-block;
     font-size: 0.9em;
@@ -81,8 +86,6 @@ div#hangbar {
     overflow: hidden;
 
     text-decoration: none;
-
-    //color: black;
   }
 
   #progress_bar {

@@ -1,12 +1,7 @@
-        <% console.log @album %>
-
 <table id="song_list_table" class="tablesorter">
   <thead>
     <tr>
       <th class='now_playing'>
-        <a href="#albums_scroll/<%= @album.get('id') %>">
-          <i class="fa fa-binoculars"></i>
-        </a>
       </th>
       <th>Disc #</th>
       <th>Track #</th>
