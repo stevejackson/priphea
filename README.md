@@ -51,3 +51,5 @@ You must add the following to your crontab to handle file change notifications:
 ```
 * * * * * /bin/zsh -l -i -c 'cd /Users/steve/dev/priphea_production && bin/rails runner -e production '\''FileNotificationProcessor.process!'\'' >> /tmp/priphea_cron.log 2>&1'
 ```
+
+*You must also change the music lib AND database hardcoded within `Guardfile`.*

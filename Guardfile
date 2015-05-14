@@ -55,7 +55,11 @@ module ::Guard
     def insert_into_file_notifications(paths, event_type)
       begin
         session = Moped::Session.new([ "127.0.0.1:27017" ])
-        session.use("priphea-development")
+        if ENV["RAILS_ENV"] == 'production'
+          session.use("priphea-production")
+        else
+          session.use("priphea-development")
+        end
 
         if paths.is_a? String
           paths = [paths]
@@ -122,8 +126,14 @@ end
 
 #notification :growl_notify
 
-#directories %W{ #{Settings.library_path} }
-directories %w{ /Users/steve/fakemusiclib }
+paths = if ENV["RAILS_ENV"] == "production"
+  %w{ /Volumes/Kiki/musiclib }
+else
+  %w{ /Users/steve/fakemusiclib }
+end
+
+
+directories paths
 guard :monitor do
   watch %r{/(.+).(flac|mp3)}
 end
