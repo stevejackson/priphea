@@ -12,11 +12,15 @@ class Album
 
   field :search_terms, type: String
 
+  field :active, type: Boolean
+
+  scope :is_active, -> { where(active: true) }
 
   before_save :update_search_terms
+  before_save :update_active
 
-  def active?
-    self.songs.any? && self.songs.active.count > 0
+  def update_active
+    self.active = (self.songs.any? && self.songs.active.count > 0)
   end
 
   def self.find_by_title_or_create_new(title)

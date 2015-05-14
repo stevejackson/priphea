@@ -26,6 +26,15 @@ class Song
 
   scope :active, -> { where(state: "active") }
 
+  after_save :update_album_active
+
+  def update_album_active
+    if self.album
+      self.album.update_active
+      self.album.save!
+    end
+  end
+
   def self.build_from_file(filename)
     # if this song already exists, find it first
     song = Song.find_by(full_path: filename) rescue nil

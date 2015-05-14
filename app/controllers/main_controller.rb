@@ -2,7 +2,7 @@ class MainController < ApplicationController
 
   def index
     @albums = Album.asc(:title).all
-    @albums = @albums.select(&:active?)
+    @albums = @albums.is_active
   end
 
   def rescan
