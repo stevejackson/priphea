@@ -22,7 +22,7 @@ RAILS_ENV=production rails s thin -p 3456 &> /dev/null &
 
 echo "-----"
 echo "Starting up guard to monitor file notifications..."
-RAILS_ENV=production bundle exec guard &> /dev/null &
+RAILS_ENV=production bundle exec guard --no-interactions &> /dev/null &
 
 echo "-----"
 echo "Starting up cmus for audio playback..."
