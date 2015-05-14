@@ -2,6 +2,7 @@ class Api::AlbumsController < ApplicationController
   def index
     albums =  Album.asc(:title).all
     if params[:q].present? && params[:q][:search_terms_special_match].present? && !params[:q][:search_terms_special_match].blank?
+      #binding.pry
       q = Album.ransack(params[:q])
       albums = q.result.asc(:title)
     end
@@ -18,5 +19,5 @@ class Api::AlbumsController < ApplicationController
       render json: {}, status: 404
     end
   end
-  
+
 end

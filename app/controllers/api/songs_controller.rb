@@ -2,6 +2,7 @@ class Api::SongsController < ApplicationController
   def index
     # is this a request to return the active playback queue?
     if params[:playback_queue]
+      $player.song_queue.each(&:reload)
       render json: $player.song_queue.collect(&:as_json)
     end
   end
