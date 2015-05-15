@@ -8,6 +8,10 @@ $ ->
     player = new Player
     player.apiSetVolume(value)
 
+    $("#volume_control").blur()
+    
+    false
+
   $("#volume_control").on("change", updateVolume)
 
   updateVolume()
