@@ -3,7 +3,7 @@ module ImageMetadata
     begin
       metadata = MiniExiftool.new(filename)
       { width: metadata.width, height: metadata.height }
-    rescue
+    rescue => e
       { width: nil, height: nil }
     end
   end

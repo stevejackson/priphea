@@ -119,6 +119,22 @@ class @Player
     songQueue = [songId]
     @apiSetSongQueue(songQueue)
 
+  uiDrawPauseButton: ->
+    output = "<a href='#'> <i class='pause-play-icon fa fa-pause fa-2x'></i> </a>"
+
+    $("#play_pause_button").html(output)
+
+    $("#play_pause_button").off("click")
+    $("#play_pause_button").on("click", @handlePausePlayClick)
+
+  uiDrawPlayButton: ->
+    output = "<a href='#'> <i class='pause-play-icon fa fa-play fa-2x'></i> </a>"
+
+    $("#play_pause_button").html(output)
+
+    $("#play_pause_button").off("click")
+    $("#play_pause_button").on("click", @handlePausePlayClick)
+
   # called to begin new playback of a selected song, NOT to resume
   playActiveSong: ->
     songId = localStorage.getItem("activeSong")
@@ -132,12 +148,8 @@ class @Player
     ###### Update pause/play icon to "can pause" icon
     localStorage.setItem("paused", "false")
 
-    output = "<a href='#'> <i class='pause-play-icon fa fa-pause fa-2x'></i> </a>"
+    @uiDrawPauseButton()
 
-    $("#play_pause_button").html(output)
-
-    $("#play_pause_button").off("click")
-    $("#play_pause_button").on("click", @handlePausePlayClick)
 
     ###### Begin interval polling of song status
     clearInterval(window.updateStatusIntervalId)
@@ -193,7 +205,7 @@ class @Player
     # console.log status
 
     return false if !status or !status["song"] or !status["song"]["id"]
-    
+
     currentSong = status["song"]["id"]
     localCurrentSong = localStorage.getItem("activeSong")
 
@@ -221,6 +233,12 @@ class @Player
 
     $("#now_playing #total_length").text(readableTotal)
     $("#now_playing #current_time").text(readableCurrent)
+
+    # update "pause/play" button
+    if status["status"] == "playing"
+      @uiDrawPauseButton()
+    else
+      @uiDrawPlayButton()
 
   renderNowPlayingView: (songId) ->
     nowPlayingView = new Priphea.Views.NowPlaying(songId)
@@ -268,6 +286,35 @@ class @Player
 
     $('table#song_list_table td.rating i').off('click')
     $('table#song_list_table td.rating i').on('click', @ratingClickHandler)
+    $('table#song_list_table td.rating i').on('contextmenu', @clearRatingClickHandler)
+
+  clearRatingClickHandler: (e) ->
+    e.stopPropagation()
+
+    starNumber = ""
+    starNumberInt = null
+
+    songId = $(this).closest('tr').data('song-id')
+
+    # update song in the database
+    song = new Priphea.Models.Song({ id: songId })
+
+    song.set({
+      rating: null
+    })
+
+    song.save()
+
+    # update the DOM storing the rating
+    $(this).closest('td').attr('data-rating', null)
+    $(this).closest('td').data('rating', null)
+
+    # re-render this song's rating now that it's updated
+    p = new Player
+    p.renderSingleSongRating($(this).closest('tr'), true)
+
+    console.log "Should have synced song rating."
+    false
 
   ratingClickHandler: (e) ->
     e.stopPropagation() # don't activate other click handlers
@@ -312,3 +359,4 @@ class @Player
     if clickHandler == true
       $('table#song_list_table td.rating i').off('click')
       $('table#song_list_table td.rating i').on('click', @ratingClickHandler)
+      $('table#song_list_table td.rating i').on('contextmenu', @clearRatingClickHandler)
