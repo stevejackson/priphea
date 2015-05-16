@@ -12,7 +12,11 @@ module FileNotificationProcessor
     FileNotification.all.each do |fn|
       puts "Processing notification: #{fn.inspect}"
       scanner = Scanner.new(Settings.library_path)
-      scanner.import_song_to_database(fn.path)
+      song = scanner.import_song_to_database(fn.path)
+
+      if song && song.album
+        song.album.update_cover_art_cache
+      end
 
       fn_ids_processed << fn.id
     end

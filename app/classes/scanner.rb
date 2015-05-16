@@ -46,5 +46,6 @@ class Scanner
   def import_song_to_database(filename)
     song = Song.build_from_file(filename)
     song.save!
+    song
   end
 end
