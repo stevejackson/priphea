@@ -9,7 +9,7 @@ module FileNotificationProcessor
 
     fn_ids_processed = []
 
-    FileNotification.all.each do |fn|
+    FileNotification.limit(30).each do |fn|
       puts "Processing notification: #{fn.inspect}"
       scanner = Scanner.new(Settings.library_path)
       song = scanner.import_song_to_database(fn.path)
