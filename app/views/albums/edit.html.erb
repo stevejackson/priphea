@@ -1,0 +1,14 @@
+<h2>Edit album <%= @album.title %></h2>
+
+<p>
+  Inspection: <%= @album.inspect %>
+</p>
+
+<%= form_for @album do |f| %>
+  <fieldset>
+    <%= f.label :custom_tags, "Custom tags" %>
+    <%= f.text_field :custom_tags, { placeholder: "write any custom searchable tags", size: 100 } %>
+  </fieldset>
+
+  <%= f.submit "Save changes & update art cache" %>
+<% end %>

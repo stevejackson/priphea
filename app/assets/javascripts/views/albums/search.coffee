@@ -33,6 +33,16 @@ class Priphea.Views.AlbumsSearch extends Backbone.View
       albumRouter.navigate("#albums/" + albumId + "/play", { trigger: true })
     )
 
+    $(".album a").on("contextmenu", (e) ->
+      e.preventDefault()
+
+      albumId = $(this).data("album-id")
+
+      window.location.href = "/albums/" + albumId + "/edit"
+
+      return false
+    )
+
     $('img.lazy').lazyload({
       container: $('#cover_art_gallery'),
       effect: 'fadeIn'

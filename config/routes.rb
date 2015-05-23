@@ -27,6 +27,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :albums do
+  end
+
   get '/cover_art/:album_id' => 'cover_art#cover_art_cache', as: :cover_art
 
   resources :main, only: [:index] do

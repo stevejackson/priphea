@@ -10,6 +10,8 @@ class Album
   field :cover_art_width, type: Integer
   field :cover_art_height, type: Integer
 
+  field :custom_tags, type: String
+
   field :search_terms, type: String
 
   field :active, type: Boolean
@@ -21,7 +23,7 @@ class Album
 
   def update_active
     self.active = (self.songs.any? && self.songs.active.count > 0)
-    
+
     true
   end
 
@@ -117,7 +119,7 @@ class Album
       album_artist = self.songs.first.album_artist
     end
 
-    terms = "#{self.title} #{artist} #{album_artist}"
+    terms = "#{self.title} #{artist} #{album_artist} #{self.custom_tags}"
     self.search_terms = SearchUtils::search_format(terms)
   end
 
