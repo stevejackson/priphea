@@ -39,9 +39,11 @@ class MainController < ApplicationController
   end
 
   def check_file_existence
+    song_count = Song.count
+
     Song.all.each_with_index do |song, index|
-      puts "--- Song index: #{index}"
-      
+      Rails.logger.info "--- Song existence index: #{index}/#{song_count}"
+
       song.check_existence!
     end
 
