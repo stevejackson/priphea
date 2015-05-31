@@ -23,7 +23,7 @@ module FileNotificationProcessor
 
     fn_ids_processed.each do |id|
       puts "Deleting notification: #{id}"
-      FileNotification.find(id).delete!
+      FileNotification.find(id).delete
     end
   end
 
