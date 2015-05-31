@@ -38,6 +38,7 @@ Rails.application.routes.draw do
       post 'destroy_and_rescan'
       post 'update_cover_art_cache'
       post 'scan_for_file_notification_changes'
+      post 'check_file_existence'
     end
   end
 
@@ -45,6 +46,7 @@ Rails.application.routes.draw do
   post '/destroy_and_rescan' => 'main#destroy_and_rescan', as: :destroy_and_rescan
   post '/update_cover_art_cache' => 'main#update_cover_art_cache', as: :update_cover_art_cache
   post '/scan_for_file_notification_changes' => 'main#scan_for_file_notification_changes', as: :scan_for_file_notification_changes
+  post '/check_file_existence' => 'main#check_file_existence', as: :check_file_existence
 
   root to: "main#index"
 end

@@ -34,6 +34,13 @@ class MainController < ApplicationController
 
   def scan_for_file_notification_changes
     FileNotificationProcessor.process!
+
+    redirect_to root_path
+  end
+
+  def check_file_existence
+    Song.all.each(&:check_existence!)
+
     redirect_to root_path
   end
 

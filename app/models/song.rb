@@ -1,7 +1,7 @@
 class Song
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
-  include Mongoid::Timestamps # created_at & updated_at
+  include Mongoid::Timestamps
 
   belongs_to :album
 
@@ -18,9 +18,9 @@ class Song
 
   field :rating, type: Integer # out of 100
 
+  # states: "missing", "active"
   field :state, type: String
 
-  # indices
   index( { rating: 1 }, { unique: false, name: "rating_index" })
   index( { state: 1 }, { unique: false, name: "state_index" })
 
@@ -88,6 +88,16 @@ class Song
 
   def self.already_exists?(song)
     Song.where({ full_path: song.full_path }).exists?
+  end
+
+  def check_existence!
+    if self.full_path && File.exists?(self.full_path)
+      self.state = 'active'
+    else
+      self.state = 'missing'
+    end
+
+    self.save!
   end
 
 end
