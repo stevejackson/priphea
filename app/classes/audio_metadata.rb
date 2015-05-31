@@ -11,7 +11,7 @@ class AudioMetadata
       metadata['duration'] = AudioMetadata::mp3_duration(song.duration.to_s)
     elsif %w(.flac .FLAC).include?(file_extension)
       metadata['track_number'] = song.track_number
-      metadata['disc_number'] = song.disc
+      metadata['disc_number'] = AudioMetadata::flac_disc_number(song.disc, song.disc_number)
       metadata['duration'] = AudioMetadata::mp3_duration(song.duration.to_s)
     end
 
@@ -37,6 +37,19 @@ class AudioMetadata
   # convert this to 1
   def self.mp3_disc_number(disc_number_string)
     if disc_number_string && (index = disc_number_string.index('/'))
+      disc_number_string[0, index]
+    else
+      disc_number_string
+    end
+  end
+
+  # flac sometimes uses `disc` tag, sometimes `disc_number`, sometimes
+  # in format 1/2
+  # convert this to 1
+  def self.flac_disc_number(disc, disc_number)
+    disc_number_string = disc_number || disc
+
+    if disc_number_string && disc_number_string.is_a?(String) && (index = disc_number_string.index('/'))
       disc_number_string[0, index]
     else
       disc_number_string

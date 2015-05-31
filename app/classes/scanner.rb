@@ -17,17 +17,13 @@ class Scanner
     threads = []
 
     # create a queue pool to process all files
-    Settings.scanning_threads.times do
-      threads << Thread.new do
-        until file_queue.empty?
-          Rails.logger.info "File queue length: #{file_queue.length}"
+    until file_queue.empty?
+      Rails.logger.info "File queue length: #{file_queue.length}"
 
-          file = file_queue.pop(true) rescue nil
+      file = file_queue.pop(true) rescue nil
 
-          if file && is_supported_audio_format?(file)
-            import_song_to_database(file)
-          end
-        end
+      if file && is_supported_audio_format?(file)
+        import_song_to_database(file)
       end
     end
 

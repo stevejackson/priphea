@@ -76,10 +76,7 @@ class Player
     output = %x[cmus-remote --query]
     results = parse_status_into_hash(output)
 
-    puts "Got results of cmus-remote --query into hash: #{results.inspect}"
-
     if %w(playing).include?(results[:status])
-      puts "Playing!"
       results[:song] = @active_song.as_json
     end
 
