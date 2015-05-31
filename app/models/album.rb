@@ -10,6 +10,8 @@ class Album
   field :cover_art_width, type: Integer
   field :cover_art_height, type: Integer
 
+  field :cover_art_file_thumbnail_500, type: String
+
   field :custom_tags, type: String
 
   field :search_terms, type: String
@@ -105,6 +107,22 @@ class Album
 
           self.save!
         end
+      end
+
+      # make thumbnail cache version, 500px
+      unless self.cover_art_cache_file.blank?
+        Rails.logger.info "Trying to make a 500px thumbnail version of album art."
+
+        output_filename = self.cover_art_cache_file + "_500"
+        Rails.logger.info "Outputting to file: #{output_filename}"
+
+        ImageProcessing::make_thumbnail_500(
+          File.join(Settings.cover_art_cache, self.cover_art_cache_file),
+          File.join(Settings.cover_art_cache, output_filename)
+        )
+
+        self.cover_art_file_thumbnail_500 = output_filename
+        self.save!
       end
 
     end

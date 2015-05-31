@@ -8,7 +8,7 @@
           <div class="cover">
             <a href="#albums/<%= album['id'] %>" data-album-id="<%= album['id'] %>">
               <% if album['has_cover_art'] == true: %>
-                <img class="lazy" src="" data-original="/cover_art/<%= album['id'] %>">
+                <img class="lazy" src="" data-original="/cover_art/<%= album['id'] %>?thumbnail=true">
               <% else: %>
                 <div class="no_cover">
                 </div>
