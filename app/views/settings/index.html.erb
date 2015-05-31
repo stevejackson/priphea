@@ -17,3 +17,9 @@
     <%= submit_tag "Update cover art cache", data: { confirm: "You want to reprocess your artworks?" } %>
   <% end %>
 </fieldset>
+
+<fieldset>
+  <%= form_tag(scan_for_file_notification_changes_path, method: :post) do %>
+    <%= submit_tag "Scan for file notification changes" %>
+  <% end %>
+</fieldset>

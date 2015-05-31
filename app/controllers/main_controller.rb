@@ -32,5 +32,10 @@ class MainController < ApplicationController
     redirect_to root_path
   end
 
+  def scan_for_file_notification_changes
+    FileNotificationProcessor.process!
+    redirect_to root_path
+  end
+
 
 end
