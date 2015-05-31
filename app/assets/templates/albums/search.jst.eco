@@ -2,7 +2,6 @@
   <% if @albums?: %>
     <% for album in @albums.models:  %>
       <% album = album.attributes %>
-      <% console.log album["active"] %>
       <% unless album['active'] == false: %>
         <div class="album" id="album_<%= album['id'] %>">
           <div class="cover">

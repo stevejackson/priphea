@@ -1,3 +1,15 @@
+window.scrollToAlbum = (id) ->
+  console.log "Scrolling to Album #{id}"
+
+  albumSelector = "#album_#{id}"
+  albumTop = $(albumSelector).position().top - $('#hangbar').height() - 20
+
+  currentScrollTop = $("#cover_art_gallery").scrollTop()
+
+  $("#cover_art_gallery").animate({
+    scrollTop: albumTop + currentScrollTop
+  }, "slow")
+  
 $ ->
   localStorage.setItem("paused", false)
 

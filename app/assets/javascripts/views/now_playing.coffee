@@ -26,3 +26,11 @@ class Priphea.Views.NowPlaying extends Backbone.View
     )
 
     $("#now_playing a.lightbox").featherlight('image')
+
+    $("#scroll_to_album").on('click', (e) ->
+      e.preventDefault()
+
+      albumId = $(this).data('album-id')
+
+      scrollToAlbum(albumId)
+    )

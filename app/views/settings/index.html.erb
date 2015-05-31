@@ -20,7 +20,7 @@
 
 <fieldset>
   <%= form_tag(scan_for_file_notification_changes_path, method: :post) do %>
-    <%= submit_tag "Scan for file notification changes" %>
+    <%= submit_tag "Scan file notification changes (#{FileNotification.count})" %>
   <% end %>
 </fieldset>
 
@@ -29,6 +29,6 @@
     <p>
       This will mark songs whose files are not found as "missing", and found files as "active".
     </p>
-    <%= submit_tag "Check for song file existences" %>
+    <%= submit_tag "Check for song file existences (#{Song.count} songs to scan)" %>
   <% end %>
 </fieldset>
