@@ -39,7 +39,11 @@ class MainController < ApplicationController
   end
 
   def check_file_existence
-    Song.all.each(&:check_existence!)
+    Song.all.each_with_index do |song, index|
+      puts "--- Song index: #{index}"
+      
+      song.check_existence!
+    end
 
     redirect_to root_path
   end

@@ -16,4 +16,12 @@ module ImageProcessing
     system cmd
   end
 
+  def self.make_thumbnail_300(input_file, output_file)
+    cmd = %{
+       convert "#{input_file}" -resize 300x300\\> "#{output_file}"
+    }
+
+    system cmd
+  end
+
 end
