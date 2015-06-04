@@ -24,6 +24,7 @@ class Song
 
   index( { rating: 1 }, { unique: false, name: "rating_index" })
   index( { state: 1 }, { unique: false, name: "state_index" })
+  index( { full_path: 1 }, { unique: false, name: "full_path_index" })
 
   scope :active, -> { where(state: "active") }
 
@@ -39,6 +40,7 @@ class Song
   end
 
   def self.build_from_file(filename)
+    filename.unicode_normalize!
     # if this song already exists, find it first
     song = Song.find_by(full_path: filename) rescue nil
 
