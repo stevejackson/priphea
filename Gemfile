@@ -31,6 +31,8 @@ group :development do
 
   gem 'sequel'
   gem 'sqlite3'
+
+  gem 'ruby-prof'
 end
 
 group :development, :test do

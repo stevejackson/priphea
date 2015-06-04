@@ -30,7 +30,9 @@ class Scanner
     threads.each { |t| t.join } # don't proceed until all threads are complete
 
     Album.all.each do |album|
-      album.update_cover_art_cache
+      unless album.has_cover_art?
+        album.update_cover_art_cache
+      end
     end
   end
 

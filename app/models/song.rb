@@ -15,6 +15,7 @@ class Song
 
   # custom fields
   field :full_path, type: String
+  field :file_date_modified, type: DateTime
 
   field :rating, type: Integer # out of 100
 
@@ -53,6 +54,16 @@ class Song
       return song
     end
 
+    # if the file's "Date Modified" isn't any newer than the previous scan,
+    # don't bother re-reading the metadata.
+    mtime = File.mtime(filename).utc
+    if song.file_date_modified && mtime.utc == song.file_date_modified.utc
+      return song
+    else
+      song.file_date_modified = mtime
+    end
+
+    # populate the model out of this file's metadata
     metadata = AudioMetadata.from_file(filename)
 
     fields = %w{title artist track_number disc_number duration}
@@ -60,7 +71,6 @@ class Song
     fields.each do |field_name|
       song.send(field_name + "=", metadata[field_name])
     end
-    puts song.inspect
 
     song.full_path = filename
 
