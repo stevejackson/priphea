@@ -21,9 +21,5 @@ echo "Starting up new rails server..."
 RAILS_ENV=production rails s thin -p 3456 &> /dev/null &
 
 echo "-----"
-echo "Starting up guard to monitor file notifications..."
-RAILS_ENV=production bundle exec guard --no-interactions --debug --latency 30 --wait-for-delay 1.0 &> /tmp/priphea_guard.log &
-
-echo "-----"
 echo "Starting up cmus for audio playback..."
 cmus
