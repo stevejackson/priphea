@@ -3,7 +3,7 @@ class Song
   include Mongoid::Attributes::Dynamic
   include Mongoid::Timestamps
 
-  belongs_to :album
+  belongs_to :album, index: true
 
   # metadata fields
   field :title, type: String

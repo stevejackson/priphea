@@ -1,5 +1,6 @@
 class Album
   include Mongoid::Document
+  include Mongoid::Timestamps
 
   has_many :songs
 
@@ -20,6 +21,10 @@ class Album
   field :active, type: Boolean
 
   scope :is_active, -> { where(active: true) }
+  scope :recently_created, -> (number_of_days) {
+    updated_after = DateTime.now - number_of_days.days
+    where(:created_at.gte => updated_after)
+  }
 
   before_save :update_search_terms
   before_save :update_active
