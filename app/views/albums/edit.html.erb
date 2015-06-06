@@ -12,3 +12,9 @@
 
   <%= f.submit "Save changes & update art cache" %>
 <% end %>
+
+<fieldset>
+  <%= form_tag(delete_all_songs_from_database_album_path, method: :post) do |f| %>
+    <%= submit_tag "Delete all of this album's songs from database, including ratings. Do not delete files." %>
+  <% end %>
+</fieldset>

@@ -1,7 +1,9 @@
 Rails.application.routes.draw do
 
   namespace :api do
-    resources :albums, only: [:index, :show]
+    resources :albums, only: [:index, :show] do
+    end
+
     resources :songs, only: [:index, :show, :update]
     resources :song_files, only: [:show]
     resources :smart_playlists, only: [:index, :show]
@@ -28,6 +30,9 @@ Rails.application.routes.draw do
   end
 
   resources :albums do
+    member do
+      post 'delete_all_songs_from_database'
+    end
   end
 
   get '/cover_art/:album_id' => 'cover_art#cover_art_cache', as: :cover_art
