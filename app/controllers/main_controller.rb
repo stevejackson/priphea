@@ -1,4 +1,5 @@
 class MainController < ApplicationController
+  layout 'player'
 
   def index
     @albums = Album.asc(:title).all
@@ -45,6 +46,19 @@ class MainController < ApplicationController
       Rails.logger.info "--- Song existence index: #{index}/#{song_count}"
 
       song.check_existence!
+    end
+
+    redirect_to root_path
+  end
+
+  def delete_missing_unrated_files
+    songs = Song.missing.unrated
+    song_count = songs.count
+
+    songs.each_with_index do |song, index|
+      Rails.logger.info "--- Deleting unrated, missing songs: #{index}/#{song_count}"
+
+      song.delete
     end
 
     redirect_to root_path

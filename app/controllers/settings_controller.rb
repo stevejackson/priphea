@@ -2,6 +2,7 @@ require 'fileutils'
 require 'json'
 
 class SettingsController < ApplicationController
+  
   def index
     @settings = load_settings_from_file
   end

@@ -27,6 +27,8 @@ class Song
   index( { full_path: 1 }, { unique: true, drop_dups: true, name: "full_path_index" })
 
   scope :active, -> { where(state: "active") }
+  scope :missing, -> { where(state: "missing") }
+  scope :unrated, -> { where(rating: nil) }
 
   after_save :update_album_active
 

@@ -9,7 +9,7 @@
 @import "browser";
 @import "song_list";
 
-body {
+body.player {
   overflow: hidden; // hide main scrollbar
   margin: 0;
   padding: 0;

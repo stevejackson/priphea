@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       post 'update_cover_art_cache'
       post 'scan_for_file_notification_changes'
       post 'check_file_existence'
+      post 'delete_missing_unrated_files'
     end
   end
 
@@ -47,6 +48,7 @@ Rails.application.routes.draw do
   post '/update_cover_art_cache' => 'main#update_cover_art_cache', as: :update_cover_art_cache
   post '/scan_for_file_notification_changes' => 'main#scan_for_file_notification_changes', as: :scan_for_file_notification_changes
   post '/check_file_existence' => 'main#check_file_existence', as: :check_file_existence
+  post '/delete_missing_unrated_files' => 'main#delete_missing_unrated_files', as: :delete_missing_unrated_files
 
   root to: "main#index"
 end
