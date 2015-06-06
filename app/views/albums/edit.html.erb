@@ -36,3 +36,8 @@
 <p>
   Inspection: <%= @album.inspect %>
 </p>
+
+<div>
+  <label>Full dirname of first song</label>
+  <textarea rows="10" cols="150"><%= File.dirname(@album.songs.first.full_path) %></textarea>
+</div>
