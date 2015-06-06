@@ -136,7 +136,8 @@ class AudioMetadata
     full_path_png = File.join("/", "tmp", "#{random_string}.png")
 
     # extract art to a file in "/tmp"
-    if File.extname(filename).downcase == '.flac'
+    file_format = File.extname(filename).downcase
+    if file_format == '.flac'
       TagLib::FLAC::File.open(filename) do |file|
         if file.picture_list.length > 0
           picture = file.picture_list.first
@@ -145,6 +146,20 @@ class AudioMetadata
             AudioMetadata::write_image_to_file!(picture.data, full_path_jpg)
           elsif picture.mime_type == 'image/flac'
             AudioMetadata::write_image_to_file!(picture.data, full_path_png)
+          end
+        end
+      end
+    elsif file_format == '.mp3'
+      TagLib::MPEG::File.open(filename) do |file|
+        tag = file.id3v2_tag
+
+        if tag.frame_list('APIC').length > 0
+          cover = tag.frame_list('APIC').first
+
+          if cover.mime_type == 'image/jpeg'
+            AudioMetadata::write_image_to_file!(cover.picture, full_path_jpg)
+          elsif cover.mime_type == 'image/flac'
+            AudioMetadata::write_image_to_file!(cover.picture, full_path_png)
           end
         end
       end
@@ -212,7 +227,7 @@ class AudioMetadata
 
         # Remove pre-existing art
         tag.frame_list('APIC').each do |frame|
-          frame = nil
+          tag.remove_frame(frame)
         end
 
         file.save
