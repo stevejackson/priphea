@@ -1,3 +1,5 @@
+require 'taglib'
+
 class AudioMetadata
   def self.from_file(filename)
     song = MiniExiftool.new(filename)
@@ -78,50 +80,155 @@ class AudioMetadata
     end
   end
 
+  # def self.copy_embedded_art_to_cache(filename)
+  #   # for now, 4 commands can be run to try and export art. after, we'll check
+  #   # if any of the art was extracted by exiftool.
+  #
+  #   # if so, we'll copy it to the cover art cache and return the filename.
+  #
+  #   random_string = Random.rand(2000000).to_s
+  #
+  #   full_path_jpg = File.join("/", "tmp", "#{random_string}.jpg")
+  #   full_path_png = File.join("/", "tmp", "#{random_string}.png")
+  #
+  #   null = ">/dev/null 2>&1"
+  #
+  #   puts "Trying to copy embedded art to cover art cache with following possible filenames..."
+  #   puts "full_path_jpg: #{full_path_jpg}"
+  #   puts "full_path_png: #{full_path_png}"
+  #
+  #   output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext flac "#{filename}" #{null} }
+  #   puts "FLAC image/jpeg: #{output}"
+  #   output = system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext flac "#{filename}" #{null} }
+  #   puts "FLAC image/png: #{output}"
+  #
+  #   output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext mp3 "#{filename}" #{null} }
+  #   puts "mp3 image/jpeg: #{output}"
+  #   output = system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext mp3 "#{filename}" #{null} }
+  #   puts "mp3 image/png: #{output}"
+  #
+  #   if File.exists?(full_path_jpg)
+  #     puts "Successfully copied embedded JPG art."
+  #     md5 = Digest::MD5.hexdigest(File.read(full_path_jpg)) + File.extname(full_path_jpg)
+  #
+  #     destination = File.join(Settings.cover_art_cache, md5)
+  #     FileUtils.copy(full_path_jpg, destination)
+  #
+  #     return File.basename(destination)
+  #   elsif File.exists?(full_path_png)
+  #     puts "Successfully copied embedded PNG art."
+  #     md5 = Digest::MD5.hexdigest(File.read(full_path_png)) + File.extname(full_path_png)
+  #
+  #     destination = File.join(Settings.cover_art_cache, md5)
+  #     FileUtils.copy(full_path_png, destination)
+  #
+  #     return File.basename(destination)
+  #   else
+  #     puts "Failed to find or copy embedded art."
+  #   end
+  #
+  # end
+
   def self.copy_embedded_art_to_cache(filename)
-    # for now, 4 commands can be run to try and export art. after, we'll check
-    # if any of the art was extracted by exiftool.
-
-    # if so, we'll copy it to the cover art cache and return the filename.
-
     random_string = Random.rand(2000000).to_s
 
     full_path_jpg = File.join("/", "tmp", "#{random_string}.jpg")
     full_path_png = File.join("/", "tmp", "#{random_string}.png")
 
-    null = ">/dev/null 2>&1"
+    # extract art to a file in "/tmp"
+    if File.extname(filename).downcase == '.flac'
+      TagLib::FLAC::File.open(filename) do |file|
+        if file.picture_list.length > 0
+          picture = file.picture_list.first
 
-    puts "Trying to copy embedded art to cover art cache..."
-
-    output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext flac "#{filename}" #{null} }
-    puts output
-    output =system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext flac "#{filename}" #{null} }
-    puts output
-
-    output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext mp3 "#{filename}" #{null} }
-    puts output
-    output = system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext mp3 "#{filename}" #{null} }
-    puts output
-
-    if File.exists?(full_path_jpg)
-      puts "Successfully copied embedded JPG art."
-      md5 = Digest::MD5.hexdigest(File.read(full_path_jpg)) + File.extname(full_path_jpg)
-
-      destination = File.join(Settings.cover_art_cache, md5)
-      FileUtils.copy(full_path_jpg, destination)
-
-      return File.basename(destination)
-    elsif File.exists?(full_path_png)
-      puts "Successfully copied embedded PNG art."
-      md5 = Digest::MD5.hexdigest(File.read(full_path_png)) + File.extname(full_path_png)
-
-      destination = File.join(Settings.cover_art_cache, md5)
-      FileUtils.copy(full_path_png, destination)
-
-      return File.basename(destination)
-    else
-      puts "Failed to find or copy embedded art."
+          if picture.mime_type == 'image/jpeg'
+            AudioMetadata::write_image_to_file!(picture.data, full_path_jpg)
+          elsif picture.mime_type == 'image/flac'
+            AudioMetadata::write_image_to_file!(picture.data, full_path_png)
+          end
+        end
+      end
     end
 
+    # now copy the /tmp file to the cover art cache and return it
+      if File.exists?(full_path_jpg)
+        puts "Successfully copied embedded JPG art."
+        md5 = Digest::MD5.hexdigest(File.read(full_path_jpg)) + File.extname(full_path_jpg)
+
+        destination = File.join(Settings.cover_art_cache, md5)
+        FileUtils.copy(full_path_jpg, destination)
+
+        return File.basename(destination)
+      elsif File.exists?(full_path_png)
+        puts "Successfully copied embedded PNG art."
+        md5 = Digest::MD5.hexdigest(File.read(full_path_png)) + File.extname(full_path_png)
+
+        destination = File.join(Settings.cover_art_cache, md5)
+        FileUtils.copy(full_path_png, destination)
+
+        return File.basename(destination)
+      else
+        puts "Failed to find or copy embedded art."
+      end
+
   end
+
+  def self.write_image_to_file!(cover_art_data, filename)
+    File.open(filename, 'wb') do |file|
+      file.write(cover_art_data)
+    end
+  end
+
+  def self.write_cover_art_to_metadata!(filename, cover_art_data, cover_art_file_type)
+    file_format = File.extname(filename).downcase
+    mime_type = if cover_art_file_type == '.jpg'
+      "image/jpeg"
+    elsif ".png"
+      "image/png"
+    end
+
+    if file_format == '.flac'
+      Rails.logger.info "--- Writing FLAC metadata."
+
+      TagLib::FLAC::File.open(filename) do |file|
+        file.remove_pictures # remove all pre-existing pictures.
+
+        pic = TagLib::FLAC::Picture.new
+        pic.type = TagLib::FLAC::Picture::FrontCover
+        pic.mime_type = mime_type
+        pic.description = "Cover"
+        #pic.width = 90
+        #pic.height = 90
+        pic.data = cover_art_data
+
+        file.add_picture(pic)
+        file.save
+      end
+    elsif file_format == '.mp3'
+      Rails.logger.info "--- Writing MP3 metadata."
+
+      TagLib::MPEG::File.open(filename) do |file|
+        tag = file.id3v2_tag
+
+        # Remove pre-existing art
+        tag.frame_list('APIC').each do |frame|
+          frame = nil
+        end
+
+        file.save
+
+        # Add attached picture frame
+        apic = TagLib::ID3v2::AttachedPictureFrame.new
+        apic.mime_type = mime_type
+        apic.description = "Cover"
+        apic.type = TagLib::ID3v2::AttachedPictureFrame::FrontCover
+        apic.picture = cover_art_data
+
+        tag.add_frame(apic)
+
+        file.save
+      end
+    end
+  end
+
 end

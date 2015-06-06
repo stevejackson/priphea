@@ -1,20 +1,38 @@
-<h2>Edit album <%= @album.title %></h2>
+<h2 id="album_edit">Edit album <%= @album.title %></h2>
 
-<p>
-  Inspection: <%= @album.inspect %>
-</p>
+<fieldset>
+  <p>
+    Drag and drop art to replace this album's album art. It will be replaced instantly.
+    It will write the image to all of the songs' metadata, and be written to "cover.jpg" in the album's
+    folder. It will delete existing cover art.
+  </p>
+  <%= form_tag "/albums/#{@album.id}/change_album_art", { class: "dropzone", id: "album-art-upload" } do %>
+  <% end %>
+</fieldset>
 
+<fieldset>
 <%= form_for @album do |f| %>
-  <fieldset>
+  <div>
     <%= f.label :custom_tags, "Custom tags" %>
     <%= f.text_field :custom_tags, { placeholder: "write any custom searchable tags", size: 100 } %>
-  </fieldset>
+  </div>
 
   <%= f.submit "Save changes & update art cache" %>
 <% end %>
+</fieldset>
 
 <fieldset>
   <%= form_tag(delete_all_songs_from_database_album_path, method: :post) do |f| %>
     <%= submit_tag "Delete all of this album's songs from database, including ratings. Do not delete files." %>
   <% end %>
 </fieldset>
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<p>
+  Inspection: <%= @album.inspect %>
+</p>

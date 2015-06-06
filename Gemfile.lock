@@ -229,6 +229,7 @@ GEM
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
     sqlite3 (1.3.10)
+    taglib-ruby (0.7.0)
     therubyracer (0.12.2)
       libv8 (~> 3.16.14.0)
       ref
@@ -271,6 +272,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sequel
   sqlite3
+  taglib-ruby (~> 0.7)
   therubyracer
   thin (~> 1.6)
   uglifier (>= 1.3.0)

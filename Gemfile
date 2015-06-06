@@ -19,6 +19,8 @@ gem 'ransack', '~> 1.6'
 
 gem 'pry-rails', '~> 0.3'
 
+gem 'taglib-ruby', '~> 0.7'
+
 # file change monitoring
 gem 'guard', '~> 2.12'
 gem 'guard-compat', '~> 1.2'

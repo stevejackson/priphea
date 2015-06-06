@@ -5,6 +5,7 @@ Prerequisites:
 * Ruby (see .ruby-version)
 * exiftool
 * mongodb
+* taglib
 
 ## To view database
 

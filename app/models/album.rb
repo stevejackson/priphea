@@ -52,6 +52,7 @@ class Album
     Rails.logger.debug " Updating cover art cache for: #{self.inspect}"
     make_cache_directory
     self.cover_art_cache_file = nil
+    self.cover_art_file = nil
 
     if songs.any?
       song = songs.first
@@ -105,7 +106,6 @@ class Album
         if cache_location
           self.cover_art_cache_file = cache_location
 
-
           full_art_path = File.join(Settings.cover_art_cache, cache_location)
           image_size = ImageMetadata::image_size(full_art_path)
           self.cover_art_width = image_size[:width]
@@ -146,8 +146,9 @@ class Album
         self.cover_art_file_thumbnail_300 = output_filename
         self.save!
       end
-
     end
+
+    self.save!
   end
 
   def update_search_terms
@@ -180,6 +181,70 @@ class Album
     res["songs"] = self.songs.active.as_json
 
     res
+  end
+
+  # delete album's existing cover art, write this new image to disk as "cover.jpg",
+  # then embed it in each song as its cover art.
+  def write_new_album_art!(file_type, cover_art_data)
+    first_active_song = self.songs.active.first
+    full_new_cover_art_name = File.join(File.dirname(first_active_song.full_path), "cover" + file_type)
+
+    # delete any existing cover art files
+    self.delete_existing_cover_art_files!
+
+    # write art to disk
+    self.write_image_to_file!(cover_art_data, full_new_cover_art_name)
+
+    # write art to embedded metadata
+    self.write_image_to_songs_metadata!(file_type, cover_art_data)
+
+    self.update_cover_art_cache
+  end
+
+  def write_image_to_songs_metadata!(file_type, cover_art_data)
+    self.songs.each do |song|
+      song.write_cover_art_to_metadata!(file_type, cover_art_data)
+    end
+  end
+
+  def delete_existing_cover_art_files!
+    cover_art_filenames = %w[
+      cover.jpg cover.JPG
+      cover.jpeg cover.JPEG
+      cover.png cover.PNG
+      folder.jpg folder.JPG
+      folder.jpeg folder.JPEG
+      folder.png folder.PNG
+    ]
+
+    directories = []
+
+    self.songs.each do |song|
+      unless directories.include?(File.dirname(song.full_path))
+        directories << File.dirname(song.full_path)
+      end
+    end
+
+    # check for existing cover art image files that exist in
+    # the same location as all songs in this album
+    directories.each do |directory|
+      cover_art_filenames.each do |cover_art_filename|
+        file = File.join(directory, cover_art_filename)
+
+        Rails.logger.info "Checking if file exists: #{file}"
+
+        if File.exists?(file)
+          Rails.logger.info "Found cover art, deleting: #{file}"
+          File.delete(file)
+        end
+      end
+    end
+  end
+
+  def write_image_to_file!(cover_art_data, filename)
+    File.open(filename, 'wb') do |file|
+      file.write(cover_art_data)
+    end
   end
 
 

@@ -1,3 +1,5 @@
+require 'taglib'
+
 class Song
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
@@ -112,6 +114,24 @@ class Song
     end
 
     self.save!
+  end
+
+  # write new embedded cover art metadata. erase all previous art in this metadata.
+  def write_cover_art_to_metadata!(file_type, cover_art_data)
+    Rails.logger.info "--- Trying to write cover art metadata for song #{self.id} - #{self.title}."
+    AudioMetadata::write_cover_art_to_metadata!(self.full_path, cover_art_data, file_type)
+  end
+
+  def file_format
+    File.extname(self.full_path).downcase
+  end
+
+  def flac?
+    self.file_format == '.flac'
+  end
+
+  def mp3?
+    self.file_format == '.mp3'
   end
 
 end
