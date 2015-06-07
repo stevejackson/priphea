@@ -3,24 +3,40 @@ require 'taglib'
 class AudioMetadata
   def self.from_file(filename)
     song = MiniExiftool.new(filename)
-    file_extension = File.extname(filename)
+    file_extension = File.extname(filename).downcase
 
     metadata = {}
 
-    if %w(.mp3 .MP3).include?(file_extension)
+    if %w(.mp3).include?(file_extension)
       metadata['track_number'] = AudioMetadata::mp3_track_number(song.track.to_s)
+      metadata['total_tracks'] = AudioMetadata::mp3_total_tracks(song.track.to_s)
       metadata['disc_number'] = AudioMetadata::mp3_disc_number(song.part_of_set.to_s)
+      metadata['total_discs'] = AudioMetadata::mp3_total_discs(song.part_of_set.to_s)
       metadata['duration'] = AudioMetadata::mp3_duration(song.duration.to_s)
-    elsif %w(.flac .FLAC).include?(file_extension)
+
+      metadata['album_artist'] = song.band
+    elsif %w(.flac).include?(file_extension)
       metadata['track_number'] = song.track_number
+      metadata['total_tracks'] = song.total_tracks
       metadata['disc_number'] = AudioMetadata::flac_disc_number(song.disc, song.disc_number)
+      metadata['total_discs'] = song.total_discs ? song.total_discs.to_s : nil
       metadata['duration'] = AudioMetadata::mp3_duration(song.duration.to_s)
+
+      metadata['album_artist'] = song.album_artist
     end
 
     # same for both FLAC and MP3
     metadata['title'] = song.title
     metadata['artist'] = song.artist
     metadata['album'] = song.album
+    metadata['year'] = song.year.to_s
+    metadata['genre'] = song.genre
+    metadata['composer'] = song.composer
+    metadata['comment'] = song.comment
+
+    metadata['filesize'] = File.size(filename).to_s
+
+    metadata['filetype'] = file_extension
 
     metadata
   end
@@ -30,6 +46,16 @@ class AudioMetadata
   def self.mp3_track_number(track_number_string)
     if (index = track_number_string.index('/'))
       track_number_string[0, index]
+    else
+      track_number_string
+    end
+  end
+
+  # mp3's track number metadata is sometimes in format like: 1/33
+  # convert this to 33
+  def self.mp3_total_tracks(track_number_string)
+    if (index = track_number_string.index('/'))
+      track_number_string[index + 1, track_number_string.length]
     else
       track_number_string
     end
@@ -58,6 +84,29 @@ class AudioMetadata
     end
   end
 
+  # flac sometimes uses `disc` tag, sometimes `disc_number`, sometimes
+  # in format 1/2
+  # convert this to 1
+  # def self.flac_total_discs(disc, disc_number)
+  #   disc_number_string = disc or disc_number
+  #
+  #   if disc_number_string && disc_number_string.is_a?(String) && (index = disc_number_string.index('/'))
+  #     disc_number_string[index + 1, disc_number_string.length]
+  #   else
+  #     nil
+  #   end
+  # end
+
+  def self.mp3_total_discs(disc_number)
+    disc_number_string = disc_number
+
+    if disc_number_string && disc_number_string.is_a?(String) && (index = disc_number_string.index('/'))
+      disc_number_string[index + 1, disc_number_string.length]
+    else
+      nil
+    end
+  end
+
   # in format like: 0:02:43 (approx)
   def self.mp3_duration(duration)
     # in format like: 0:02:43 (approx)
@@ -79,55 +128,6 @@ class AudioMetadata
       return sprintf("%02d:%02d", 0, seconds)
     end
   end
-
-  # def self.copy_embedded_art_to_cache(filename)
-  #   # for now, 4 commands can be run to try and export art. after, we'll check
-  #   # if any of the art was extracted by exiftool.
-  #
-  #   # if so, we'll copy it to the cover art cache and return the filename.
-  #
-  #   random_string = Random.rand(2000000).to_s
-  #
-  #   full_path_jpg = File.join("/", "tmp", "#{random_string}.jpg")
-  #   full_path_png = File.join("/", "tmp", "#{random_string}.png")
-  #
-  #   null = ">/dev/null 2>&1"
-  #
-  #   puts "Trying to copy embedded art to cover art cache with following possible filenames..."
-  #   puts "full_path_jpg: #{full_path_jpg}"
-  #   puts "full_path_png: #{full_path_png}"
-  #
-  #   output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext flac "#{filename}" #{null} }
-  #   puts "FLAC image/jpeg: #{output}"
-  #   output = system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext flac "#{filename}" #{null} }
-  #   puts "FLAC image/png: #{output}"
-  #
-  #   output = system %Q{ exiftool -if '$picturemimetype eq "image/jpeg"' -picture -b -w #{full_path_jpg}%c -ext mp3 "#{filename}" #{null} }
-  #   puts "mp3 image/jpeg: #{output}"
-  #   output = system %Q{ exiftool -if '$picturemimetype eq "image/png"' -picture -b -w #{full_path_png}%c -ext mp3 "#{filename}" #{null} }
-  #   puts "mp3 image/png: #{output}"
-  #
-  #   if File.exists?(full_path_jpg)
-  #     puts "Successfully copied embedded JPG art."
-  #     md5 = Digest::MD5.hexdigest(File.read(full_path_jpg)) + File.extname(full_path_jpg)
-  #
-  #     destination = File.join(Settings.cover_art_cache, md5)
-  #     FileUtils.copy(full_path_jpg, destination)
-  #
-  #     return File.basename(destination)
-  #   elsif File.exists?(full_path_png)
-  #     puts "Successfully copied embedded PNG art."
-  #     md5 = Digest::MD5.hexdigest(File.read(full_path_png)) + File.extname(full_path_png)
-  #
-  #     destination = File.join(Settings.cover_art_cache, md5)
-  #     FileUtils.copy(full_path_png, destination)
-  #
-  #     return File.basename(destination)
-  #   else
-  #     puts "Failed to find or copy embedded art."
-  #   end
-  #
-  # end
 
   def self.copy_embedded_art_to_cache(filename)
     random_string = Random.rand(2000000).to_s
@@ -212,8 +212,6 @@ class AudioMetadata
         pic.type = TagLib::FLAC::Picture::FrontCover
         pic.mime_type = mime_type
         pic.description = "Cover"
-        #pic.width = 90
-        #pic.height = 90
         pic.data = cover_art_data
 
         file.add_picture(pic)

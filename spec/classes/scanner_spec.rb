@@ -40,7 +40,7 @@ RSpec.describe Scanner do
 
         expect(song.album.cover_art_cache_file).to_not be_nil
 
-        expect(File.exists?(song.album.cover_art_cache_file_full_path)).to be true
+        expect(File.exists?(song.album.cover_art_cache_file)).to be true
       end
 
       it "MP3" do

@@ -10,10 +10,21 @@ class Song
   # metadata fields
   field :title, type: String
   field :artist, type: String
-  field :track_number, type: String
-  field :disc_number, type: String
+  field :album_artist, type: String
+  field :track_number, type: Integer
+  field :total_tracks, type: Integer
+  field :disc_number, type: Integer
+  field :total_discs, type: Integer
   field :album_artist, type: String
   field :duration, type: String
+  field :year, type: String
+  field :genre, type: String
+  field :bpm, type: String
+  field :composer, type: String
+  field :comment, type: String
+  field :bitrate, type: String
+  field :filesize, type: String
+  field :filetype, type: String
 
   # custom fields
   field :full_path, type: String
@@ -43,7 +54,7 @@ class Song
     true
   end
 
-  def self.build_from_file(filename)
+  def self.build_from_file(filename, deep_scan=false)
     filename.unicode_normalize!
     # if this song already exists, find it first
     song = Song.find_by(full_path: filename) rescue nil
@@ -64,7 +75,7 @@ class Song
     # don't bother re-reading the metadata.
     mtime = File.mtime(filename).utc
     if song.file_date_modified && mtime.utc == song.file_date_modified.utc
-      return song
+      return song unless deep_scan
     else
       song.file_date_modified = mtime
     end
@@ -72,7 +83,20 @@ class Song
     # populate the model out of this file's metadata
     metadata = AudioMetadata.from_file(filename)
 
-    fields = %w{title artist track_number disc_number duration}
+    fields = %w{title
+      artist
+      track_number
+      disc_number
+      duration
+      year
+      total_tracks
+      total_discs
+      album_artist
+      genre
+      composer
+      comment
+      filesize
+      filetype}
 
     fields.each do |field_name|
       song.send(field_name + "=", metadata[field_name])

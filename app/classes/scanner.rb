@@ -5,7 +5,7 @@ class Scanner
     @library_path = library_path
   end
 
-  def scan
+  def scan(deep_scan=false)
     matcher = File.join(@library_path, "**", "*")
     files =  Dir.glob(matcher).select { |f| File.file? f }
 
@@ -23,7 +23,7 @@ class Scanner
       file = file_queue.pop(true) rescue nil
 
       if file && is_supported_audio_format?(file)
-        import_song_to_database(file)
+        import_song_to_database(file, deep_scan)
       end
     end
 
@@ -41,8 +41,8 @@ class Scanner
     supported.include?(File.extname(filename))
   end
 
-  def import_song_to_database(filename)
-    song = Song.build_from_file(filename)
+  def import_song_to_database(filename, deep_scan=false)
+    song = Song.build_from_file(filename, deep_scan)
     song.save!
     song
   end

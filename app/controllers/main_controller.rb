@@ -15,6 +15,15 @@ class MainController < ApplicationController
     redirect_to root_path
   end
 
+  def deep_rescan
+    background do
+      scanner = Scanner.new(Settings.library_path)
+      scanner.scan(true)
+    end
+
+    redirect_to root_path
+  end
+
   def destroy_and_rescan
     Album.destroy_all
     Song.destroy_all
