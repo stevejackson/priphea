@@ -153,7 +153,7 @@ class AudioMetadata
       TagLib::MPEG::File.open(filename) do |file|
         tag = file.id3v2_tag
 
-        if tag.frame_list('APIC').length > 0
+        if tag && tag.frame_list('APIC').length > 0
           cover = tag.frame_list('APIC').first
 
           if cover.mime_type == 'image/jpeg'
@@ -166,26 +166,25 @@ class AudioMetadata
     end
 
     # now copy the /tmp file to the cover art cache and return it
-      if File.exists?(full_path_jpg)
-        puts "Successfully copied embedded JPG art."
-        md5 = Digest::MD5.hexdigest(File.read(full_path_jpg)) + File.extname(full_path_jpg)
+    if File.exists?(full_path_jpg)
+      puts "Successfully copied embedded JPG art."
+      md5 = Digest::MD5.hexdigest(File.read(full_path_jpg)) + File.extname(full_path_jpg)
 
-        destination = File.join(Settings.cover_art_cache, md5)
-        FileUtils.copy(full_path_jpg, destination)
+      destination = File.join(Settings.cover_art_cache, md5)
+      FileUtils.copy(full_path_jpg, destination)
 
-        return File.basename(destination)
-      elsif File.exists?(full_path_png)
-        puts "Successfully copied embedded PNG art."
-        md5 = Digest::MD5.hexdigest(File.read(full_path_png)) + File.extname(full_path_png)
+      return File.basename(destination)
+    elsif File.exists?(full_path_png)
+      puts "Successfully copied embedded PNG art."
+      md5 = Digest::MD5.hexdigest(File.read(full_path_png)) + File.extname(full_path_png)
 
-        destination = File.join(Settings.cover_art_cache, md5)
-        FileUtils.copy(full_path_png, destination)
+      destination = File.join(Settings.cover_art_cache, md5)
+      FileUtils.copy(full_path_png, destination)
 
-        return File.basename(destination)
-      else
-        puts "Failed to find or copy embedded art."
-      end
-
+      return File.basename(destination)
+    else
+      puts "Failed to find or copy embedded art."
+    end
   end
 
   def self.write_image_to_file!(cover_art_data, filename)
