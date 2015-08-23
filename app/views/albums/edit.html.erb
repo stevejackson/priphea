@@ -27,6 +27,12 @@
   <% end %>
 </fieldset>
 
+<fieldset>
+  <%= form_tag(delete_all_songs_from_database_with_files_album_path, method: :post) do |f| %>
+    <%= submit_tag "Delete all of this album's #{@album.songs.count} songs from database, including ratings. ALSO DELETES FILES. Deletes album as well.", confirm: "Delete these files permanently?" %>
+  <% end %>
+</fieldset>
+
 <br>
 <br>
 <br>
@@ -39,5 +45,7 @@
 
 <div>
   <label>Full dirname of first song</label>
-  <textarea rows="10" cols="150"><%= File.dirname(@album.songs.first.full_path) %></textarea>
+  <% if @album.songs.count > 0 %>
+    <textarea rows="10" cols="150"><%= File.dirname(@album.songs.first.full_path) %></textarea>
+  <% end %>
 </div>

@@ -29,6 +29,22 @@ class AlbumsController < ApplicationController
     redirect_to root_path
   end
 
+  def delete_all_songs_from_database_with_files
+    album = Album.find(params[:id])
+
+    if album
+      album.songs.each do |song|
+        Rails.logger.info "Deleting #{song} from filesystem & database..."
+        song.delete_source_file!
+        song.delete
+      end
+
+      album.delete
+    end
+
+    redirect_to root_path
+  end
+
   def change_album_art
     album = Album.find(params[:id])
 

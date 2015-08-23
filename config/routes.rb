@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   resources :albums do
     member do
       post 'delete_all_songs_from_database'
+      post 'delete_all_songs_from_database_with_files'
       post 'change_album_art'
     end
   end

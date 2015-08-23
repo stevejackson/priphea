@@ -1,4 +1,5 @@
 require 'taglib'
+require 'FileUtils'
 
 class Song
   include Mongoid::Document
@@ -144,6 +145,14 @@ class Song
   def write_cover_art_to_metadata!(file_type, cover_art_data)
     Rails.logger.info "--- Trying to write cover art metadata for song #{self.id} - #{self.title}."
     AudioMetadata::write_cover_art_to_metadata!(self.full_path, cover_art_data, file_type)
+  end
+
+  def delete_source_file!
+    Rails.logger.info "Attempting to delete song #{self.id}'s source file: #{self.full_path}'"
+
+    if self.full_path && File.exists?(self.full_path)
+      FileUtils.rm(self.full_path)
+    end
   end
 
   def file_format
