@@ -144,7 +144,7 @@ class AudioMetadata
 
           if picture.mime_type == 'image/jpeg'
             AudioMetadata::write_image_to_file!(picture.data, full_path_jpg)
-          elsif picture.mime_type == 'image/flac'
+          elsif picture.mime_type == 'image/png'
             AudioMetadata::write_image_to_file!(picture.data, full_path_png)
           end
         end
@@ -158,7 +158,7 @@ class AudioMetadata
 
           if cover.mime_type == 'image/jpeg'
             AudioMetadata::write_image_to_file!(cover.picture, full_path_jpg)
-          elsif cover.mime_type == 'image/flac'
+          elsif cover.mime_type == 'image/png'
             AudioMetadata::write_image_to_file!(cover.picture, full_path_png)
           end
         end

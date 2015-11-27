@@ -6,6 +6,8 @@ Prerequisites:
 * exiftool
 * mongodb
 * taglib
+* cmus
+* imagemagick
 
 ## To view database
 

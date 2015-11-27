@@ -19,6 +19,10 @@ RSpec.describe Scanner do
   end
 
   describe "Cover art cache" do
+    before :each do
+      FileUtils.rm_rf(Settings.cover_art_cache)
+    end
+    
     it "should create a cache file for the cover art of an album" do
       @scanner.scan
       album = Album.first
@@ -40,7 +44,8 @@ RSpec.describe Scanner do
 
         expect(song.album.cover_art_cache_file).to_not be_nil
 
-        expect(File.exists?(song.album.cover_art_cache_file)).to be true
+        file = File.join(Settings.cover_art_cache, song.album.cover_art_cache_file)
+        expect(File.exists?(file)).to be true
       end
 
       it "MP3" do
@@ -51,9 +56,13 @@ RSpec.describe Scanner do
 
         song.album.update_cover_art_cache
 
+        puts song.inspect
+        puts song.album.inspect
+
         expect(song.album.cover_art_cache_file).to_not be_nil
 
-        expect(File.exists?(song.album.cover_art_cache_file_full_path)).to be true
+        file = File.join(Settings.cover_art_cache, song.album.cover_art_cache_file)
+        expect(File.exists?(file)).to be true
       end
     end
   end
