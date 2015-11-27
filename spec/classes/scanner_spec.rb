@@ -22,7 +22,7 @@ RSpec.describe Scanner do
     before :each do
       FileUtils.rm_rf(Settings.cover_art_cache)
     end
-    
+
     it "should create a cache file for the cover art of an album" do
       @scanner.scan
       album = Album.first

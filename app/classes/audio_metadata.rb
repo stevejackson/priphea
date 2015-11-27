@@ -243,4 +243,25 @@ class AudioMetadata
     end
   end
 
+  def self.generate_priphea_id_comment(existing_comment, song)
+    result = existing_comment
+    result.gsub!(/\[PRIPHEA-ID-(.{24})\]/, '')
+    result << "[PRIPHEA-ID-#{song.id}]"
+    result
+  end
+
+  def self.extract_priphea_id_from_comment(existing_comment)
+    existing_comment.match /\[PRIPHEA-ID-(.{24})\]/
+    $1
+  end
+
+  def self.write_tag(filename, tag_name, data)
+    TagLib::MPEG::File.open(filename) do |fileref|
+      tag = fileref.tag
+      tag.send(tag_name + "=", data)
+      fileref.save
+    end
+
+  end
+
 end

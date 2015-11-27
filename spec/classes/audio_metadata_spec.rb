@@ -67,8 +67,7 @@ describe AudioMetadata do
       album_artist = "Album_artist"
       artist = "Michael"
       composer = "Michael Hoenig"
-      comment = "test_comment"
-      filesize = "1572611"
+      comment = "test_comment[PRIPHEA-ID-#{@song.id}]"
       filetype = ".mp3"
 
       expect(@song.year).to eq(year)
@@ -82,7 +81,6 @@ describe AudioMetadata do
       expect(@song.artist).to eq(artist)
       expect(@song.composer).to eq(composer)
       expect(@song.comment).to eq(comment)
-      expect(@song.filesize).to eq(filesize)
       expect(@song.filetype).to eq(filetype)
     end
   end
@@ -109,8 +107,7 @@ describe AudioMetadata do
       album_artist = "Album_artist"
       artist = "Michael"
       composer = "Michael Hoenig"
-      comment = "test_comment"
-      filesize = "9413714"
+      comment = "test_comment[PRIPHEA-ID-#{@song.id}]"
       filetype = ".flac"
 
       expect(@song.year).to eq(year)
@@ -124,8 +121,55 @@ describe AudioMetadata do
       expect(@song.artist).to eq(artist)
       expect(@song.composer).to eq(composer)
       expect(@song.comment).to eq(comment)
-      expect(@song.filesize).to eq(filesize)
       expect(@song.filetype).to eq(filetype)
+    end
+  end
+
+  describe "can generate priphea song ID for comment" do
+    before :each do
+      file = File.join("spec", "data", "metadata-test.flac")
+
+      @song = Song.build_from_file(file)
+      @song.save!
+
+      scanner = Scanner.new(Settings.library_path)
+      scanner.scan
+    end
+
+    it "can generate the comment correctly given an empty comment" do
+      existing_comment = ""
+      expected_comment = "[PRIPHEA-ID-#{@song.id}]"
+
+      result = AudioMetadata.generate_priphea_id_comment(existing_comment, @song)
+
+      expect(expected_comment).to eq(result)
+    end
+
+    it "can generate the comment correctly given an existing comment" do
+      existing_comment = "Blah blah downloaded at somewhere.com"
+      expected_comment = "Blah blah downloaded at somewhere.com[PRIPHEA-ID-#{@song.id}]"
+
+      result = AudioMetadata.generate_priphea_id_comment(existing_comment, @song)
+
+      expect(expected_comment).to eq(result)
+    end
+
+    it "can generate the comment correctly given an existing comment and existing priphea ID" do
+      existing_comment = "Blah blah downloaded at somewhere.com [PRIPHEA-ID-5658797a5374650f8f470000] more"
+      expected_comment = "Blah blah downloaded at somewhere.com  more[PRIPHEA-ID-#{@song.id}]"
+
+      result = AudioMetadata.generate_priphea_id_comment(existing_comment, @song)
+
+      expect(expected_comment).to eq(result)
+    end
+
+    it "can extract song ID of a comment" do
+      existing_comment = "Blah blah downloaded at somewhere.com [PRIPHEA-ID-5658797a5374650f8f470000] more"
+      expected_id = "5658797a5374650f8f470000"
+
+      result = AudioMetadata.extract_priphea_id_from_comment(existing_comment)
+
+      expect(expected_id).to eq(result)
     end
   end
 end

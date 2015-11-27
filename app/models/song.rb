@@ -57,8 +57,18 @@ class Song
 
   def self.build_from_file(filename, deep_scan=false)
     filename.unicode_normalize!
+    metadata = AudioMetadata.from_file(filename)
+
     # if this song already exists, find it first
     song = Song.find_by(full_path: filename) rescue nil
+
+    # if we couldn't find the song by it's full_path, it may be a new song -
+    # but first, check if it is an existing song that was just moved in the filesystem
+    if song.nil?
+      if (id = AudioMetadata.extract_priphea_id_from_comment(metadata['comment']))
+        song = Song.find(id) rescue nil
+      end
+    end
 
     # otherwise, create a new song from scratch
     song ||= self.new
@@ -82,8 +92,6 @@ class Song
     end
 
     # populate the model out of this file's metadata
-    metadata = AudioMetadata.from_file(filename)
-
     fields = %w{title
       artist
       track_number
@@ -99,9 +107,14 @@ class Song
       filesize
       filetype}
 
+    # write the song ID to metadata, so it can be detected if the file moves
+    metadata['comment'] = AudioMetadata.generate_priphea_id_comment(metadata['comment'], song)
+    AudioMetadata::write_tag(filename, "comment", metadata['comment'])
+
     fields.each do |field_name|
       song.send(field_name + "=", metadata[field_name])
     end
+
 
     song.full_path = filename
 
@@ -111,7 +124,6 @@ class Song
     end
 
     song.state = 'active'
-
     song
   end
 
