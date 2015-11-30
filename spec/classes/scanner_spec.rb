@@ -35,7 +35,7 @@ RSpec.describe Scanner do
 
     describe "should be able to create cache file out of embedded file art" do
       it "FLAC" do
-        file = File.join("spec", "data", "embedded-art.flac")
+        file = File.join("spec", "data", "test_songs", "embedded-art.flac")
 
         song = Song.build_from_file(file)
         song.save!
@@ -49,7 +49,7 @@ RSpec.describe Scanner do
       end
 
       it "MP3" do
-        file = File.join("spec", "data", "embedded-art.mp3")
+        file = File.join("spec", "data", "test_songs", "embedded-art.mp3")
 
         song = Song.build_from_file(file)
         song.save!

@@ -47,7 +47,7 @@ describe AudioMetadata do
 
   describe "can read metadata from MP3" do
     before :each do
-      file = File.join("spec", "data", "metadata-test.mp3")
+      file = File.join("spec", "data", "test_songs", "metadata-test.mp3")
 
       @song = Song.build_from_file(file)
       @song.save!
@@ -87,7 +87,7 @@ describe AudioMetadata do
 
   describe "can read metadata from FLAC" do
     before :each do
-      file = File.join("spec", "data", "metadata-test.flac")
+      file = File.join("spec", "data", "test_songs", "metadata-test.flac")
 
       @song = Song.build_from_file(file)
       @song.save!
@@ -127,7 +127,7 @@ describe AudioMetadata do
 
   describe "can generate priphea song ID for comment" do
     before :each do
-      file = File.join("spec", "data", "metadata-test.flac")
+      file = File.join("spec", "data", "test_songs", "metadata-test.flac")
 
       @song = Song.build_from_file(file)
       @song.save!

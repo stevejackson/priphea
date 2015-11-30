@@ -1,4 +1,5 @@
 require 'database_cleaner'
+require 'fileutils'
 DatabaseCleaner[:mongoid].strategy = :truncation
 DatabaseCleaner.strategy = :truncation
 
@@ -14,6 +15,16 @@ RSpec.configure do |config|
 
   config.before(:each) do
     DatabaseCleaner.clean_with(:truncation)
+
+    # copy all files from original_songs to test_songs.
+    original_data_files = File.join(Rails.root, "spec", "data", "original_songs")
+    copied_data_files = File.join(Rails.root, "spec", "data", "test_songs")
+    FileUtils.cp_r(Dir.glob(original_data_files + "/*"), copied_data_files)
+  end
+
+  config.after(:each) do
+    copied_data_files = File.join(Rails.root, "spec", "data", "test_songs")
+    FileUtils.rm_rf(Dir.glob("#{copied_data_files}/*"))
   end
 
 end
