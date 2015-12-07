@@ -117,33 +117,36 @@ RSpec.describe Scanner do
       expect(Song.count).to equal(before_song_count)
     end
 
-    # it "should be able to scan files, rate a song, change song title in metadata, rescan, and retain rating and have changed title" do
-    #   @scanner.scan
-    #
-    #
-    #   song_path = "spec/data/fakemusiclib/test_rescan.mp3"
-    #   song_full_path = File.join(Rails.root, song_path)
-    #
-    #   new_rating = Random.rand(100)
-    #
-    #   song = Song.find_by(full_path: song_path)
-    #   song.rating = new_rating
-    #   song.save!
-    #
-    #   expect(song.rating).to eq(new_rating)
-    #   title_before = song.title
-    #
-    #   # need to change song title in metadata, then reimport it
-    #   title_after = "TestTitle_#{Random.rand(100000)}"
-    #
-    #   puts "TitleBefore: #{title_before}"
-    #   puts "TitleAfter: #{title_after}"
-    #
-    #   song = Song.find_by(full_path: song_path)
-    #   expect(song.title).to eq(title_after)
-    #   expect(song.rating).to eq(new_rating)
-    #
-    # end
+    it "should be able to scan files, rate a song, change song title in metadata, rescan, and retain rating and have changed title" do
+      @scanner.scan
+
+      song_path = "spec/data/test_songs/fakemusiclib/test_rescan.mp3"
+      puts Song.all.inspect
+      song_full_path = File.join(Rails.root, song_path)
+
+      new_rating = Random.rand(100)
+
+      song = Song.find_by(full_path: song_path)
+      song.rating = new_rating
+      song.save!
+
+      expect(song.rating).to eq(new_rating)
+      title_before = song.title
+
+      # need to change song title in metadata, then reimport it
+      title_after = "TestTitle_#{Random.rand(100000)}"
+      AudioMetadata::write_tag(song.full_path, "title", title_after)
+
+      @scanner.scan
+
+      puts "TitleBefore: #{title_before}"
+      puts "TitleAfter: #{title_after}"
+
+      song = Song.find_by(full_path: song_path)
+      expect(song.title).to eq(title_after)
+      expect(song.rating).to eq(new_rating)
+
+    end
   end
 
 
