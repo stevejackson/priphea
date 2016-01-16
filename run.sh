@@ -21,5 +21,13 @@ echo "Starting up new rails server..."
 RAILS_ENV=production rails s thin -p 3456 &> /dev/null &
 
 echo "-----"
+echo "Restarting mongodb..."
+brew services restart mongodb
+
+echo "-----"
+echo "Killing existing cmus..."
+kill $(ps aux | grep '[c]mus' | awk '{print $2}')
+
+echo "-----"
 echo "Starting up cmus for audio playback..."
 cmus

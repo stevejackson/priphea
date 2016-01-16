@@ -121,7 +121,6 @@ RSpec.describe Scanner do
       @scanner.scan
 
       song_path = "spec/data/test_songs/fakemusiclib/test_rescan.mp3"
-      puts Song.all.inspect
       song_full_path = File.join(Rails.root, song_path)
 
       new_rating = Random.rand(100)
@@ -146,13 +145,15 @@ RSpec.describe Scanner do
       expect(song.title).to eq(title_after)
       expect(song.rating).to eq(new_rating)
 
+      puts song.inspect
     end
 
     it "should be able to scan files, rate a song, move file to new location, rescan, and retain the same song/rating" do
       @scanner.scan
 
-      song_path = "spec/data/test_songs/fakemusiclib/test_rescan.mp3"
-      puts Song.all.inspect
+      before_song_count = Song.active.count
+
+      song_path = File.join(Settings.library_path, "test_rescan.mp3")
       song_full_path = File.join(Rails.root, song_path)
 
       new_rating = Random.rand(100)
@@ -161,18 +162,16 @@ RSpec.describe Scanner do
       song.rating = new_rating
       song.save!
 
-      expect(song.rating).to eq(new_rating)
-
-
-      new_filename = File.join(Rails.root, Settings.library_path, "0123.mp3")
-
+      # rename the file in the filesystem
+      new_filename = File.join(Settings.library_path, "0123.mp3")
       FileUtils.mv(song.full_path, new_filename)
 
       @scanner.scan
 
-      song = Song.find_by(full_path: song_path)
-      expect(song.rating).to eq(new_rating)
+      song = Song.active.find_by(full_path: new_filename)
 
+      expect(Song.active.count).to eq(before_song_count)
+      expect(song.rating).to eq(new_rating)
     end
   end
 

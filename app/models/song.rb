@@ -36,9 +36,9 @@ class Song
   # states: "missing", "active"
   field :state, type: String
 
-  index( { rating: 1 }, { unique: false, name: "rating_index" })
-  index( { state: 1 }, { unique: false, name: "state_index" })
-  index( { full_path: 1 }, { unique: true, drop_dups: true, name: "full_path_index" })
+  index({ rating: 1 }, { unique: false, name: "rating_index" })
+  index({ state: 1 }, { unique: false, name: "state_index" })
+  index({ full_path: 1 }, { unique: true, drop_dups: true, name: "full_path_index" })
 
   scope :active, -> { where(state: "active") }
   scope :missing, -> { where(state: "missing") }
@@ -114,7 +114,6 @@ class Song
     fields.each do |field_name|
       song.send(field_name + "=", metadata[field_name])
     end
-
 
     song.full_path = filename
 

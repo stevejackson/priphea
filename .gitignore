@@ -25,4 +25,5 @@ config/environments/*.local.yml
 
 /public/fakecovers/
 /spec/data/cover_art_cache
+/spec/data/test_songs/*
 /.idea

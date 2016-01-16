@@ -57,6 +57,8 @@ describe AudioMetadata do
     end
 
     it "should be able to read metadata MP3" do
+      ext = ".mp3"
+
       year = "1998"
       title = "Main Theme"
       track_number = 1
@@ -67,7 +69,7 @@ describe AudioMetadata do
       album_artist = "Album_artist"
       artist = "Michael"
       composer = "Michael Hoenig"
-      comment = "test_comment[PRIPHEA-ID-#{@song.id}]"
+      comment = "[PRIPHEA-ID-#{@song.id}]"
       filetype = ".mp3"
 
       expect(@song.year).to eq(year)
@@ -97,6 +99,8 @@ describe AudioMetadata do
     end
 
     it "should be able to read metadata FLAC" do
+      ext = ".flac"
+
       year = "1998"
       title = "Main Theme"
       track_number = 1
@@ -107,7 +111,7 @@ describe AudioMetadata do
       album_artist = "Album_artist"
       artist = "Michael"
       composer = "Michael Hoenig"
-      comment = "test_comment[PRIPHEA-ID-#{@song.id}]"
+      comment = "[PRIPHEA-ID-#{@song.id}]"
       filetype = ".flac"
 
       expect(@song.year).to eq(year)
@@ -170,6 +174,38 @@ describe AudioMetadata do
       result = AudioMetadata.extract_priphea_id_from_comment(existing_comment)
 
       expect(expected_id).to eq(result)
+    end
+  end
+
+  describe "writing tags" do
+    before :each do
+      @files = [
+        File.join(Settings.library_path, "embedded-art.flac"),
+        File.join(Settings.library_path, "test_rescan.mp3")
+      ]
+
+      @scanner = Scanner.new(Settings.library_path)
+      @scanner.scan
+    end
+
+    it "should be able to write a short comment" do
+      @files.each do |file|
+        short_string = "short"
+        AudioMetadata::write_tag(file, "comment", short_string)
+
+        actual_metadata_comment = AudioMetadata::from_file(file)['comment']
+        expect(actual_metadata_comment).to eq(short_string)
+      end
+    end
+
+    it "should be able to write long comment" do
+      @files.each do |file|
+        long_string = "[BLAH-BLAH-8043782047u2fjeauf892u89rhfe89]"
+        AudioMetadata::write_tag(file, "comment", long_string)
+
+        actual_metadata_comment = AudioMetadata::from_file(file)['comment']
+        expect(actual_metadata_comment).to eq(long_string)
+      end
     end
   end
 end

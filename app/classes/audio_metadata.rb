@@ -1,10 +1,13 @@
 require 'taglib'
 
 class AudioMetadata
+  def self.file_extension(filename)
+    File.extname(filename).downcase
+  end
+
   def self.from_file(filename)
     song = MiniExiftool.new(filename)
-    file_extension = File.extname(filename).downcase
-
+    file_extension = AudioMetadata::file_extension(filename)
     metadata = {}
 
     if %w(.mp3).include?(file_extension)
@@ -32,13 +35,21 @@ class AudioMetadata
     metadata['year'] = song.year.to_s
     metadata['genre'] = song.genre
     metadata['composer'] = song.composer
-    metadata['comment'] = song.comment
+    metadata['comment'] = AudioMetadata::comment(song, file_extension)
 
     metadata['filesize'] = File.size(filename).to_s
 
     metadata['filetype'] = file_extension
 
     metadata
+  end
+
+  def self.comment(exiftool_song, ext)
+    if ext == '.mp3'
+      exiftool_song.comment
+    elsif ext == '.flac'
+      exiftool_song.description
+    end
   end
 
   # mp3's track number metadata is sometimes in format like: 3/0
@@ -244,24 +255,45 @@ class AudioMetadata
   end
 
   def self.generate_priphea_id_comment(existing_comment, song)
-    result = existing_comment
+    result = existing_comment || ""
     result.gsub!(/\[PRIPHEA-ID-(.{24})\]/, '')
     result << "[PRIPHEA-ID-#{song.id}]"
     result
   end
 
   def self.extract_priphea_id_from_comment(existing_comment)
+    return nil unless existing_comment.present?
+
     existing_comment.match /\[PRIPHEA-ID-(.{24})\]/
+    puts "Extracting: #{$1} from #{existing_comment}"
     $1
   end
 
   def self.write_tag(filename, tag_name, data)
-    TagLib::MPEG::File.open(filename) do |fileref|
-      tag = fileref.tag
-      tag.send(tag_name + "=", data)
-      fileref.save
-    end
+    file_extension = AudioMetadata::file_extension(filename)
 
+    if %w(.mp3).include?(file_extension)
+      TagLib::MPEG::File.open(filename) do |file|
+        tag = file.id3v2_tag(true)
+        case tag_name
+          when 'comment'
+            frame = TagLib::ID3v2::CommentsFrame.new
+            frame.language = 'eng'
+            frame.text = data
+            frame.text_encoding = TagLib::String::UTF8
+            tag.add_frame(frame)
+          else
+            tag.send(tag_name + "=", data)
+        end
+        file.save
+      end
+    elsif %w(.flac).include?(file_extension)
+      TagLib::FLAC::File.open(filename) do |file|
+        tag = file.xiph_comment
+        tag.send(tag_name + "=", data)
+        file.save
+      end
+    end
   end
 
 end

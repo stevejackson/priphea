@@ -33,13 +33,22 @@ Set it up in your crontab with something like this line:
 To restore your backup if necessary, here is an example command:
 
 ```
-mongorestore --host 127.0.0.1 --port 27017 /tmp/mongodump1
+mongorestore --host 127.0.0.1 -d priphea-production --port 27017 /tmp/mongodump1
 ```
 
 The database is selected automatically (the same database that was used for exporting it.)
 
 
 ## To run the application
+
+### Local dev
+
+```
+mongod --dbpath /Users/steve/tmp
+rails s thin -p 3000
+```
+
+### In production:
 
 I add the following to my `~/.zshrc`:
 

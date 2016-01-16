@@ -42,4 +42,6 @@ group :development, :test do
 
   gem 'rspec-rails', '~> 3.0'
   gem 'database_cleaner', '~> 1.2'
+
+  #gem 'spork', '~> 1.0rc'
 end
