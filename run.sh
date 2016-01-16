@@ -30,4 +30,4 @@ kill $(ps aux | grep '[c]mus' | awk '{print $2}')
 
 echo "-----"
 echo "Starting up cmus for audio playback..."
-cmus
+cmus 2> /dev/null

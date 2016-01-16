@@ -9,6 +9,10 @@ Prerequisites:
 * cmus
 * imagemagick
 
+## Other setup:
+
+./setup.sh
+
 ## To view database
 
 Could vary, check `config/mongoid.yml`, but probably:
