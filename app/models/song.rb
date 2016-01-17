@@ -57,7 +57,7 @@ class Song
 
   def self.build_from_file(filename, deep_scan=false)
     filename.unicode_normalize!
-    metadata = AudioMetadata.from_file(filename)
+    metadata = nil
 
     # if this song already exists, find it first
     song = Song.find_by(full_path: filename) rescue nil
@@ -65,6 +65,7 @@ class Song
     # if we couldn't find the song by it's full_path, it may be a new song -
     # but first, check if it is an existing song that was just moved in the filesystem
     if song.nil?
+      metadata ||= AudioMetadata.from_file(filename)
       if (id = AudioMetadata.extract_priphea_id_from_comment(metadata['comment']))
         song = Song.find(id) rescue nil
       end
@@ -90,6 +91,8 @@ class Song
     else
       song.file_date_modified = mtime
     end
+
+    metadata ||= AudioMetadata.from_file(filename)
 
     # populate the model out of this file's metadata
     fields = %w{title
