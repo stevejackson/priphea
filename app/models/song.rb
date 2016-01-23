@@ -44,6 +44,7 @@ class Song
       filetype}
 
   WRITABLE_FIELDS = %w{
+    comment
     title
     artist
     album_artist

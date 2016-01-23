@@ -273,7 +273,7 @@ class AudioMetadata
   # supported fields for writing:
   # - title
   # - artist
-  # x album_artist
+  # - album_artist
   # - track number
   # - disc number
   # - comment
