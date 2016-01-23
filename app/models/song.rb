@@ -8,6 +8,8 @@ class Song
 
   belongs_to :album, index: true
 
+  validates_presence_of :album
+
   # metadata fields
   field :title, type: String
   field :artist, type: String
