@@ -2,17 +2,6 @@ require 'taglib'
 
 class AudioMetadata
 
-  UNWRITABLE_FIELDS = %w{
-    duration
-    year
-    total_tracks
-    total_discs
-    genre
-    composer
-    filesize
-    filetype
-  }
-
   def self.file_extension(filename)
     File.extname(filename).downcase
   end
@@ -289,7 +278,7 @@ class AudioMetadata
   # - disc number
   # - comment
   def self.write_tag(filename, tag_name, data)
-    return false if UNWRITABLE_FIELDS.include? tag_name
+    return false unless Song::WRITABLE_FIELDS.include? tag_name
     file_extension = AudioMetadata::file_extension(filename)
 
     tag_name = AudioMetadata::rename_tag_from_priphea_to_metadata_name(tag_name, file_extension)

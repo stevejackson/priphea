@@ -43,6 +43,14 @@ class Song
       filesize
       filetype}
 
+  WRITABLE_FIELDS = %w{
+    title
+    artist
+    album_artist
+    disc_number
+    track_number
+  }
+
   # custom fields
   field :full_path, type: String
   field :file_date_modified, type: DateTime
@@ -182,7 +190,7 @@ class Song
   end
 
   def write_metadata_to_file!
-    (METADATA_FIELDS - AudioMetadata::UNWRITABLE_FIELDS).each do |field_name|
+    (Song::WRITABLE_FIELDS).each do |field_name|
       AudioMetadata::write_tag(self.full_path, field_name, self.send(field_name))
     end
   end

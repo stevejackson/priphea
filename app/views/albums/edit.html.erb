@@ -1,5 +1,11 @@
 <h2 id="album_edit">Edit album <%= @album.title %></h2>
 
+<section>
+  <% flash.each do |key, value| %>
+    <%= content_tag :div, value, class: "flash #{key}" %>
+  <% end %>
+</section>
+
 <fieldset>
   <p>
     Drag and drop art to replace this album's album art. It will be replaced instantly.
@@ -35,6 +41,54 @@
 
 <br>
 <br>
+<br>
+
+<fieldset>
+  <h3>Update all songs metadata</h3>
+
+  <%= form_for(@album, { url: update_all_songs_metadata_album_path }) do |f| %>
+      <table>
+        <thead>
+        <tr>
+          <th>Disc #</th>
+          <th>Track #</th>
+          <th>Album artist</th>
+          <th>Artist</th>
+          <th>Title</th>
+        </tr>
+        </thead>
+
+        <tbody>
+          <%= f.fields_for :songs do |song_form| %>
+            <tr>
+              <td>
+                <%= song_form.text_field :disc_number %>
+              </td>
+
+              <td>
+                <%= song_form.text_field :track_number %>
+              </td>
+
+              <td>
+                <%= song_form.text_field :album_artist, { size: 35 } %>
+              </td>
+
+              <td>
+                <%= song_form.text_field :artist, { size: 35 } %>
+              </td>
+
+              <td>
+                <%= song_form.text_field :title, { size: 80 } %>
+              </td>
+            <tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    <%= f.submit "Submit. Save all song metadata to db & write to source files." %>
+  <% end %>
+</fieldset>
+
 <br>
 <br>
 <br>

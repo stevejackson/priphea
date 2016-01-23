@@ -3,6 +3,8 @@ class Album
   include Mongoid::Timestamps
 
   has_many :songs
+  accepts_nested_attributes_for :songs
+  validates_associated :songs
 
   field :title, type: String
 
@@ -247,6 +249,11 @@ class Album
     end
   end
 
+  def write_all_songs_metadata_to_source_files
+    songs.each do |song|
+      song.write_metadata_to_file!
+    end
+  end
 
   private
     def make_cache_directory

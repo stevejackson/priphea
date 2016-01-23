@@ -34,6 +34,7 @@ Rails.application.routes.draw do
       post 'delete_all_songs_from_database'
       post 'delete_all_songs_from_database_with_files'
       post 'change_album_art'
+      patch 'update_all_songs_metadata'
     end
   end
 

@@ -57,4 +57,25 @@ class AlbumsController < ApplicationController
     render :json => {}, status: 200
   end
 
+  # updates this album's songs' metadata and then writes it to the files
+  def update_all_songs_metadata
+    puts "----"
+    album = Album.includes(:songs).find(params[:id])
+    puts album.songs.first.inspect
+    puts "$$$$"
+    album.update_attributes(params.require(:album).permit(:songs_attributes => ["id"] + Song::WRITABLE_FIELDS))
+    puts album.songs.first.inspect
+    puts "----"
+
+    if album.save
+      if album.write_all_songs_metadata_to_source_files
+        redirect_to edit_album_path(album), notice: "Successfully saved all songs in this album & updated source files with new metadata."
+      else
+        render :edit, alert: "Saved metadata to priphea database, but failed to write metadata to source files."
+      end
+    else
+      render :edit, alert: "Failed to save metadata to priphea database, and did not write metadata to source files."
+    end
+  end
+
 end
