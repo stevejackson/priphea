@@ -178,34 +178,109 @@ describe AudioMetadata do
   end
 
   describe "writing tags" do
-    before :each do
-      @files = [
-        File.join(Settings.library_path, "embedded-art.flac"),
-        File.join(Settings.library_path, "test_rescan.mp3")
-      ]
+    describe "individual metadata fields" do
+      before :each do
+        @files = [
+          File.join(Settings.library_path, "embedded-art.flac"),
+          File.join(Settings.library_path, "test_rescan.mp3")
+        ]
 
-      @scanner = Scanner.new(Settings.library_path)
-      @scanner.scan
-    end
+        @scanner = Scanner.new(Settings.library_path)
+        @scanner.scan
+      end
 
-    it "should be able to write a short comment" do
-      @files.each do |file|
-        short_string = "short"
-        AudioMetadata::write_tag(file, "comment", short_string)
+      it "should be able to write a short comment" do
+        @files.each do |file|
+          short_string = "short"
+          AudioMetadata::write_tag(file, "comment", short_string)
 
-        actual_metadata_comment = AudioMetadata::from_file(file)['comment']
-        expect(actual_metadata_comment).to eq(short_string)
+          actual_metadata_comment = AudioMetadata::from_file(file)['comment']
+          expect(actual_metadata_comment).to eq(short_string)
+        end
+      end
+
+      it "should be able to write long comment" do
+        @files.each do |file|
+          long_string = "[BLAH-BLAH-8043782047u2fjeauf892u89rhfe89]"
+          AudioMetadata::write_tag(file, "comment", long_string)
+
+          actual_metadata_comment = AudioMetadata::from_file(file)['comment']
+          expect(actual_metadata_comment).to eq(long_string)
+        end
       end
     end
 
-    it "should be able to write long comment" do
-      @files.each do |file|
-        long_string = "[BLAH-BLAH-8043782047u2fjeauf892u89rhfe89]"
-        AudioMetadata::write_tag(file, "comment", long_string)
+    describe "Writing a song's data to metadata" do
+      before :each do
+        @files = [
+            File.join(Settings.library_path, "embedded-art.flac"),
+            File.join(Settings.library_path, "test_rescan.mp3")
+        ]
 
-        actual_metadata_comment = AudioMetadata::from_file(file)['comment']
-        expect(actual_metadata_comment).to eq(long_string)
+        @scanner = Scanner.new(Settings.library_path)
+        @scanner.scan
       end
+
+      it "can update a file's metadata with info from Priphea song database" do
+        @files.each do |file|
+          @song = Song.find_by(full_path: file)
+
+          new_comment = 'Abcde'
+          new_title = 'Weird title'
+          new_track_number = 44
+          new_disc_number = 33
+          new_artist = "Hanky John"
+          new_album_artist = "Kaboom"
+
+          @song.comment = new_comment
+          @song.title = new_title
+          @song.track_number = new_track_number
+          @song.disc_number = new_disc_number
+          @song.artist = new_artist
+          @song.album_artist = new_album_artist
+
+          expect(@song.write_metadata_to_file!).to be_truthy
+
+          metadata = AudioMetadata::from_file(@song.full_path)
+          expect(metadata['title']).to eq(new_title)
+          expect(metadata['comment']).to eq(new_comment)
+          expect(metadata['track_number']).to eq(new_track_number)
+          expect(metadata['disc_number']).to eq(new_disc_number)
+          expect(metadata['artist']).to eq(new_artist)
+          expect(metadata['album_artist']).to eq(new_album_artist)
+        end
+      end
+    end
+
+  end
+
+  describe "rename_tag_from_priphea_to_metadata_name" do
+    it "handles same-name case" do
+      result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("comment", @ext)
+      expect(result).to eq("comment")
+    end
+
+    context "MP3" do
+      before { @ext = ".mp3" }
+
+      it "track_number" do
+        result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("track_number", @ext)
+        expect(result).to eq("track")
+      end
+
+      it "disc_number" do
+        result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("disc_number", @ext)
+        expect(result).to eq("TPOS")
+      end
+
+      it "album_artist" do
+        result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("album_artist", @ext)
+        expect(result).to eq("TPE2")
+      end
+    end
+
+    context "FLAC" do
+      before { @ext = ".flac" }
     end
   end
 end

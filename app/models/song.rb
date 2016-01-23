@@ -27,6 +27,22 @@ class Song
   field :filesize, type: String
   field :filetype, type: String
 
+  METADATA_FIELDS = %w{title
+      artist
+      album_artist
+      track_number
+      disc_number
+      duration
+      year
+      total_tracks
+      total_discs
+      album_artist
+      genre
+      composer
+      comment
+      filesize
+      filetype}
+
   # custom fields
   field :full_path, type: String
   field :file_date_modified, type: DateTime
@@ -75,7 +91,7 @@ class Song
     song ||= self.new
 
     if !File.exists?(filename)
-      # if the file doesn't exist, we still want to import
+      # if the file doesn't exist, we still want to
       #  keep this in the database. sometimes files will be
       #  changed or moved and reimported and their files are missing,
       #  but we want them in the database to save their ratings/tags.
@@ -94,27 +110,11 @@ class Song
 
     metadata ||= AudioMetadata.from_file(filename)
 
-    # populate the model out of this file's metadata
-    fields = %w{title
-      artist
-      track_number
-      disc_number
-      duration
-      year
-      total_tracks
-      total_discs
-      album_artist
-      genre
-      composer
-      comment
-      filesize
-      filetype}
-
     # write the song ID to metadata, so it can be detected if the file moves
     metadata['comment'] = AudioMetadata.generate_priphea_id_comment(metadata['comment'], song)
     AudioMetadata::write_tag(filename, "comment", metadata['comment'])
 
-    fields.each do |field_name|
+    METADATA_FIELDS.each do |field_name|
       song.send(field_name + "=", metadata[field_name])
     end
 
@@ -179,6 +179,12 @@ class Song
 
   def mp3?
     self.file_format == '.mp3'
+  end
+
+  def write_metadata_to_file!
+    (METADATA_FIELDS - AudioMetadata::UNWRITABLE_FIELDS).each do |field_name|
+      AudioMetadata::write_tag(self.full_path, field_name, self.send(field_name))
+    end
   end
 
 end
