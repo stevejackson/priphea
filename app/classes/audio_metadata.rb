@@ -278,6 +278,7 @@ class AudioMetadata
   # - track number
   # - disc number
   # - comment
+  # - album_title
   def self.write_tag(filename, tag_name, data)
     return false unless Song::WRITABLE_FIELDS.include? tag_name
     file_extension = AudioMetadata::file_extension(filename)
@@ -346,11 +347,18 @@ class AudioMetadata
           'TPOS' # part of set frame
         when 'album_artist'
           'TPE2'
+        when 'album_title'
+          'album'
         else
           priphea_tag_name
       end
     else
-      priphea_tag_name
+      case priphea_tag_name
+        when 'album_title'
+          'album'
+        else
+          priphea_tag_name
+      end
     end
   end
 

@@ -14,6 +14,7 @@ class Song
   field :title, type: String
   field :artist, type: String
   field :album_artist, type: String
+  field :album_title, type: String
   field :track_number, type: Integer
   field :total_tracks, type: Integer
   field :disc_number, type: Integer
@@ -30,20 +31,22 @@ class Song
   field :filetype, type: String
 
   METADATA_FIELDS = %w{title
-      artist
-      album_artist
-      track_number
-      disc_number
-      duration
-      year
-      total_tracks
-      total_discs
-      album_artist
-      genre
-      composer
-      comment
-      filesize
-      filetype}
+    artist
+    album_artist
+    album_title
+    track_number
+    disc_number
+    duration
+    year
+    total_tracks
+    total_discs
+    album_artist
+    genre
+    composer
+    comment
+    filesize
+    filetype
+  }
 
   WRITABLE_FIELDS = %w{
     comment
@@ -52,6 +55,7 @@ class Song
     album_artist
     disc_number
     track_number
+    album_title
   }
 
   # custom fields
@@ -72,6 +76,7 @@ class Song
   scope :unrated, -> { where(rating: nil) }
 
   after_save :update_album_active
+  before_save :update_album_association
 
   def update_album_active
     if self.album
@@ -132,14 +137,23 @@ class Song
     song.full_path = filename
 
     # find this song's album or create it if it's new
-    if metadata["album"]
-      song.album = Album.find_by_title_or_create_new(metadata['album'])
-    else
-      song.album = Album.find_by_title_or_create_new("Untitled")
-    end
+    song.create_album_association_from_string(metadata['album'])
 
     song.state = 'active'
     song
+  end
+
+  def create_album_association_from_string(album_name)
+    self.album_title = album_name
+    if album_name
+      self.album = Album.find_by_title_or_create_new(album_name)
+    else
+      self.album = Album.find_by_title_or_create_new("Untitled")
+    end
+  end
+
+  def update_album_association
+    create_album_association_from_string(self.album_title)
   end
 
   def as_json(*args)

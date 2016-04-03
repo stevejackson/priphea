@@ -59,13 +59,8 @@ class AlbumsController < ApplicationController
 
   # updates this album's songs' metadata and then writes it to the files
   def update_all_songs_metadata
-    puts "----"
     album = Album.includes(:songs).find(params[:id])
-    puts album.songs.first.inspect
-    puts "$$$$"
     album.update_attributes(params.require(:album).permit(:songs_attributes => ["id"] + Song::WRITABLE_FIELDS))
-    puts album.songs.first.inspect
-    puts "----"
 
     if album.save
       if album.write_all_songs_metadata_to_source_files

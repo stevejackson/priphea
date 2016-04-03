@@ -51,7 +51,7 @@ class Album
 
   def update_cover_art_cache
     Rails.logger.debug "---- "
-    Rails.logger.debug " Updating cover art cache for: #{self.inspect}"
+    Rails.logger.debug "Updating cover art cache for: #{self.inspect}"
     make_cache_directory
     self.cover_art_cache_file = nil
     self.cover_art_file = nil

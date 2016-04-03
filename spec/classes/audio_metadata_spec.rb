@@ -231,6 +231,7 @@ describe AudioMetadata do
           new_disc_number = 33
           new_artist = "Hanky John"
           new_album_artist = "Kaboom"
+          new_album_title = "Album title hey"
 
           @song.comment = new_comment
           @song.title = new_title
@@ -238,6 +239,7 @@ describe AudioMetadata do
           @song.disc_number = new_disc_number
           @song.artist = new_artist
           @song.album_artist = new_album_artist
+          @song.album_title = new_album_title
 
           expect(@song.write_metadata_to_file!).to be_truthy
 
@@ -248,6 +250,7 @@ describe AudioMetadata do
           expect(metadata['disc_number']).to eq(new_disc_number)
           expect(metadata['artist']).to eq(new_artist)
           expect(metadata['album_artist']).to eq(new_album_artist)
+          expect(metadata['album']).to eq(new_album_title)
         end
       end
     end
