@@ -76,7 +76,7 @@ class Song
   scope :unrated, -> { where(rating: nil) }
 
   after_save :update_album_active
-  before_save :update_album_association
+  before_save :update_album_association, if: Proc.new { |song| song.album_title_changed? }
 
   def update_album_active
     if self.album

@@ -28,9 +28,7 @@ with_ratings.each do |track|
   swinsian_track = track[:path].force_encoding('UTF-8')
   swinsian_track.unicode_normalize! # ruby 2.2 method
   puts "Swinsian track that has a rating: #{swinsian_track.inspect}"
-  # if swinsian_track.match(/07 Guilty/i)
-  #   binding.pry
-  # end
+
   # check if this song exists in Priphea's database.
   if Song.where({ full_path: swinsian_track }).exists?
     song = Song.where({ full_path: swinsian_track }).first
