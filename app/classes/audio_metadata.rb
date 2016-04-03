@@ -196,6 +196,7 @@ class AudioMetadata
       return File.basename(destination)
     else
       Rails.logger.info "Failed to find or copy embedded art."
+      nil
     end
   end
 

@@ -134,6 +134,8 @@ class Song
     # find this song's album or create it if it's new
     if metadata["album"]
       song.album = Album.find_by_title_or_create_new(metadata['album'])
+    else
+      song.album = Album.find_by_title_or_create_new("Untitled")
     end
 
     song.state = 'active'

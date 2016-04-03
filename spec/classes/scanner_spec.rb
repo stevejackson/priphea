@@ -154,10 +154,10 @@ RSpec.describe Scanner do
       before_song_count = Song.active.count
 
       song_path = File.join(Settings.library_path, "test_rescan.mp3")
-      song_full_path = File.join(Rails.root, song_path)
 
       new_rating = Random.rand(100)
 
+      # change rating of song
       song = Song.find_by(full_path: song_path)
       song.rating = new_rating
       song.save!
@@ -168,6 +168,8 @@ RSpec.describe Scanner do
 
       @scanner.scan
 
+      # should be able to find the song by the new file's name, and it should have the same rating
+      puts Song.active.collect(&:full_path)
       song = Song.active.find_by(full_path: new_filename)
 
       expect(Song.active.count).to eq(before_song_count)

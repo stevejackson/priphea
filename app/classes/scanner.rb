@@ -22,9 +22,7 @@ class Scanner
 
       file = file_queue.pop(true) rescue nil
 
-      if file && is_supported_audio_format?(file)
-        import_song_to_database(file, deep_scan)
-      end
+      import_song_to_database(file, deep_scan) if file && is_supported_audio_format?(file)
     end
 
     threads.each { |t| t.join } # don't proceed until all threads are complete
