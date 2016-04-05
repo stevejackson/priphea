@@ -5,8 +5,13 @@ class Scanner
     @library_path = library_path
   end
 
-  def scan(deep_scan=false)
-    matcher = File.join(@library_path, "**", "*")
+  def scan(deep_scan=false, path: nil)
+    if path.nil?
+      matcher = File.join(@library_path, "**", "*")
+    else
+      matcher = File.join(path, "**", "*")
+    end
+
     files =  Dir.glob(matcher).select { |f| File.file? f }
 
     file_queue = Queue.new

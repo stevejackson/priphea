@@ -16,8 +16,10 @@ class MainController < ApplicationController
   end
 
   def deep_rescan
+    path = Settings.library_path
+
     background do
-      scanner = Scanner.new(Settings.library_path)
+      scanner = Scanner.new(path)
       scanner.scan(true)
     end
 

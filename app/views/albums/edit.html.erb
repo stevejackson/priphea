@@ -27,6 +27,15 @@
 <% end %>
 </fieldset>
 
+<% if @album.songs.any? %>
+  <fieldset>
+    <%= File.expand_path("../..", @album.songs.first.full_path) %>
+    <%= form_tag(deep_rescan_path(path: File.expand_path("../..", @album.songs.first.full_path)), method: :post) do |f| %>
+      <%= submit_tag "Deep rescan the parent directory of the first song of this album, 2 levels up, i.e. `/lib/thing/pumpkins` when song is `/lib/thing/pumpkins/Disc 1/blah.mp3`" %>
+    <% end %>
+  </fieldset>
+<% end %>
+
 <fieldset>
   <%= form_tag(delete_all_songs_from_database_album_path, method: :post) do |f| %>
     <%= submit_tag "Delete all of this album's songs from database, including ratings. Do not delete files." %>

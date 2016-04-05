@@ -73,4 +73,15 @@ class AlbumsController < ApplicationController
     end
   end
 
+  def deep_rescan_specific_directory
+    path = params[:path]
+
+    background do
+      scanner = Scanner.new(path)
+      scanner.scan(true)
+    end
+
+    redirect_to root_path
+  end
+
 end
