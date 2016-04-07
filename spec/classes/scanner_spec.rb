@@ -68,11 +68,9 @@ RSpec.describe Scanner do
   end
 
   describe "Performance" do
-    it "should be reasonably fast per song" do
-      expected_per_song = 500 # in milliseconds
-
+    def benchmark_scanner(expected_per_song:, deep:)
       result = Benchmark.realtime do
-        @scanner.scan
+        @scanner.scan(deep)
       end
 
       result *= 1000 # convert to milliseconds
@@ -82,6 +80,15 @@ RSpec.describe Scanner do
       result_per_song = result / songs_scanned
 
       expect(result_per_song).to be < expected_per_song
+    end
+
+    it "should be reasonably fast per song on deep scan" do
+      benchmark_scanner(expected_per_song: 400, deep: true)
+    end
+
+    it "should be reasonably fast per song on second, quick scan" do
+      @scanner.scan
+      benchmark_scanner(expected_per_song: 175, deep: false)
     end
   end
 
