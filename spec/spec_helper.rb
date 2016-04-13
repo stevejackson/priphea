@@ -1,5 +1,4 @@
 require 'database_cleaner'
-require 'fileutils'
 DatabaseCleaner[:mongoid].strategy = :truncation
 DatabaseCleaner.strategy = :truncation
 

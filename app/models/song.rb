@@ -1,5 +1,4 @@
 require 'taglib'
-require 'FileUtils'
 
 class Song
   include Mongoid::Document
@@ -106,7 +105,7 @@ class Song
     # otherwise, create a new song from scratch
     song ||= self.new
 
-    if !File.exists?(filename)
+    unless File.exists?(filename)
       # if the file doesn't exist, we still want to
       #  keep this in the database. sometimes files will be
       #  changed or moved and reimported and their files are missing,

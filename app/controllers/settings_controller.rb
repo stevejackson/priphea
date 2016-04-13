@@ -1,4 +1,3 @@
-require 'fileutils'
 require 'json'
 
 class SettingsController < ApplicationController

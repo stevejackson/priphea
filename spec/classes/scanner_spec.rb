@@ -79,6 +79,8 @@ RSpec.describe Scanner do
 
       result_per_song = result / songs_scanned
 
+      puts "Expected per song: #{expected_per_song}, result: #{result_per_song.inspect}"
+
       expect(result_per_song).to be < expected_per_song
     end
 
@@ -88,7 +90,7 @@ RSpec.describe Scanner do
 
     it "should be reasonably fast per song on second, quick scan" do
       @scanner.scan
-      benchmark_scanner(expected_per_song: 175, deep: false)
+      benchmark_scanner(expected_per_song: 100, deep: false)
     end
   end
 
