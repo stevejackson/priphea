@@ -56,9 +56,6 @@ RSpec.describe Scanner do
 
         song.album.update_cover_art_cache
 
-        puts song.inspect
-        puts song.album.inspect
-
         expect(song.album.cover_art_cache_file).to_not be_nil
 
         file = File.join(Settings.cover_art_cache, song.album.cover_art_cache_file)
@@ -79,7 +76,7 @@ RSpec.describe Scanner do
 
       result_per_song = result / songs_scanned
 
-      puts "Expected per song: #{expected_per_song}, result: #{result_per_song.inspect}"
+      Rails.logger.info "Expected per song: #{expected_per_song}, result: #{result_per_song.inspect}"
 
       expect(result_per_song).to be < expected_per_song
     end
@@ -90,7 +87,7 @@ RSpec.describe Scanner do
 
     it "should be reasonably fast per song on second, quick scan" do
       @scanner.scan
-      benchmark_scanner(expected_per_song: 100, deep: false)
+      benchmark_scanner(expected_per_song: 150, deep: false)
     end
   end
 
@@ -147,14 +144,9 @@ RSpec.describe Scanner do
 
       @scanner.scan
 
-      puts "TitleBefore: #{title_before}"
-      puts "TitleAfter: #{title_after}"
-
       song = Song.find_by(full_path: song_path)
       expect(song.title).to eq(title_after)
       expect(song.rating).to eq(new_rating)
-
-      puts song.inspect
     end
 
     it "should be able to scan files, rate a song, move file to new location, rescan, and retain the same song/rating" do
@@ -178,7 +170,7 @@ RSpec.describe Scanner do
       @scanner.scan
 
       # should be able to find the song by the new file's name, and it should have the same rating
-      puts Song.active.collect(&:full_path)
+      # puts Song.active.collect(&:full_path)
       song = Song.active.find_by(full_path: new_filename)
 
       expect(Song.active.count).to eq(before_song_count)
