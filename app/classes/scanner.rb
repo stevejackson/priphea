@@ -45,6 +45,7 @@ class Scanner
   end
 
   def import_song_to_database(filename, deep_scan=false)
+    Rails.logger.debug "Importing file to database: #{filename}"
     song = Song.build_from_file(filename, deep_scan)
     song.save!
     song

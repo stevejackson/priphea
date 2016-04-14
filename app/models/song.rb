@@ -114,6 +114,11 @@ class Song
       return song
     end
 
+
+    if filename == "spec/data/test_songs/fakemusiclib/0123.mp3"
+      blah = ""
+    end
+
     # if the file's "Date Modified" isn't any newer than the previous scan,
     # don't bother re-reading the metadata.
     mtime = File.mtime(filename).utc

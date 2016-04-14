@@ -65,29 +65,31 @@ RSpec.describe Scanner do
   end
 
   describe "Performance" do
-    def benchmark_scanner(expected_per_song:, deep:)
+    def benchmark_scanner(expected_per_song:, deep:, repeat: 5)
       result = Benchmark.realtime do
-        @scanner.scan(deep)
+        repeat.times do
+          @scanner.scan(deep)
+        end
       end
 
       result *= 1000 # convert to milliseconds
 
       songs_scanned = Song.count
 
-      result_per_song = result / songs_scanned
+      result_per_song = result.to_f / (songs_scanned.to_f * repeat.to_f)
 
-      Rails.logger.info "Expected per song: #{expected_per_song}, result: #{result_per_song.inspect}"
+      Rails.logger.debug "Expected per song: #{expected_per_song}, result: #{result_per_song.inspect}"
 
       expect(result_per_song).to be < expected_per_song
     end
 
     it "should be reasonably fast per song on deep scan" do
-      benchmark_scanner(expected_per_song: 400, deep: true)
+      benchmark_scanner(expected_per_song: 200, deep: true)
     end
 
     it "should be reasonably fast per song on second, quick scan" do
       @scanner.scan
-      benchmark_scanner(expected_per_song: 150, deep: false)
+      benchmark_scanner(expected_per_song: 50, deep: false)
     end
   end
 
@@ -165,6 +167,7 @@ RSpec.describe Scanner do
 
       # rename the file in the filesystem
       new_filename = File.join(Settings.library_path, "0123.mp3")
+      sleep 2 # ensure mtime changes between the previous save and the file move
       FileUtils.mv(song.full_path, new_filename)
 
       @scanner.scan
