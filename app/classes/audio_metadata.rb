@@ -267,7 +267,6 @@ class AudioMetadata
     return nil unless existing_comment.present?
 
     existing_comment.match /\[PRIPHEA-ID-(.{24})\]/
-    puts "Extracting: #{$1} from #{existing_comment}"
     $1
   end
 

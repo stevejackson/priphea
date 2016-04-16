@@ -7,15 +7,15 @@ RSpec.describe LibraryScanner do
   end
 
   it "should import songs" do
-    expect(Song.count).to be 0
-    @scanner.scan
-    expect(Song.count).to be > 0
+    expect {
+      @scanner.scan
+    }.to change { Song.count }
   end
 
   it "should import albums" do
-    expect(Album.count).to be 0
-    @scanner.scan
-    expect(Album.count).to be > 0
+    expect {
+      @scanner.scan
+    }.to change { Album.count }
   end
 
   describe "Cover art cache" do
@@ -65,7 +65,7 @@ RSpec.describe LibraryScanner do
   end
 
   describe "Performance" do
-    def benchmark_scanner(expected_per_song:, deep:, repeat: 5)
+    def benchmark_scanner(expected_per_song:, deep:, repeat: 8)
       result = Benchmark.realtime do
         repeat.times do
           @scanner.scan(deep)
@@ -173,7 +173,6 @@ RSpec.describe LibraryScanner do
       @scanner.scan
 
       # should be able to find the song by the new file's name, and it should have the same rating
-      # puts Song.active.collect(&:full_path)
       song = Song.active.find_by(full_path: new_filename)
 
       expect(Song.active.count).to eq(before_song_count)

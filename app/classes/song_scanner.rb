@@ -10,6 +10,8 @@ class SongScanner
     @deep_scan = deep_scan
     @metadata = nil
     @song = nil
+
+    fetch_song_record
   end
 
   def fetch_song_record
@@ -71,8 +73,6 @@ class SongScanner
   end
 
   def scan_file
-    fetch_song_record
-
     return @song if file_is_missing?
     return @song if song_is_unmodified? && !@deep_scan
 

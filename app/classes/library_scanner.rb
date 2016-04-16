@@ -59,7 +59,6 @@ class LibraryScanner
     Rails.logger.debug "Importing file to database: #{filename}"
 
     song = Song.build_song_from_file(filename, deep_scan)
-    puts song.inspect
     song.save!
     song
   end
