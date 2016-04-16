@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'benchmark'
 
-RSpec.describe Scanner do
+RSpec.describe LibraryScanner do
   before :each do
-    @scanner = Scanner.new(Settings.library_path)
+    @scanner = LibraryScanner.new(Settings.library_path)
   end
 
   it "should import songs" do
@@ -37,7 +37,7 @@ RSpec.describe Scanner do
       it "FLAC" do
         file = File.join("spec", "data", "test_songs", "embedded-art.flac")
 
-        song = Song.build_from_file(file)
+        song = Song.build_song_from_file(file)
         song.save!
 
         song.album.update_cover_art_cache
@@ -51,7 +51,7 @@ RSpec.describe Scanner do
       it "MP3" do
         file = File.join("spec", "data", "test_songs", "embedded-art.mp3")
 
-        song = Song.build_from_file(file)
+        song = Song.build_song_from_file(file)
         song.save!
 
         song.album.update_cover_art_cache
@@ -84,12 +84,12 @@ RSpec.describe Scanner do
     end
 
     it "should be reasonably fast per song on deep scan" do
-      benchmark_scanner(expected_per_song: 250, deep: true)
+      benchmark_scanner(expected_per_song: 275, deep: true)
     end
 
     it "should be reasonably fast per song on second, quick scan" do
       @scanner.scan
-      benchmark_scanner(expected_per_song: 75, deep: false)
+      benchmark_scanner(expected_per_song: 100, deep: false)
     end
   end
 
@@ -112,7 +112,7 @@ RSpec.describe Scanner do
   describe "Handling rescanning of same files" do
 
     before :each do
-      @scanner = Scanner.new(Settings.library_path)
+      @scanner = LibraryScanner.new(Settings.library_path)
     end
 
     it "should not recreate same files based on identical full_path" do

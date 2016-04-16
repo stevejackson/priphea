@@ -11,7 +11,7 @@ module FileNotificationProcessor
 
     FileNotification.all.each do |fn|
       puts "Processing notification: #{fn.inspect}"
-      scanner = Scanner.new(Settings.library_path)
+      scanner = LibraryScanner.new(Settings.library_path)
       song = scanner.import_song_to_database(fn.path)
 
       if song && song.album

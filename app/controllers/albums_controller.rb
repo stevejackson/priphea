@@ -77,7 +77,7 @@ class AlbumsController < ApplicationController
     path = params[:path]
 
     background do
-      scanner = Scanner.new(path)
+      scanner = LibraryScanner.new(path)
       scanner.scan(true)
     end
 

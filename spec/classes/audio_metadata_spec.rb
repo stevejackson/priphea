@@ -52,7 +52,7 @@ describe AudioMetadata do
       @song = Song.build_from_file(file)
       @song.save!
 
-      scanner = Scanner.new(Settings.library_path)
+      scanner = LibraryScanner.new(Settings.library_path)
       scanner.scan
     end
 
@@ -94,7 +94,7 @@ describe AudioMetadata do
       @song = Song.build_from_file(file)
       @song.save!
 
-      scanner = Scanner.new(Settings.library_path)
+      scanner = LibraryScanner.new(Settings.library_path)
       scanner.scan
     end
 
@@ -136,7 +136,7 @@ describe AudioMetadata do
       @song = Song.build_from_file(file)
       @song.save!
 
-      scanner = Scanner.new(Settings.library_path)
+      scanner = LibraryScanner.new(Settings.library_path)
       scanner.scan
     end
 
@@ -185,7 +185,7 @@ describe AudioMetadata do
           File.join(Settings.library_path, "test_rescan.mp3")
         ]
 
-        @scanner = Scanner.new(Settings.library_path)
+        @scanner = LibraryScanner.new(Settings.library_path)
         @scanner.scan
       end
 
@@ -217,7 +217,7 @@ describe AudioMetadata do
             File.join(Settings.library_path, "test_rescan.mp3")
         ]
 
-        @scanner = Scanner.new(Settings.library_path)
+        @scanner = LibraryScanner.new(Settings.library_path)
         @scanner.scan
       end
 

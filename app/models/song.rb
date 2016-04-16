@@ -86,64 +86,9 @@ class Song
     true
   end
 
-  def self.build_from_file(filename, deep_scan=false)
-    filename.unicode_normalize!
-    metadata = nil
-
-    # if this song already exists, find it first
-    song = Song.find_by(full_path: filename) rescue nil
-
-    # if we couldn't find the song by it's full_path, it may be a new song -
-    # but first, check if it is an existing song that was just moved in the filesystem
-    if song.nil?
-      metadata ||= AudioMetadata.from_file(filename)
-      if (id = AudioMetadata.extract_priphea_id_from_comment(metadata['comment']))
-        song = Song.find(id) rescue nil
-      end
-    end
-
-    # otherwise, create a new song from scratch
-    song ||= self.new
-
-    unless File.exists?(filename)
-      # if the file doesn't exist, we still want to
-      #  keep this in the database. sometimes files will be
-      #  changed or moved and reimported and their files are missing,
-      #  but we want them in the database to save their ratings/tags.
-      song.state = 'missing'
-      return song
-    end
-
-
-    if filename == "spec/data/test_songs/fakemusiclib/0123.mp3"
-      blah = ""
-    end
-
-    # if the file's "Date Modified" isn't any newer than the previous scan,
-    # don't bother re-reading the metadata.
-    mtime = File.mtime(filename).utc
-    if song.file_date_modified && mtime.utc == song.file_date_modified.utc
-      return song unless deep_scan
-    else
-      song.file_date_modified = mtime
-    end
-
-    metadata ||= AudioMetadata.from_file(filename)
-
-    # write the song ID to metadata, so it can be detected if the file moves
-    metadata['comment'] = AudioMetadata.generate_priphea_id_comment(metadata['comment'], song)
-    AudioMetadata::write_tag(filename, "comment", metadata['comment'])
-
-    METADATA_FIELDS.each do |field_name|
-      song.send(field_name + "=", metadata[field_name])
-    end
-
-    song.full_path = filename
-
-    # find this song's album or create it if it's new
-    song.create_album_association_from_string(metadata['album'])
-
-    song.state = 'active'
+  def self.build_song_from_file(filename, deep_scan=false)
+    song_scanner = SongScanner.new(filename, deep_scan)
+    song = song_scanner.scan_file
     song
   end
 

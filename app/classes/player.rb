@@ -72,7 +72,6 @@ class Player
   end
 
   def status
-    cli_command = %Q{ cmus-remote --query }
     output = %x[cmus-remote --query]
     results = parse_status_into_hash(output)
 

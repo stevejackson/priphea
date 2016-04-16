@@ -1,4 +1,4 @@
-class Scanner
+class LibraryScanner
   attr_accessor :library_path
   attr_accessor :files
   attr_accessor :file_queue
@@ -57,7 +57,9 @@ class Scanner
 
   def import_song_to_database(filename, deep_scan=false)
     Rails.logger.debug "Importing file to database: #{filename}"
-    song = Song.build_from_file(filename, deep_scan)
+
+    song = Song.build_song_from_file(filename, deep_scan)
+    puts song.inspect
     song.save!
     song
   end

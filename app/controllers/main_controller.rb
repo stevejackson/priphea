@@ -8,7 +8,7 @@ class MainController < ApplicationController
 
   def rescan
     background do
-      scanner = Scanner.new(Settings.library_path)
+      scanner = LibraryScanner.new(Settings.library_path)
       scanner.scan
     end
 
@@ -19,7 +19,7 @@ class MainController < ApplicationController
     path = Settings.library_path
 
     background do
-      scanner = Scanner.new(path)
+      scanner = LibraryScanner.new(path)
       scanner.scan(true)
     end
 
@@ -30,7 +30,7 @@ class MainController < ApplicationController
     Album.destroy_all
     Song.destroy_all
 
-    scanner = Scanner.new(Settings.library_path)
+    scanner = LibraryScanner.new(Settings.library_path)
     scanner.scan
 
     redirect_to root_path

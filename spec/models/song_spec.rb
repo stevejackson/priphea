@@ -10,7 +10,7 @@ describe Song do
       pending "Not implemented"
       fail
       @files.each do |file|
-        @scanner = Scanner.new(Settings.library_path)
+        @scanner = LibraryScanner.new(Settings.library_path)
         @song = Song.find_by(full_path: file)
 
         previous_album_id = @song.album_id
