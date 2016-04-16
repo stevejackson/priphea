@@ -20,7 +20,7 @@ class SongScanner
     # if we couldn't find the song by it's full_path, it may be a new song -
     # but first, check if it is an existing song that was just moved in the filesystem
     if @song.nil?
-      load_metadata_from_file
+      load_metadata_from_file_into_hash
       if (id = AudioMetadata.extract_priphea_id_from_comment(@metadata['comment']))
         @song = Song.find(id) rescue nil
       end
@@ -49,7 +49,7 @@ class SongScanner
     (@song.file_date_modified && @mtime == @song.file_date_modified.utc)
   end
 
-  def load_metadata_from_file
+  def load_metadata_from_file_into_hash
     @metadata ||= AudioMetadata.from_file(@filename)
   end
 
@@ -76,7 +76,7 @@ class SongScanner
     return @song if file_is_missing?
     return @song if song_is_unmodified? && !@deep_scan
 
-    load_metadata_from_file
+    load_metadata_from_file_into_hash
     write_priphea_id_to_file_metadata
     load_file_metadata_into_song_record
     create_album_association

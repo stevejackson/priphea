@@ -1,6 +1,5 @@
 module SearchUtils
   def self.make_searchable_text(text)
-    #I18n.transliterate(text.downcase)
     text.downcase
   end
 
