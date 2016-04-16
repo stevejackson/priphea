@@ -94,11 +94,9 @@ class Song
 
   def create_album_association_from_string(album_name)
     self.album_title = album_name
-    if album_name
-      self.album = Album.find_by_title_or_create_new(album_name)
-    else
-      self.album = Album.find_by_title_or_create_new("Untitled")
-    end
+    album_name ||= "Untitled"
+
+    self.album = Album.find_by_title_or_create_new(album_name)
   end
 
   def update_album_association
