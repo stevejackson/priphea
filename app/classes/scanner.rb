@@ -1,24 +1,31 @@
 class Scanner
   attr_accessor :library_path
+  attr_accessor :files
+  attr_accessor :file_queue
 
   def initialize(library_path)
     @library_path = library_path
   end
 
-  def scan(deep_scan=false, path: nil)
+  def gather_files_to_scan(path)
     if path.nil?
       matcher = File.join(@library_path, "**", "*")
     else
       matcher = File.join(path, "**", "*")
     end
 
-    files =  Dir.glob(matcher).select { |f| File.file? f }
+    @files = Dir.glob(matcher).select { |f| File.file? f }
+  end
 
-    file_queue = Queue.new
-    files.each do |f|
-      file_queue.push(f)
+  def create_file_queue
+    @file_queue = Queue.new
+
+    @files.each do |f|
+      @file_queue.push(f)
     end
+  end
 
+  def process_file_queue(deep_scan)
     threads = []
 
     # create a queue pool to process all files
@@ -31,12 +38,21 @@ class Scanner
     end
 
     threads.each { |t| t.join } # don't proceed until all threads are complete
+  end
 
+  def update_entire_cover_art_cache
     Album.all.each do |album|
       unless album.has_cover_art?
         album.update_cover_art_cache
       end
     end
+  end
+
+  def scan(deep_scan=false, path: nil)
+    gather_files_to_scan(path)
+    create_file_queue
+    process_file_queue(deep_scan)
+    update_entire_cover_art_cache
   end
 
   def is_supported_audio_format?(filename)
