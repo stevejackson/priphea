@@ -26,9 +26,6 @@ class Scanner
   end
 
   def process_file_queue(deep_scan)
-    threads = []
-
-    # create a queue pool to process all files
     until file_queue.empty?
       Rails.logger.info "File queue length: #{file_queue.length}"
 
@@ -36,8 +33,6 @@ class Scanner
 
       import_song_to_database(file, deep_scan) if file && is_supported_audio_format?(file)
     end
-
-    threads.each { |t| t.join } # don't proceed until all threads are complete
   end
 
   def update_entire_cover_art_cache
