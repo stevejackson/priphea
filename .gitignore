@@ -27,3 +27,5 @@ config/environments/*.local.yml
 /spec/data/cover_art_cache
 /spec/data/test_songs/*
 /.idea
+
+/coverage/*

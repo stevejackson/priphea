@@ -129,7 +129,6 @@ RSpec.describe LibraryScanner do
       @scanner.scan
 
       song_path = "spec/data/test_songs/fakemusiclib/test_rescan.mp3"
-      song_full_path = File.join(Rails.root, song_path)
 
       new_rating = Random.rand(100)
 
@@ -138,7 +137,6 @@ RSpec.describe LibraryScanner do
       song.save!
 
       expect(song.rating).to eq(new_rating)
-      title_before = song.title
 
       # need to change song title in metadata, then reimport it
       title_after = "TestTitle_#{Random.rand(100000)}"

@@ -49,7 +49,7 @@ describe AudioMetadata do
     before :each do
       file = File.join("spec", "data", "test_songs", "metadata-test.mp3")
 
-      @song = Song.build_from_file(file)
+      @song = Song.build_song_from_file(file)
       @song.save!
 
       scanner = LibraryScanner.new(Settings.library_path)
@@ -91,7 +91,7 @@ describe AudioMetadata do
     before :each do
       file = File.join("spec", "data", "test_songs", "metadata-test.flac")
 
-      @song = Song.build_from_file(file)
+      @song = Song.build_song_from_file(file)
       @song.save!
 
       scanner = LibraryScanner.new(Settings.library_path)
@@ -133,7 +133,7 @@ describe AudioMetadata do
     before :each do
       file = File.join("spec", "data", "test_songs", "metadata-test.flac")
 
-      @song = Song.build_from_file(file)
+      @song = Song.build_song_from_file(file)
       @song.save!
 
       scanner = LibraryScanner.new(Settings.library_path)
