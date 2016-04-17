@@ -1,50 +1,6 @@
 require 'rails_helper'
 
 describe AudioMetadata do
-  describe "duration" do
-    it "should work for format 1:02:43" do
-      input = "1:02:43"
-
-      result = AudioMetadata::mp3_duration(input)
-
-      expect(result).to eq("1:02:43")
-    end
-
-    it "should work for format 0:02:43" do
-      input = "0:02:43"
-
-      result = AudioMetadata::mp3_duration(input)
-
-      expect(result).to eq("02:43")
-    end
-
-    it "should work for format 42.01 s" do
-      input = "42.01 s"
-
-      result = AudioMetadata::mp3_duration(input)
-
-      expect(result).to eq("00:42")
-    end
-  end
-
-  describe "total discs" do
-    it "should be able to work for MP3 total disc format 2/3" do
-      input = "2/3"
-      result = AudioMetadata::mp3_total_discs(input)
-
-      expect(result).to eq("3")
-    end
-  end
-
-  describe "total tracks" do
-    it "should be able to work for MP3 total track format 1/33" do
-      input = "1/33"
-      result = AudioMetadata::mp3_total_tracks(input)
-
-      expect(result).to eq("33")
-    end
-  end
-
   describe "can read metadata from MP3" do
     before :each do
       file = File.join("spec", "data", "test_songs", "metadata-test.mp3")
@@ -56,7 +12,7 @@ describe AudioMetadata do
       scanner.scan
     end
 
-    it "should be able to read metadata MP3" do
+    it "should be able to read metadata MP3 into Song record" do
       ext = ".mp3"
 
       year = "1998"
@@ -87,7 +43,7 @@ describe AudioMetadata do
     end
   end
 
-  describe "can read metadata from FLAC" do
+  describe "can read metadata from FLAC into Song record" do
     before :each do
       file = File.join("spec", "data", "test_songs", "metadata-test.flac")
 

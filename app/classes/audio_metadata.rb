@@ -1,145 +1,24 @@
-require 'taglib'
-
 class AudioMetadata
-
   def self.file_extension(filename)
     File.extname(filename).downcase
   end
 
   def self.from_file(filename)
-    song = MiniExiftool.new(filename)
     file_extension = AudioMetadata::file_extension(filename)
-    metadata = {}
 
-    if %w(.mp3).include?(file_extension)
-      metadata['track_number'] = AudioMetadata::mp3_track_number(song.track.to_s)
-      metadata['total_tracks'] = AudioMetadata::mp3_total_tracks(song.track.to_s)
-      metadata['disc_number'] = AudioMetadata::mp3_disc_number(song.part_of_set.to_s)
-      metadata['total_discs'] = AudioMetadata::mp3_total_discs(song.part_of_set.to_s)
-      metadata['duration'] = AudioMetadata::mp3_duration(song.duration.to_s)
+    extractor = case file_extension
+      when ".mp3"
+        MetadataExtractors::Mp3MetadataExtractor.new(filename)
+      when ".flac"
+        MetadataExtractors::FlacMetadataExtractor.new(filename)
+      else
+        raise "Unsupported file type"
+   end
 
-      metadata['album_artist'] = song.band
-    elsif %w(.flac).include?(file_extension)
-      metadata['track_number'] = song.track_number
-      metadata['total_tracks'] = song.total_tracks
-      metadata['disc_number'] = AudioMetadata::flac_disc_number(song.disc, song.disc_number)
-      metadata['total_discs'] = song.total_discs ? song.total_discs.to_s : nil
-      metadata['duration'] = AudioMetadata::mp3_duration(song.duration.to_s)
-
-      metadata['album_artist'] = song.album_artist
-    end
-
-    # same for both FLAC and MP3
-    metadata['title'] = song.title
-    metadata['artist'] = song.artist
-    metadata['album'] = song.album
-    metadata['year'] = song.year.to_s
-    metadata['genre'] = song.genre
-    metadata['composer'] = song.composer
-    metadata['comment'] = AudioMetadata::comment(song, file_extension)
-
-    metadata['filesize'] = File.size(filename).to_s
-
-    metadata['filetype'] = file_extension
-
+    metadata = extractor.create_metadata_hash
     metadata
   end
 
-  def self.comment(exiftool_song, ext)
-    if ext == '.mp3'
-      exiftool_song.comment
-    elsif ext == '.flac'
-      exiftool_song.description
-    end
-  end
-
-  # mp3's track number metadata is sometimes in format like: 3/0
-  # convert this to 3
-  def self.mp3_track_number(track_number_string)
-    if (index = track_number_string.index('/'))
-      track_number_string[0, index].try(:to_i)
-    else
-      track_number_string.try(:to_i)
-    end
-  end
-
-  # mp3's track number metadata is sometimes in format like: 1/33
-  # convert this to 33
-  def self.mp3_total_tracks(track_number_string)
-    if (index = track_number_string.index('/'))
-      track_number_string[index + 1, track_number_string.length]
-    else
-      track_number_string
-    end
-  end
-
-  # disc number (part of set) sometimes formatted like: 1/2
-  # convert this to 1
-  def self.mp3_disc_number(disc_number_string)
-    if disc_number_string && (index = disc_number_string.index('/'))
-      disc_number_string[0, index].try(:to_i)
-    else
-      disc_number_string.try(:to_i)
-    end
-  end
-
-  # flac sometimes uses `disc` tag, sometimes `disc_number`, sometimes
-  # in format 1/2
-  # convert this to 1
-  def self.flac_disc_number(disc, disc_number)
-    disc_number_string = disc_number || disc
-
-    if disc_number_string && disc_number_string.is_a?(String) && (index = disc_number_string.index('/'))
-      disc_number_string[0, index]
-    else
-      disc_number_string
-    end
-  end
-
-  # flac sometimes uses `disc` tag, sometimes `disc_number`, sometimes
-  # in format 1/2
-  # convert this to 1
-  # def self.flac_total_discs(disc, disc_number)
-  #   disc_number_string = disc or disc_number
-  #
-  #   if disc_number_string && disc_number_string.is_a?(String) && (index = disc_number_string.index('/'))
-  #     disc_number_string[index + 1, disc_number_string.length]
-  #   else
-  #     nil
-  #   end
-  # end
-
-  def self.mp3_total_discs(disc_number)
-    disc_number_string = disc_number
-
-    if disc_number_string && disc_number_string.is_a?(String) && (index = disc_number_string.index('/'))
-      disc_number_string[index + 1, disc_number_string.length]
-    else
-      nil
-    end
-  end
-
-  # in format like: 0:02:43 (approx)
-  def self.mp3_duration(duration)
-    # in format like: 0:02:43 (approx)
-    if duration.match /(\d{1,2}):(\d{1,2}):(\d{1,2})/
-      hours = $1.strip.to_i
-      minutes = $2.strip.to_i
-      seconds = $3.strip.to_i
-
-      if hours.to_i == 0
-        return sprintf("%02d:%02d", minutes, seconds)
-      else
-        return sprintf("%01s:%02d:%02d", hours, minutes, seconds)
-      end
-    elsif duration.match /(\d{1,2})\.(\d{1,2}) s/i
-      # in format like: 23.41 s (approx)
-      # $1 = 23
-      # $2 = 41
-      seconds = $1.strip.to_i
-      return sprintf("%02d:%02d", 0, seconds)
-    end
-  end
 
   def self.copy_embedded_art_to_cache(filename)
     random_string = Random.rand(2000000).to_s
