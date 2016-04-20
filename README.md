@@ -61,12 +61,3 @@ alias priphea='/bin/zsh -l -i -c "/Users/steve/dev/priphea_production/run.sh"'
 ```
 
 Now I run "priphea" in shell, and it runs the application.
-
-You must add the following to your crontab to handle file change notifications:
-
-(Currently does not work well. Can run notifications from within Settings menu.)
-```
-* * * * * /bin/zsh -l -i -c 'cd /Users/steve/dev/priphea_production && bin/rails runner -e production '\''FileNotificationProcessor.process!'\'' >> /tmp/priphea_cron.log 2>&1'
-```
-
-*You must also change the music lib AND database hardcoded within `Guardfile`.*
