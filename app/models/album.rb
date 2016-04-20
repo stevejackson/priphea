@@ -102,7 +102,8 @@ class Album
         song = self.songs.first
         Rails.logger.info "Trying to extract embedded art from: #{song.inspect}"
 
-        cache_location = AudioMetadata.copy_embedded_art_to_cache(song.full_path)
+        extractor = EmbeddedArtExtractor.new(song.full_path)
+        cache_location = extractor.write_to_cache!
         Rails.logger.info "Cache location: #{cache_location}"
 
         if cache_location

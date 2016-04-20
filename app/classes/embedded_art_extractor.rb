@@ -1,0 +1,72 @@
+class EmbeddedArtExtractor
+  attr_accessor :filename
+
+  def initialize(filename)
+    @filename = filename
+  end
+
+  def write_to_cache!
+    temporary_file = extract_picture_data_to_tmp_file
+    write_cover_art_to_cache(temporary_file)
+  end
+
+  def write_cover_art_to_cache(temporary_file)
+    # now copy the /tmp file to the cover art cache and return it
+    if File.exist?(temporary_file)
+      md5 = Digest::MD5.hexdigest(File.read(temporary_file)) + File.extname(temporary_file)
+      destination = File.join(Settings.cover_art_cache, md5)
+      FileUtils.copy(temporary_file, destination)
+
+      return File.basename(destination)
+    else
+      Rails.logger.info "Failed to find or copy embedded art."
+      nil
+    end
+  end
+
+  def extract_picture_data_to_tmp_file
+    random_string = Random.rand(2000000).to_s
+    full_path_jpg = File.join("/", "tmp", "#{random_string}.jpg")
+    full_path_png = File.join("/", "tmp", "#{random_string}.png")
+
+    # extract art to a file in "/tmp"
+    file_format = File.extname(@filename).downcase
+    if file_format == '.flac'
+      TagLib::FLAC::File.open(@filename) do |file|
+        if file.picture_list.length > 0
+          picture = file.picture_list.first
+
+          if picture.mime_type == 'image/jpeg'
+            write_image_to_file!(picture.data, full_path_jpg)
+            return full_path_jpg
+          elsif picture.mime_type == 'image/png'
+            write_image_to_file!(picture.data, full_path_png)
+            return full_path_png
+          end
+        end
+      end
+    elsif file_format == '.mp3'
+      TagLib::MPEG::File.open(@filename) do |file|
+        tag = file.id3v2_tag
+
+        if tag && tag.frame_list('APIC').length > 0
+          cover = tag.frame_list('APIC').first
+
+          if cover.mime_type == 'image/jpeg'
+            write_image_to_file!(cover.picture, full_path_jpg)
+            return full_path_jpg
+          elsif cover.mime_type == 'image/png'
+            write_image_to_file!(cover.picture, full_path_png)
+            return full_path_png
+          end
+        end
+      end
+    end
+  end
+
+  def write_image_to_file!(cover_art_data, filename)
+    File.open(filename, 'wb') do |file|
+      file.write(cover_art_data)
+    end
+  end
+end

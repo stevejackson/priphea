@@ -7,6 +7,7 @@ describe MetadataExtractors::Mp3MetadataExtractor do
       @extractor = MetadataExtractors::Mp3MetadataExtractor.new("spec/data/test_songs/metadata-test.mp3")
       @extractor.file_metadata = nil
     end
+
     context ".duration" do
       it "works for format: 0:02:43" do
         @extractor.file_metadata = double(duration: "0:02:43")
