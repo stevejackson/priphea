@@ -29,20 +29,26 @@ class EmbeddedArtExtractor
     full_path_jpg = File.join("/", "tmp", "#{random_string}.jpg")
     full_path_png = File.join("/", "tmp", "#{random_string}.png")
 
-    # extract art to a file in "/tmp"
+    mime_type, picture_data = extract_cover_art_from_metadata
+
+    case mime_type
+    when 'image/jpeg'
+      write_image_to_file!(picture_data, full_path_jpg)
+      return full_path_jpg
+    when 'image/png'
+      write_image_to_file!(picture_data, full_path_png)
+      return full_path_png
+    end
+  end
+
+  def extract_cover_art_from_metadata
     file_format = File.extname(@filename).downcase
+
     if file_format == '.flac'
       TagLib::FLAC::File.open(@filename) do |file|
         if file.picture_list.length > 0
           picture = file.picture_list.first
-
-          if picture.mime_type == 'image/jpeg'
-            write_image_to_file!(picture.data, full_path_jpg)
-            return full_path_jpg
-          elsif picture.mime_type == 'image/png'
-            write_image_to_file!(picture.data, full_path_png)
-            return full_path_png
-          end
+          return [picture.mime_type, picture.data]
         end
       end
     elsif file_format == '.mp3'
@@ -52,15 +58,11 @@ class EmbeddedArtExtractor
         if tag && tag.frame_list('APIC').length > 0
           cover = tag.frame_list('APIC').first
 
-          if cover.mime_type == 'image/jpeg'
-            write_image_to_file!(cover.picture, full_path_jpg)
-            return full_path_jpg
-          elsif cover.mime_type == 'image/png'
-            write_image_to_file!(cover.picture, full_path_png)
-            return full_path_png
-          end
+          return [cover.mime_type, cover.picture]
         end
       end
+    else
+      raise "Unsupported MIME type in this song file"
     end
   end
 
