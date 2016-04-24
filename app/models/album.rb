@@ -46,10 +46,6 @@ class Album
     true
   end
 
-  def self.find_by_title_or_create_new(title)
-    album = Album.where(title: title).first_or_create
-  end
-
   def has_cover_art?
     (cover_art_file || cover_art_cache_file) ? true : false
   end

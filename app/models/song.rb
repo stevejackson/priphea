@@ -96,7 +96,7 @@ class Song
     self.album_title = album_name
     album_name ||= "Untitled"
 
-    self.album = Album.find_by_title_or_create_new(album_name)
+    self.album = Album.where(title: album_name).first_or_create
   end
 
   def update_album_association
