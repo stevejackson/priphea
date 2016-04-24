@@ -6,26 +6,20 @@ class AlbumArtPurger
   end
 
   def purge_existing_art
-    directories = []
+    directories_with_songs = []
 
     @album.songs.each do |song|
-      unless directories.include?(File.dirname(song.full_path))
-        directories << File.dirname(song.full_path)
+      song_directory_name = File.dirname(song.full_path)
+
+      unless directories_with_songs.include?(song_directory_name)
+        directories_with_songs << song_directory_name
       end
     end
 
-    # check for existing cover art image files that exist in
-    # the same location as all songs in this album
-    directories.each do |directory|
+    directories_with_songs.each do |directory|
       Album::COVER_ART_FILENAMES.each do |cover_art_filename|
         file = File.join(directory, cover_art_filename)
-
-        Rails.logger.info "Checking if file exists: #{file}"
-
-        if File.exists?(file)
-          Rails.logger.info "Found cover art, deleting: #{file}"
-          File.delete(file)
-        end
+        File.delete(file) if File.exist?(file)
       end
     end
   end
