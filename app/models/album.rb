@@ -49,111 +49,6 @@ class Album
     has_cover_art? ? File.join(Settings.cover_art_cache, cover_art_cache_file) : nil
   end
 
-  def update_cover_art_cache
-    Rails.logger.debug "---- "
-    Rails.logger.debug "Updating cover art cache for: #{self.inspect}"
-    make_cache_directory
-    self.cover_art_cache_file = nil
-    self.cover_art_file = nil
-
-    if songs.any?
-      song = songs.first
-      song_directory = File.dirname(song.full_path)
-
-      cover_art_filenames = %w[
-        cover.jpg cover.JPG
-        cover.jpeg cover.JPEG
-        cover.png cover.PNG
-        folder.jpg folder.JPG
-        folder.jpeg folder.JPEG
-        folder.png folder.PNG
-      ]
-
-      # check for existing cover art image files that exist in
-      # the same location as a song in this album
-      cover_art_filenames.each do |cover_art_filename|
-        file = File.join(song_directory, cover_art_filename)
-
-        Rails.logger.info "Checking if file exists: #{file}"
-
-        if File.exists?(file)
-          Rails.logger.info "File exists: #{file}"
-          self.cover_art_file = file
-
-          md5 = Digest::MD5.hexdigest(File.read(file)) + File.extname(file)
-          cache_location = File.join(Settings.cover_art_cache, md5)
-
-          FileUtils.copy(file, cache_location)
-
-          image_size = ImageMetadata::image_size(cache_location)
-          self.cover_art_width = image_size[:width]
-          self.cover_art_height = image_size[:height]
-
-          self.cover_art_cache_file = md5
-          self.save!
-
-          break
-        end
-      end
-
-      # if cover art file does not exist, we should also check a song in this
-      # album for embedded art.
-      if self.cover_art_cache_file.blank?
-        song = self.songs.first
-        Rails.logger.info "Trying to extract embedded art from: #{song.inspect}"
-
-        extractor = EmbeddedArtExtractor.new(song.full_path)
-        cache_location = extractor.write_to_cache!
-        Rails.logger.info "Cache location: #{cache_location}"
-
-        if cache_location
-          self.cover_art_cache_file = cache_location
-
-          full_art_path = File.join(Settings.cover_art_cache, cache_location)
-          image_size = ImageMetadata::image_size(full_art_path)
-          self.cover_art_width = image_size[:width]
-          self.cover_art_height = image_size[:height]
-
-          self.save!
-        end
-      end
-
-      # make thumbnail cache version, 500px
-      unless self.cover_art_cache_file.blank?
-        Rails.logger.info "Trying to make a 500px thumbnail version of album art."
-
-        output_filename = self.cover_art_cache_file + "_500"
-        Rails.logger.info "Outputting to file: #{output_filename}"
-
-        ImageProcessing::make_thumbnail_500(
-          File.join(Settings.cover_art_cache, self.cover_art_cache_file),
-          File.join(Settings.cover_art_cache, output_filename)
-        )
-
-        self.cover_art_file_thumbnail_500 = output_filename
-        self.save!
-      end
-
-      # make thumbnail cache version, 500px
-      unless self.cover_art_cache_file.blank?
-        Rails.logger.info "Trying to make a 300px thumbnail version of album art."
-
-        output_filename = self.cover_art_cache_file + "_300"
-        Rails.logger.info "Outputting to file: #{output_filename}"
-
-        ImageProcessing::make_thumbnail_300(
-          File.join(Settings.cover_art_cache, self.cover_art_cache_file),
-          File.join(Settings.cover_art_cache, output_filename)
-        )
-
-        self.cover_art_file_thumbnail_300 = output_filename
-        self.save!
-      end
-    end
-
-    self.save!
-  end
-
   def update_search_terms
     artist = ""
     album_artist = ""
@@ -166,7 +61,6 @@ class Album
     terms = "#{self.title} #{artist} #{album_artist} #{self.custom_tags}"
     self.search_terms = SearchUtils::search_format(terms)
   end
-
 
   def as_json(*args)
     res = super
@@ -192,8 +86,7 @@ class Album
     first_active_song = self.songs.active.first
     full_new_cover_art_name = File.join(File.dirname(first_active_song.full_path), "cover" + file_type)
 
-    # delete any existing cover art files
-    self.delete_existing_cover_art_files!
+    AlbumArtPurger.new(self).purge_existing_art
 
     # write art to disk
     self.write_image_to_file!(cover_art_data, full_new_cover_art_name)
@@ -201,7 +94,7 @@ class Album
     # write art to embedded metadata
     self.write_image_to_songs_metadata!(file_type, cover_art_data)
 
-    self.update_cover_art_cache
+    CoverArtUpdater.new(self).update_cover_art
   end
 
   def write_image_to_songs_metadata!(file_type, cover_art_data)
@@ -211,37 +104,8 @@ class Album
   end
 
   def delete_existing_cover_art_files!
-    cover_art_filenames = %w[
-      cover.jpg cover.JPG
-      cover.jpeg cover.JPEG
-      cover.png cover.PNG
-      folder.jpg folder.JPG
-      folder.jpeg folder.JPEG
-      folder.png folder.PNG
-    ]
-
-    directories = []
-
-    self.songs.each do |song|
-      unless directories.include?(File.dirname(song.full_path))
-        directories << File.dirname(song.full_path)
-      end
-    end
-
-    # check for existing cover art image files that exist in
-    # the same location as all songs in this album
-    directories.each do |directory|
-      cover_art_filenames.each do |cover_art_filename|
-        file = File.join(directory, cover_art_filename)
-
-        Rails.logger.info "Checking if file exists: #{file}"
-
-        if File.exists?(file)
-          Rails.logger.info "Found cover art, deleting: #{file}"
-          File.delete(file)
-        end
-      end
-    end
+    cover_art_manager = CoverArtManager.new
+    cover_art_manager.clear_existing_cover_art_files_of_album(self)
   end
 
   def write_image_to_file!(cover_art_data, filename)
@@ -256,17 +120,9 @@ class Album
     end
   end
 
-  private
-    def make_cache_directory
-      unless File.directory?(Settings.cover_art_cache)
-        FileUtils.mkdir_p(Settings.cover_art_cache)
-      end
-    end
-
     def self.ransackable_attributes(auth_object = nil)
       # whitelist the following attributes to be searchable
       super & %w(search_terms)
     end
-
 
 end

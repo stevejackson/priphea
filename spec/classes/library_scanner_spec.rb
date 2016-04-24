@@ -40,7 +40,7 @@ RSpec.describe LibraryScanner do
         song = Song.build_song_from_file(file)
         song.save!
 
-        song.album.update_cover_art_cache
+        CoverArtUpdater.new(song.album).update_cover_art
 
         expect(song.album.cover_art_cache_file).to_not be_nil
 
@@ -54,7 +54,7 @@ RSpec.describe LibraryScanner do
         song = Song.build_song_from_file(file)
         song.save!
 
-        song.album.update_cover_art_cache
+        CoverArtUpdater.new(song.album).update_cover_art
 
         expect(song.album.cover_art_cache_file).to_not be_nil
 

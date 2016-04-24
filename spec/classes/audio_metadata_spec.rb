@@ -13,8 +13,6 @@ describe AudioMetadata do
     end
 
     it "should be able to read metadata MP3 into Song record" do
-      ext = ".mp3"
-
       year = "1998"
       title = "Main Theme"
       track_number = 1

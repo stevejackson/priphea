@@ -37,9 +37,7 @@ class LibraryScanner
 
   def update_entire_cover_art_cache
     Album.all.each do |album|
-      unless album.has_cover_art?
-        album.update_cover_art_cache
-      end
+      CoverArtUpdater.new(album).update_cover_art
     end
   end
 
