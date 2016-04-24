@@ -2,6 +2,16 @@ class Album
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  COVER_ART_FILENAMES = %w[
+    cover.jpg cover.JPG
+    cover.jpeg cover.JPEG
+    cover.png cover.PNG
+    folder.jpg folder.JPG
+    folder.jpeg folder.JPEG
+    folder.png folder.PNG
+  ]
+
+
   has_many :songs
   accepts_nested_attributes_for :songs
   validates_associated :songs

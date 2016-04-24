@@ -13,44 +13,7 @@ class CoverArtUpdater
     @album.cover_art_file = nil
 
     if @album.songs.any?
-      song = @album.songs.first
-      song_directory = File.dirname(song.full_path)
-
-      cover_art_filenames = %w[
-        cover.jpg cover.JPG
-        cover.jpeg cover.JPEG
-        cover.png cover.PNG
-        folder.jpg folder.JPG
-        folder.jpeg folder.JPEG
-        folder.png folder.PNG
-      ]
-
-      # check for existing cover art image files that exist in
-      # the same location as a song in this album
-      cover_art_filenames.each do |cover_art_filename|
-        file = File.join(song_directory, cover_art_filename)
-
-        Rails.logger.info "Checking if file exists: #{file}"
-
-        if File.exists?(file)
-          Rails.logger.info "File exists: #{file}"
-          @album.cover_art_file = file
-
-          md5 = Digest::MD5.hexdigest(File.read(file)) + File.extname(file)
-          cache_location = File.join(Settings.cover_art_cache, md5)
-
-          FileUtils.copy(file, cache_location)
-
-          image_size = ImageMetadata::image_size(cache_location)
-          @album.cover_art_width = image_size[:width]
-          @album.cover_art_height = image_size[:height]
-
-          @album.cover_art_cache_file = md5
-          @album.save!
-
-          break
-        end
-      end
+      discover_existing_cover_art_file
 
       # if cover art file does not exist, we should also check a song in this
       # album for embedded art.
@@ -110,6 +73,37 @@ class CoverArtUpdater
     @album.save!
   end
 
+  def discover_existing_cover_art_file
+    first_song = @album.songs.first
+    song_directory = File.dirname(first_song.full_path)
+
+    # check for existing cover art image files that exist in
+    # the same location as a song in this album
+    Album::COVER_ART_FILENAMES.each do |cover_art_filename|
+      file = File.join(song_directory, cover_art_filename)
+
+      Rails.logger.debug "Checking if cover art file exists: #{file}"
+      if File.exists?(file)
+        Rails.logger.debug "Cover art file exists: #{file}"
+        @album.cover_art_file = file
+
+        md5 = Digest::MD5.hexdigest(File.read(file)) + File.extname(file)
+        cache_location = File.join(Settings.cover_art_cache, md5)
+
+        FileUtils.copy(file, cache_location)
+
+        image_size = ImageMetadata::image_size(cache_location)
+        @album.cover_art_width = image_size[:width]
+        @album.cover_art_height = image_size[:height]
+
+        @album.cover_art_cache_file = md5
+        @album.save!
+
+        break
+      end
+    end
+  end
+
   private
 
   def make_cache_directory
@@ -117,4 +111,5 @@ class CoverArtUpdater
       FileUtils.mkdir_p(Settings.cover_art_cache)
     end
   end
+
 end
