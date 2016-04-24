@@ -12,7 +12,7 @@ Bundler.require(*Rails.groups)
 
 module Priphea
   class Application < Rails::Application
-    config.autoload_paths += %W( #{config.root}/app/classes )
+    config.autoload_paths += %W( )
 
     # disables strong parameters entirely
     config.action_controller.permit_all_parameters = true
