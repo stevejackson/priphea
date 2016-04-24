@@ -11,7 +11,6 @@ class Album
     folder.png folder.PNG
   ]
 
-
   has_many :songs
   accepts_nested_attributes_for :songs
   validates_associated :songs
