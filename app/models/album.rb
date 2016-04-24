@@ -112,11 +112,6 @@ class Album
     end
   end
 
-  def delete_existing_cover_art_files!
-    cover_art_manager = CoverArtManager.new
-    cover_art_manager.clear_existing_cover_art_files_of_album(self)
-  end
-
   def write_image_to_file!(cover_art_data, filename)
     File.open(filename, 'wb') do |file|
       file.write(cover_art_data)
