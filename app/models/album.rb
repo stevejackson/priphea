@@ -51,7 +51,9 @@ class Album
   end
 
   def cover_art_cache_file_full_path
-    has_cover_art? ? File.join(Settings.cover_art_cache, cover_art_cache_file) : nil
+    return nil unless has_cover_art?
+
+    File.join(Settings.cover_art_cache, cover_art_cache_file)
   end
 
   def update_search_terms
