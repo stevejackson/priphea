@@ -45,8 +45,11 @@ class SongScanner
 
   def song_is_unmodified?
     @mtime = File.mtime(@filename).utc
+    @mtime = DateTime.parse(@mtime.to_s).utc if @mtime
 
-    (@song.file_date_modified && @mtime == @song.file_date_modified.utc)
+    unmodified = (@song.file_date_modified && @mtime.to_s == @song.file_date_modified.utc.to_s)
+    Rails.logger.debug "Unmodified?: #{unmodified}"
+    unmodified
   end
 
   def load_metadata_from_file_into_hash
@@ -72,6 +75,14 @@ class SongScanner
     @song.create_album_association_from_string(@metadata['album'])
   end
 
+  def reset_song_mtime
+    now = DateTime.now.utc
+    @mtime = now
+
+    @song.file_date_modified = @mtime
+    FileUtils.touch @song.full_path, mtime: Time.parse(@mtime.to_s)
+  end
+
   def scan_file
     return @song if file_is_missing?
     return @song if song_is_unmodified? && !@deep_scan
@@ -80,6 +91,7 @@ class SongScanner
     write_priphea_id_to_file_metadata
     load_file_metadata_into_song_record
     create_album_association
+    reset_song_mtime
 
     @song
   end
