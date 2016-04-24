@@ -24,9 +24,6 @@ Rails.application.routes.draw do
   resources :smart_playlists
 
   resources :settings, only: [:index] do
-    collection do
-      post 'save'
-    end
   end
 
   resources :albums do
