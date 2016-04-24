@@ -7,6 +7,8 @@ class EmbeddedArtExtractor
 
   def write_to_cache!
     temporary_file = extract_picture_data_to_tmp_file
+    return nil unless temporary_file
+
     write_cover_art_to_cache(temporary_file)
   end
 

@@ -9,7 +9,7 @@ class AlbumsController < ApplicationController
     @album.update_attributes(params[:album])
 
     if @album.save
-      @album.update_cover_art_cache
+      CoverArtUpdater.new(@album).update_cover_art
       redirect_to root_path
     else
       render :edit
