@@ -6,37 +6,15 @@ class CoverArtUpdater
   end
 
   def update_cover_art
-    Rails.logger.debug "---- "
-    Rails.logger.debug "Updating cover art cache for: #{@album.inspect}"
+    Rails.logger.debug "Updating cover art cache for album with title: '#{@album.title}'"
+
     make_cache_directory
     @album.cover_art_cache_file = nil
     @album.cover_art_file = nil
 
     if @album.songs.any?
       discover_existing_cover_art_file
-
-      # if cover art file does not exist, we should also check a song in this
-      # album for embedded art.
-      if @album.cover_art_cache_file.blank?
-        song = @album.songs.first
-        Rails.logger.info "Trying to extract embedded art from: #{song.inspect}"
-
-        extractor = EmbeddedArtExtractor.new(song.full_path)
-        cache_location = extractor.write_to_cache!
-        Rails.logger.info "Cache location: #{cache_location}"
-
-        if cache_location
-          @album.cover_art_cache_file = cache_location
-
-          full_art_path = File.join(Settings.cover_art_cache, cache_location)
-          image_size = ImageMetadata::image_size(full_art_path)
-          @album.cover_art_width = image_size[:width]
-          @album.cover_art_height = image_size[:height]
-
-          @album.save!
-        end
-      end
-
+      discover_existing_cover_art_in_song_metadata
       make_thumbnail_in_cache(size: 300)
       make_thumbnail_in_cache(size: 500)
     end
@@ -86,6 +64,25 @@ class CoverArtUpdater
         @album.save!
 
         break
+      end
+    end
+  end
+
+  def discover_existing_cover_art_in_song_metadata
+    if @album.cover_art_cache_file.blank?
+      first_song = @album.songs.first
+      extractor = EmbeddedArtExtractor.new(first_song.full_path)
+      cache_location = extractor.write_to_cache!
+
+      if cache_location
+        @album.cover_art_cache_file = cache_location
+
+        full_art_path = File.join(Settings.cover_art_cache, cache_location)
+        image_size = ImageMetadata::image_size(full_art_path)
+        @album.cover_art_width = image_size[:width]
+        @album.cover_art_height = image_size[:height]
+
+        @album.save!
       end
     end
   end
