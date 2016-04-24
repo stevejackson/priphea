@@ -37,39 +37,25 @@ class CoverArtUpdater
         end
       end
 
-      # make thumbnail cache version, 500px
-      unless @album.cover_art_cache_file.blank?
-        Rails.logger.info "Trying to make a 500px thumbnail version of album art."
-
-        output_filename = @album.cover_art_cache_file + "_500"
-        Rails.logger.info "Outputting to file: #{output_filename}"
-
-        ImageProcessing::make_thumbnail_500(
-          File.join(Settings.cover_art_cache, @album.cover_art_cache_file),
-          File.join(Settings.cover_art_cache, output_filename)
-        )
-
-        @album.cover_art_file_thumbnail_500 = output_filename
-        @album.save!
-      end
-
-      # make thumbnail cache version, 500px
-      unless @album.cover_art_cache_file.blank?
-        Rails.logger.info "Trying to make a 300px thumbnail version of album art."
-
-        output_filename = @album.cover_art_cache_file + "_300"
-        Rails.logger.info "Outputting to file: #{output_filename}"
-
-        ImageProcessing::make_thumbnail_300(
-          File.join(Settings.cover_art_cache, @album.cover_art_cache_file),
-          File.join(Settings.cover_art_cache, output_filename)
-        )
-
-        @album.cover_art_file_thumbnail_300 = output_filename
-        @album.save!
-      end
+      make_thumbnail_in_cache(size: 300)
+      make_thumbnail_in_cache(size: 500)
     end
 
+    @album.save!
+  end
+
+  def make_thumbnail_in_cache(size:)
+    return if @album.cover_art_cache_file.blank?
+    raise "Unsupported thumbnail size" unless [300, 500].include?(size)
+
+    source_file = File.join(Settings.cover_art_cache, @album.cover_art_cache_file)
+
+    output_filename = @album.cover_art_cache_file + "_#{size}"
+    destination_file = File.join(Settings.cover_art_cache, output_filename)
+
+    ImageProcessing::send("make_thumbnail_#{size}", source_file, destination_file)
+
+    @album.send("cover_art_file_thumbnail_#{size}=", output_filename)
     @album.save!
   end
 
