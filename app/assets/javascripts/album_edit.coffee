@@ -1,6 +1,11 @@
+#= require update_album_metadata_form
+
 $ ->
-  # FIXME: don't think this is actually getting called.
   Dropzone.options.albumArtUpload = {
-    paramName: "file", // The name that will be used to transfer the file
-    maxFilesize: 16, // MB
-  };
+    paramName: "file", # The name that will be used to transfer the file
+    maxFilesize: 16 # MB
+  }
+
+  metadataForm = new UpdateAlbumMetadataForm('update_album_metadata')
+
+

@@ -52,60 +52,7 @@
 <br>
 <br>
 
-<fieldset>
-  <h3>Update all songs metadata</h3>
-
-  <%= form_for(@album, { url: update_all_songs_metadata_album_path }) do |f| %>
-      <table>
-        <thead>
-        <tr>
-          <th>Album title</th>
-          <th>Disc #</th>
-          <th>Track #</th>
-          <th>Album artist</th>
-          <th>Artist</th>
-          <th>Title</th>
-        </tr>
-        </thead>
-
-        <tbody>
-          <%= f.fields_for :songs do |song_form| %>
-            <tr>
-              <td>
-                <%= song_form.text_field :album_title, { size: 40 } %>
-              </td>
-
-              <td>
-                <%= song_form.text_field :disc_number %>
-              </td>
-
-              <td>
-                <%= song_form.text_field :track_number %>
-              </td>
-
-              <td>
-                <%= song_form.text_field :album_artist, { size: 35 } %>
-              </td>
-
-              <td>
-                <%= song_form.text_field :artist, { size: 35 } %>
-              </td>
-
-              <td>
-                <%= song_form.text_field :title, { size: 80 } %>
-              </td>
-            <tr>
-          <% end %>
-        </tbody>
-      </table>
-      <span>
-        Album title field: if you type in another album's name, that song will move to that album. If it doesn't
-        exist yet, the new album will be created.
-      </span>
-
-    <%= f.submit "Submit. Save all song metadata to db & write to source files." %>
-  <% end %>
-</fieldset>
+<%= render partial: "update_album_metadata_form", locals: { album: @album } %>
 
 <br>
 <br>

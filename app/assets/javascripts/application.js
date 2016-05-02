@@ -26,6 +26,7 @@
 //= require backbone
 //= require priphea
 //= require hotkeys
+//= require album_edit
 //= require_tree ../templates
 //= require_tree ./models
 //= require_tree ./collections
