@@ -22,9 +22,7 @@ Rails.application.routes.draw do
   end
 
   resources :smart_playlists
-
-  resources :settings, only: [:index] do
-  end
+  resources :settings, only: [:index]
 
   resources :albums do
     member do
