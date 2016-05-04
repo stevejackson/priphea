@@ -84,12 +84,12 @@ RSpec.describe LibraryScanner do
     end
 
     it "should be reasonably fast per song on deep scan" do
-      benchmark_scanner(expected_per_song: 275, deep: true)
+      benchmark_scanner(expected_per_song: 400, deep: true)
     end
 
     it "should be reasonably fast per song on second, quick scan" do
       @scanner.scan
-      benchmark_scanner(expected_per_song: 100, deep: false)
+      benchmark_scanner(expected_per_song: 200, deep: false)
     end
   end
 
