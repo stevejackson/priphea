@@ -163,10 +163,10 @@ RSpec.describe LibraryScanner do
       song.rating = new_rating
       song.save!
 
-      # rename the file in the filesystem
+      # rename the file in the filesystem, force update its mtime
       new_filename = File.join(Settings.library_path, "0123.mp3")
-      sleep 2 # ensure mtime changes between the previous save and the file move
       FileUtils.mv(song.full_path, new_filename)
+      FileUtils.touch new_filename, mtime: Time.now.utc + 30.seconds
 
       @scanner.scan
 
