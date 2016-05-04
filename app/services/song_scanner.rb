@@ -47,7 +47,7 @@ class SongScanner
     @mtime = File.mtime(@filename).utc
     @mtime = DateTime.parse(@mtime.to_s).utc if @mtime
 
-    unmodified = (@song.file_date_modified && @mtime.to_s == @song.file_date_modified.utc.to_s)
+    unmodified = !!(@song.file_date_modified && @mtime.to_s == @song.file_date_modified.utc.to_s)
     Rails.logger.debug "Unmodified?: #{unmodified}"
     unmodified
   end
@@ -76,10 +76,9 @@ class SongScanner
   end
 
   def reset_song_mtime
-    now = DateTime.now.utc
-    @mtime = now
-
+    @mtime = DateTime.now.utc
     @song.file_date_modified = @mtime
+
     FileUtils.touch @song.full_path, mtime: Time.parse(@mtime.to_s)
   end
 
