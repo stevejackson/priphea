@@ -9,7 +9,7 @@ bundle install
 
 echo "-----"
 echo "Compiling assets..."
-RAILS_ENV=production rake assets:precompile
+RAILS_ENV=production bundle exec rake assets:precompile
 
 echo "-----"
 echo "Attempting to kill existing rails server..."
@@ -18,7 +18,7 @@ kill -9 $(cat tmp/pids/thin.3456.pid)
 
 echo "-----"
 echo "Starting up new rails server..."
-RAILS_ENV=production rails s thin -p 3456 &> /dev/null &
+RAILS_ENV=production bundle exec rails s thin -p 3456 &> /dev/null &
 
 echo "-----"
 echo "Restarting mongodb..."
