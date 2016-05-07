@@ -31,7 +31,7 @@ automatically.
 Set it up in your crontab with something like this line:
 
 ```
-* * * * * /bin/zsh -l -i -c 'cd /Users/steve/dev/priphea && bin/rails runner -e development '\''BackupDatabase.backup'\'' >> /tmp/priphea_cron.log 2>&1'
+0 */6 * * * /bin/zsh -l -i -c 'cd /Users/steve/dev/priphea && bin/rails runner -e production '\''BackupDatabase.backup'\'' >> /tmp/priphea_cron.log 2>&1'
 ```
 
 To restore your backup if necessary, here is an example command:
