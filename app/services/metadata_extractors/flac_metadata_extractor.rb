@@ -66,7 +66,7 @@ module MetadataExtractors
     end
 
     def year
-      @file_metadata.year.to_s
+      (@file_metadata.year || @file_metadata.date).to_s
     end
 
     def genre
@@ -78,7 +78,9 @@ module MetadataExtractors
     end
 
     def comment
-      @file_metadata.description
+      comment = @file_metadata.comment
+      comment ||= @file_metadata.description
+      comment.to_s
     end
 
   end

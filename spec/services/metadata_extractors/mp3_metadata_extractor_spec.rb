@@ -4,7 +4,7 @@ describe MetadataExtractors::Mp3MetadataExtractor do
 
   context "Unit tests" do
     before :each do
-      @extractor = MetadataExtractors::Mp3MetadataExtractor.new("spec/data/test_songs/metadata-test.mp3")
+      @extractor = MetadataExtractors::Mp3MetadataExtractor.new("spec/data/test_songs/empty-metadata.mp3")
       @extractor.file_metadata = nil
     end
 
