@@ -18,7 +18,7 @@ describe EmbeddedArtExtractor do
 
       mime_type, data = extractor.extract_cover_art_from_metadata
 
-      expect(mime_type).to eq("image/png")
+      expect(mime_type).to eq("image/jpeg")
       expect(data).to_not be_nil
     end
   end

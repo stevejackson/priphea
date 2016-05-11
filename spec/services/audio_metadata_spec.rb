@@ -13,17 +13,17 @@ describe AudioMetadata do
     end
 
     it "should be able to read metadata MP3 into Song record" do
-      year = "1998"
-      title = "Main Theme"
+      year = "2000"
+      title = "Test song"
       track_number = 1
-      total_tracks = 33
+      total_tracks = 12
       disc_number = 1
-      total_discs = 1
-      genre = "Soundtrack"
-      album_artist = "Album_artist"
-      artist = "Michael"
-      composer = "Michael Hoenig"
-      comment = "[PRIPHEA-ID-#{@song.id}]"
+      total_discs = 2
+      genre = "Soul"
+      album_artist = "Test album artist"
+      artist = "Test artist"
+      composer = "Test composer"
+      comment = "Test comment[PRIPHEA-ID-#{@song.id}]"
       filetype = ".mp3"
 
       expect(@song.year).to eq(year)
