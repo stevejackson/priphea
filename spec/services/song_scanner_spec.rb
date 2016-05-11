@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SongScanner do
+describe SongScanner, file_cleaning: :full do
   describe ".file_is_missing" do
     it "should mark song as missing if file no longer exists" do
       path = "abc/123.mp3"

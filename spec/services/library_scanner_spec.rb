@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'benchmark'
 
-RSpec.describe LibraryScanner do
+describe LibraryScanner, file_cleaning: :full do
   before :each do
     @scanner = LibraryScanner.new(Settings.library_path)
   end
