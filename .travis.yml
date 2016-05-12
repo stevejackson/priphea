@@ -1,0 +1,9 @@
+language: ruby # ruby version is determined by `.ruby-version`
+services:
+  - mongodb
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -qq cmus
+  - sudo apt-get install -qq libimage-exiftool-perl # exiftool
+  - sudo apt-get install -qq taglib
+  - sudo apt-get install -qq imagemagick
