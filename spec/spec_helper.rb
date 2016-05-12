@@ -1,6 +1,3 @@
-require 'simplecov'
-SimpleCov.start
-
 require 'database_cleaner'
 DatabaseCleaner[:mongoid].strategy = :truncation
 DatabaseCleaner.strategy = :truncation
