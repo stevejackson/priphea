@@ -134,11 +134,10 @@ class AudioMetadata
       end
     elsif %w(.flac).include?(file_extension)
       TagLib::FLAC::File.open(filename) do |file|
-        tag = file.xiph_comment
         if %w{album artist comment genre title track year}.include?(tag_name)
-          tag.send(tag_name + "=", data.to_s)
+          file.xiph_comment.send(tag_name + "=", data.to_s)
         else
-          tag.send(:add_field, tag_name, data.to_s)
+          file.xiph_comment.send(:add_field, tag_name, data.to_s)
         end
         file.save
       end

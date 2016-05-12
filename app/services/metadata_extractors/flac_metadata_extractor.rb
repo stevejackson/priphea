@@ -78,8 +78,8 @@ module MetadataExtractors
     end
 
     def comment
-      comment = @file_metadata.comment
-      comment ||= @file_metadata.description
+      comment = @file_metadata.description
+      comment ||= @file_metadata.comment
       comment.to_s
     end
 

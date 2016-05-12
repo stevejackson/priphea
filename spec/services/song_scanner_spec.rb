@@ -15,7 +15,7 @@ describe SongScanner, file_cleaning: :full do
 
   describe ".song_is_unmodified" do
     it "should detect if song is unmodified" do
-      full_path = File.join(Settings.library_path, "test_rescan.mp3")
+      full_path = File.join(Settings.library_path, "mp3-test.mp3")
 
       actual_file_mtime = Time.now.utc
 
@@ -31,7 +31,7 @@ describe SongScanner, file_cleaning: :full do
     end
 
     it "should detect if song is modified" do
-      full_path = File.join(Settings.library_path, "test_rescan.mp3")
+      full_path = File.join(Settings.library_path, "mp3-test.mp3")
       song_scanner = SongScanner.new(full_path, false)
 
       actual_file_mtime = Time.now.utc

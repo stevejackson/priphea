@@ -128,7 +128,7 @@ describe LibraryScanner, file_cleaning: :full do
     it "should be able to scan files, rate a song, change song title in metadata, rescan, and retain rating and have changed title" do
       @scanner.scan
 
-      song_path = "spec/data/test_songs/fakemusiclib/test_rescan.mp3"
+      song_path = "spec/data/test_songs/fakemusiclib/mp3-test.mp3"
 
       new_rating = Random.rand(100)
 
@@ -154,7 +154,7 @@ describe LibraryScanner, file_cleaning: :full do
 
       before_song_count = Song.active.count
 
-      song_path = File.join(Settings.library_path, "test_rescan.mp3")
+      song_path = File.join(Settings.library_path, "mp3-test.mp3")
 
       new_rating = Random.rand(100)
 
