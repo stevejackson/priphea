@@ -11,16 +11,16 @@ Priphea is designed specifically for the way I like to organize and listen to mu
 
 Prerequisites:
 
-* Ruby (see .ruby-version)
+* ruby (see .ruby-version)
 * exiftool
 * mongodb
 * taglib
 * cmus
 * imagemagick
 
-## Other setup:
+### Other setup
 
-./setup.sh
+`./setup.sh`
 
 ## To view database
 

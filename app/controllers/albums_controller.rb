@@ -47,9 +47,7 @@ class AlbumsController < ApplicationController
 
   def change_album_art
     album = Album.find(params[:id])
-
     uploaded_io = params[:file]
-
     file_type = File.extname(uploaded_io.original_filename).downcase
 
     album.write_new_album_art!(file_type, uploaded_io.read)
@@ -77,8 +75,7 @@ class AlbumsController < ApplicationController
     path = params[:path]
 
     background do
-      scanner = LibraryScanner.new(path)
-      scanner.scan(true)
+      LibraryScanner.new(path).scan(true)
     end
 
     redirect_to root_path
