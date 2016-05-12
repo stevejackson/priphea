@@ -10,7 +10,6 @@
 *.swo
 *.DS_Store
 /config/database.yml
-/config/secrets.yml
 /config/app_config.yml
 rdoc
 db/schema.rb
@@ -24,8 +23,13 @@ config/settings/*.local.yml
 config/environments/*.local.yml
 
 /public/fakecovers/
+
 /spec/data/cover_art_cache
-/spec/data/test_songs/*
+/spec/data/test_songs/**.mp3
+/spec/data/test_songs/**.flac
+/spec/data/test_songs/**.jpg
+/spec/data/test_songs/**.png
+
 /.idea
 
 /coverage/*
