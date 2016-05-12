@@ -93,22 +93,6 @@ describe LibraryScanner, file_cleaning: :full do
     end
   end
 
-  describe "Metadata" do
-
-    before :each do
-      @scanner.scan
-
-      @mp3 = Song.where({ title: "The Labyrinth" }).first
-      @flac = Song.where({ title: "Sea-Cat Walkway [Boy Meets Girl]" }).first
-    end
-
-    it "duration" do
-      expect(@mp3.duration).to eq("05:54")
-      expect(@flac.duration).to eq("04:07")
-    end
-
-  end
-
   describe "Handling rescanning of same files" do
 
     before :each do
