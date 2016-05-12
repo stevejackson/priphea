@@ -1,3 +1,10 @@
+# Priphea
+
+Priphea is an offline music library manager and playback app.
+It's actually just a Ruby on Rails app running locally that talks to some shell programs behind the scenes.
+
+Priphea is designed specifically for the way I like to organize and listen to music, though feel free to take a look if you're interested!
+
 ## Installation
 
 Prerequisites:
@@ -61,3 +68,8 @@ alias priphea='/bin/zsh -l -i -c "/Users/steve/dev/priphea_production/run.sh"'
 ```
 
 Now I run "priphea" in shell, and it runs the application.
+
+# License
+
+Copyright 2016 Steven Jackson.
+
