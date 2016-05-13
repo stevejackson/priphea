@@ -9,7 +9,8 @@ class Api::SongFilesController < ApplicationController
 
       response.headers['Content-Length'] = size.to_s
 
-      send_file(file,
+      send_file(
+        file,
         type: song.mime_type,
         buffer_size: 1024,
         x_sendfile: true
