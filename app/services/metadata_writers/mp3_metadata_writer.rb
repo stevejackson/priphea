@@ -41,42 +41,69 @@ class Mp3MetadataWriter
 
   def write_tag(tag_name, data)
     return false unless Song::WRITABLE_FIELDS.include? tag_name
-
     tag_name = rename_tag_from_priphea_to_metadata_name(tag_name)
 
+    case tag_name
+    when 'comment'
+      write_comment_tag(data)
+    when 'TPOS' # part of set / disc #
+      write_tpos_tag(data)
+    when 'TPE2'
+      write_tpe2_tag(data)
+    else
+      write_generic_tag(tag_name, data)
+    end
+  end
+
+  def open_mp3_file
     TagLib::MPEG::File.open(@filename) do |file|
       tag = file.id3v2_tag(true)
-      case tag_name
-      when 'comment'
-        new_frame = true
-        if (frame = tag.frame_list('COMM').try(:first))
-          new_frame = false
-        end
-        frame ||= TagLib::ID3v2::CommentsFrame.new
-        frame.language = 'eng'
-        frame.text = data.to_s
-        frame.text_encoding = TagLib::String::UTF8
-        tag.add_frame(frame) if new_frame
-      when 'TPOS' # part of set / disc #
-        new_frame = true
-        if (frame = tag.frame_list('TPOS').try(:first))
-          new_frame = false
-        end
-        frame ||= TagLib::ID3v2::TextIdentificationFrame.new("TPOS", TagLib::String::UTF8)
-        frame.text = data.to_s
-        tag.add_frame(frame) if new_frame
-      when 'TPE2'
-        new_frame = true
-        if (frame = tag.frame_list('TPE2').try(:first))
-          new_frame = false
-        end
-        frame ||= TagLib::ID3v2::TextIdentificationFrame.new("TPE2", TagLib::String::UTF8)
-        frame.text = data.to_s
-        tag.add_frame(frame) if new_frame
-      else
-        tag.send(tag_name + "=", data)
-      end
+      yield tag
       file.save
+    end
+  end
+
+  def write_comment_tag(data)
+    open_mp3_file do |tag|
+      new_frame = true
+      if (frame = tag.frame_list('COMM').try(:first))
+        new_frame = false
+      end
+      frame ||= TagLib::ID3v2::CommentsFrame.new
+      frame.language = 'eng'
+      frame.text = data.to_s
+      frame.text_encoding = TagLib::String::UTF8
+      tag.add_frame(frame) if new_frame
+    end
+  end
+
+  def write_tpos_tag(data)
+    open_mp3_file do |tag|
+      new_frame = true
+      if (frame = tag.frame_list('TPOS').try(:first))
+        new_frame = false
+      end
+      frame ||= TagLib::ID3v2::TextIdentificationFrame.new("TPOS", TagLib::String::UTF8)
+      frame.text = data.to_s
+      tag.add_frame(frame) if new_frame
+    end
+  end
+
+  def write_tpe2_tag(data)
+    open_mp3_file do |tag|
+      new_frame = true
+      if (frame = tag.frame_list('TPE2').try(:first))
+        new_frame = false
+      end
+      frame ||= TagLib::ID3v2::TextIdentificationFrame.new("TPE2", TagLib::String::UTF8)
+      frame.text = data.to_s
+      tag.add_frame(frame) if new_frame
+    end
+  end
+
+  def write_generic_tag(tag_name, data)
+    open_mp3_file do |tag|
+      tag.send(tag_name + "=", data)
     end
   end
 
