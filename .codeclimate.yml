@@ -10,3 +10,9 @@ engines:
    enabled: true
 exclude_paths:
 - "**/vendor/**/*"
+ratings:
+   paths:
+   - "app/**/*"
+   - "lib/**/*"
+   - "**.rb"
+

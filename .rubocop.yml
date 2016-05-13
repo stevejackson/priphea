@@ -1,6 +1,9 @@
 AllCops:
   TargetRubyVersion: 2.2
 
+Metrics/ClassLength:
+  Max: 250
 Metrics/LineLength:
   Max: 120
-
+Metrics/MethodLength:
+  Max: 15

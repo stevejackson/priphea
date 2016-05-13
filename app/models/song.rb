@@ -1,6 +1,8 @@
 require 'taglib'
 
 class Song
+  class UnsupportedFileFormatException < StandardError; end
+
   include Mongoid::Document
   include Mongoid::Attributes::Dynamic
   include Mongoid::Timestamps
@@ -141,6 +143,17 @@ class Song
 
   def file_format
     File.extname(self.full_path).downcase
+  end
+
+  def mime_type
+    case file_format
+    when '.flac'
+      :flac
+    when '.mp3'
+      :mp3
+    else
+      raise UnsupportedFileFormatException
+    end
   end
 
   def flac?

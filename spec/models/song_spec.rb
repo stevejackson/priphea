@@ -20,4 +20,21 @@ describe Song do
     end
   end
 
+  describe ".mime_type" do
+    it "returns :mp3 for mp3 files" do
+      song = create(:song, full_path: "blah.mp3")
+      expect(song.mime_type).to eq(:mp3)
+    end
+
+    it "returns :flac for flac files" do
+      song = create(:song, full_path: "blah.flac")
+      expect(song.mime_type).to eq(:flac)
+    end
+
+    it "raises exception for other files" do
+      song = create(:song, full_path: "test.aac")
+      expect { song.mime_type }.to raise_exception(Song::UnsupportedFileFormatException)
+    end
+  end
+
 end
