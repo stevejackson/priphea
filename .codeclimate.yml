@@ -3,8 +3,6 @@ languages:
 engines:
  rubocop:
    enabled: true
-   AllCops:
-     TargetRubyVersion: 2.2.0
  coffeelint:
    enabled: true
 exclude_paths:
