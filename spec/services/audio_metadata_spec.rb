@@ -140,7 +140,7 @@ describe AudioMetadata, file_cleaning: :full do
         short_string = "short"
         AudioMetadata.new(file).write_tag("comment", short_string)
 
-        actual_metadata_comment = AudioMetadata::from_file(file)['comment']
+        actual_metadata_comment = AudioMetadata.new(file).metadata_hash['comment']
         expect(actual_metadata_comment).to eq(short_string)
       end
 
@@ -148,7 +148,7 @@ describe AudioMetadata, file_cleaning: :full do
         long_string = "[BLAH-BLAH-8043782047u2fjeauf892u89rhfe89]"
         AudioMetadata.new(file).write_tag("comment", long_string)
 
-        actual_metadata_comment = AudioMetadata::from_file(file)['comment']
+        actual_metadata_comment = AudioMetadata.new(file).metadata_hash['comment']
         expect(actual_metadata_comment).to eq(long_string)
       end
 
@@ -173,7 +173,7 @@ describe AudioMetadata, file_cleaning: :full do
 
         expect(@song.write_metadata_to_file!).to be_truthy
 
-        metadata = AudioMetadata::from_file(@song.full_path)
+        metadata = AudioMetadata.new(@song.full_path).metadata_hash
         expect(metadata['title']).to eq(new_title)
         expect(metadata['comment']).to eq(new_comment)
         expect(metadata['track_number']).to eq(new_track_number)

@@ -53,7 +53,7 @@ class SongScanner
   end
 
   def load_metadata_from_file_into_hash
-    @metadata ||= AudioMetadata.from_file(@filename)
+    @metadata ||= AudioMetadata.new(@filename).metadata_hash
   end
 
   def write_priphea_id_to_file_metadata

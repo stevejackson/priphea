@@ -24,7 +24,7 @@ class AudioMetadata
     File.extname(filename).downcase
   end
 
-  def self.from_file(filename)
+  def metadata_hash
     file_extension = AudioMetadata::file_extension(filename)
 
     extractor =
