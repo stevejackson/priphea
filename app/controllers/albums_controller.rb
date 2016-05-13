@@ -55,7 +55,6 @@ class AlbumsController < ApplicationController
     render :json => {}, status: 200
   end
 
-  # updates this album's songs' metadata and then writes it to the files
   def update_all_songs_metadata
     album = Album.includes(:songs).find(params[:id])
     album.update_attributes(params.require(:album).permit(:songs_attributes => ["id"] + Song::WRITABLE_FIELDS))

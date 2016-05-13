@@ -6,9 +6,6 @@ class Api::PlayerController < ApplicationController
     if song_ids && !song_ids.empty?
       songs = song_ids.collect { |id| Song.find(id) }
 
-      puts "--------"
-      songs.each { |s| puts s.title }
-
       $player.song_queue = songs
     end
 
@@ -18,9 +15,8 @@ class Api::PlayerController < ApplicationController
   def set_song_queue_and_play
     song_ids = params[:song_queue]
 
-    if !song_ids.empty?
+    unless song_ids.empty?
       songs = song_ids.collect { |id| Song.find(id) }
-
       $player.song_queue = songs
     end
 
@@ -31,6 +27,7 @@ class Api::PlayerController < ApplicationController
 
   def set_volume
     $player.set_volume(params[:volume])
+
     render json: {}, status: 200
   end
 
