@@ -5,7 +5,7 @@ class Mp3MetadataWriter
     @filename = String(filename)
   end
 
-  def write_cover_art_to_metadata!(filename, cover_art_data, cover_art_file_type)
+  def write_cover_art_to_metadata!(cover_art_data, cover_art_file_type)
     mime_type =
       if cover_art_file_type == '.jpg'
         "image/jpeg"
@@ -13,7 +13,7 @@ class Mp3MetadataWriter
         "image/png"
       end
 
-    TagLib::MPEG::File.open(filename) do |file|
+    TagLib::MPEG::File.open(@filename) do |file|
       tag = file.id3v2_tag
 
       # Remove pre-existing art
