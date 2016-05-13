@@ -25,7 +25,7 @@ describe LibraryScanner, file_cleaning: :full do
 
     it "should create a cache file for the cover art of an album" do
       @scanner.scan
-      album = Album.first
+      album = Album.where(title: "Rogue Galaxy Premium Arrange").first
 
       expect(album.cover_art_cache_file).to_not be_nil
 

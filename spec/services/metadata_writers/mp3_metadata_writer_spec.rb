@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-describe Mp3MetadataWriter do
+describe MetadataWriters::Mp3MetadataWriter do
   describe ".rename_tag_from_priphea_to_metadata_name" do
-    let!(:writer) { Mp3MetadataWriter.new("filename.mp3") }
+    let!(:writer) { MetadataWriters::Mp3MetadataWriter.new("filename.mp3") }
 
     it "handles same-name case" do
       result = writer.rename_tag_from_priphea_to_metadata_name("comment")
