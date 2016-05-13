@@ -31,7 +31,7 @@ class CoverArtUpdater
     output_filename = @album.cover_art_cache_file + "_#{size}"
     destination_file = File.join(Settings.cover_art_cache, output_filename)
 
-    ImageProcessing::send("make_thumbnail_#{size}", source_file, destination_file)
+    ImageProcessing.send("make_thumbnail_#{size}", source_file, destination_file)
 
     @album.send("cover_art_file_thumbnail_#{size}=", output_filename)
     @album.save!
@@ -46,12 +46,8 @@ class CoverArtUpdater
     Album::COVER_ART_FILENAMES.each do |cover_art_filename|
       file = File.join(song_directory, cover_art_filename)
 
-      Rails.logger.debug "Checking if cover art file exists: #{file}"
-
       next unless File.exist?(file)
 
-      Rails.logger.debug "Cover art file exists: #{file}"
-      
       @album.cover_art_file = file
 
       md5 = Digest::MD5.hexdigest(File.read(file)) + File.extname(file)
@@ -59,7 +55,7 @@ class CoverArtUpdater
 
       FileUtils.copy(file, cache_location)
 
-      image_size = ImageMetadata::image_size(cache_location)
+      image_size = ImageMetadata.image_size(cache_location)
       @album.cover_art_width = image_size[:width]
       @album.cover_art_height = image_size[:height]
 
