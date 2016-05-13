@@ -115,10 +115,6 @@ class Song
     res
   end
 
-  def self.already_exists?(song)
-    Song.where({ full_path: song.full_path }).exists?
-  end
-
   def check_existence!
     if self.full_path && File.exists?(self.full_path)
       self.state = 'active'
