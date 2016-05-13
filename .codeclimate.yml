@@ -3,6 +3,9 @@ languages:
 engines:
  rubocop:
    enabled: true
+   checks:
+     Rubocop/Style/StringLiterals:
+       enabled: false
  coffeelint:
    enabled: true
 exclude_paths:
