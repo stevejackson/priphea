@@ -1,1 +1,1 @@
-$player = Player.new
+$player = AudioPlayer.new

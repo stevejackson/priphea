@@ -1,4 +1,4 @@
-class Player
+class AudioPlayer
   attr_accessor :song_queue
   attr_accessor :active_song
 
