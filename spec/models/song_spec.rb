@@ -33,7 +33,7 @@ describe Song do
 
     it "raises exception for other files" do
       song = create(:song, full_path: "test.aac")
-      expect{ song.mime_type }.to raise_exception(Song::UnsupportedFileFormatException)
+      expect { song.mime_type }.to raise_exception(Song::UnsupportedFileFormatException)
     end
   end
 
