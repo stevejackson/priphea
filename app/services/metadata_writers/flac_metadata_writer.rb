@@ -1,4 +1,4 @@
-class FlacMetadataWriter
+class MetadataWriters::FlacMetadataWriter
   attr_accessor :filename
 
   def initialize(filename)

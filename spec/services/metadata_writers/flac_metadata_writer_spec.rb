@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe FlacMetadataWriter do
+describe MetadataWriters::FlacMetadataWriter do
   describe ".rename_tag_from_priphea_to_metadata_name" do
     let!(:writer) { FlacMetadataWriter.new("filename.flac") }
 

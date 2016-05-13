@@ -1,4 +1,4 @@
-class Mp3MetadataWriter
+class MetadataWriters::Mp3MetadataWriter
   attr_accessor :filename
 
   def initialize(filename)

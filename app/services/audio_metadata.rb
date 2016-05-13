@@ -14,9 +14,9 @@ class AudioMetadata
 
     @metadata_writer = case extension
     when '.mp3'
-      Mp3MetadataWriter.new(@filename)
+      MetadataWriters::Mp3MetadataWriter.new(@filename)
     when '.flac'
-      FlacMetadataWriter.new(@filename)
+      MetadataWriters::FlacMetadataWriter.new(@filename)
     end
   end
 

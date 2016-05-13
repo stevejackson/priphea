@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Mp3MetadataWriter do
+describe MetadataWriters::Mp3MetadataWriter do
   describe ".rename_tag_from_priphea_to_metadata_name" do
     let!(:writer) { Mp3MetadataWriter.new("filename.mp3") }
 
