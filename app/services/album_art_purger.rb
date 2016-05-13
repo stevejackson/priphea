@@ -5,7 +5,7 @@ class AlbumArtPurger
     @album = album
   end
 
-  def purge_existing_art
+  def purge_existing_art_files
     directories_with_songs = []
 
     @album.songs.each do |song|

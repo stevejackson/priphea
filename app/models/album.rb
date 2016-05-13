@@ -93,7 +93,7 @@ class Album
     first_active_song = self.songs.active.first
     full_new_cover_art_name = File.join(File.dirname(first_active_song.full_path), "cover" + file_type)
 
-    AlbumArtPurger.new(self).purge_existing_art
+    AlbumArtPurger.new(self).purge_existing_art_files
 
     # write art to disk
     self.write_image_to_file!(cover_art_data, full_new_cover_art_name)
