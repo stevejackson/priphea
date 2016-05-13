@@ -1,6 +1,7 @@
 # Priphea
 
 [![Build Status](https://travis-ci.org/stevejackson/priphea.svg?branch=travis-ci)](https://travis-ci.org/stevejackson/priphea)
+[![Code Climate](https://codeclimate.com/github/stevejackson/priphea/badges/gpa.svg)](https://codeclimate.com/github/stevejackson/priphea)
 
 Priphea is an offline music library manager and playback app.
 It's actually just a Ruby on Rails app running locally that talks to some shell programs behind the scenes.
