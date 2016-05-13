@@ -8,6 +8,6 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 15
 
-Style/Documentation:
+Documentation:
   enabled: false
 
