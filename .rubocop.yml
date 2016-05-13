@@ -8,6 +8,6 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 15
 
-Rubocop/Style/Documentation:
+Style/Documentation:
   enabled: false
 
