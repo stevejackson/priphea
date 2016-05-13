@@ -10,9 +10,9 @@ describe AlbumArtPurger, file_cleaning: :full do
     it "should remove existing art files from an album directory" do
       album = Album.where(title: "Rogue Galaxy Premium Arrange").first
 
-      expect {
+      expect do
         AlbumArtPurger.new(album).purge_existing_art_files
-      }.to change { File.exist?(album.cover_art_file) }.from(true).to(false)
+      end.to change { File.exist?(album.cover_art_file) }.from(true).to(false)
     end
   end
 end
