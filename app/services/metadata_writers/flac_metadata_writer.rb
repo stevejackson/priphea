@@ -5,13 +5,16 @@ class FlacMetadataWriter
     @filename = String(filename)
   end
 
+  def determine_image_format_mime_type(image_file_type)
+    if image_file_type == '.jpg'
+      "image/jpeg"
+    elsif image_file_type == ".png"
+      "image/png"
+    end
+  end
+
   def write_cover_art_to_metadata!(cover_art_data, cover_art_file_type)
-    mime_type =
-      if cover_art_file_type == '.jpg'
-        "image/jpeg"
-      elsif cover_art_file_type == ".png"
-        "image/png"
-      end
+    mime_type = determine_image_format_mime_type(cover_art_file_type)
 
     TagLib::FLAC::File.open(@filename) do |file|
       file.remove_pictures
