@@ -89,6 +89,5 @@ class CoverArtUpdater
 
   def make_cache_directory
     FileUtils.mkdir_p(Settings.cover_art_cache) unless File.directory?(Settings.cover_art_cache)
-    end
   end
 end
