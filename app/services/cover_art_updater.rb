@@ -69,29 +69,28 @@ class CoverArtUpdater
   end
 
   def discover_existing_cover_art_in_song_metadata
-    if @album.cover_art_cache_file.blank?
-      first_song = @album.songs.first
-      extractor = EmbeddedArtExtractor.new(first_song.full_path)
-      cache_location = extractor.write_to_cache!
+    return if @album.cover_art_cache_file.present?
 
-      if cache_location
-        @album.cover_art_cache_file = cache_location
+    first_song = @album.songs.first
+    extractor = EmbeddedArtExtractor.new(first_song.full_path)
+    cache_location = extractor.write_to_cache!
 
-        full_art_path = File.join(Settings.cover_art_cache, cache_location)
-        image_size = ImageMetadata::image_size(full_art_path)
-        @album.cover_art_width = image_size[:width]
-        @album.cover_art_height = image_size[:height]
+    return unless cache_location.present?
 
-        @album.save!
-      end
-    end
+    @album.cover_art_cache_file = cache_location
+
+    full_art_path = File.join(Settings.cover_art_cache, cache_location)
+    image_size = ImageMetadata::image_size(full_art_path)
+    @album.cover_art_width = image_size[:width]
+    @album.cover_art_height = image_size[:height]
+
+    @album.save!
   end
 
   private
 
   def make_cache_directory
-    unless File.directory?(Settings.cover_art_cache)
-      FileUtils.mkdir_p(Settings.cover_art_cache)
+    FileUtils.mkdir_p(Settings.cover_art_cache) unless File.directory?(Settings.cover_art_cache)
     end
   end
 
