@@ -38,9 +38,8 @@ class Mp3MetadataWriter
 
   def write_tag(tag_name, data)
     return false unless Song::WRITABLE_FIELDS.include? tag_name
-    file_extension = AudioMetadata::file_extension(@filename)
 
-    tag_name = AudioMetadata::rename_tag_from_priphea_to_metadata_name(tag_name, file_extension)
+    tag_name = rename_tag_from_priphea_to_metadata_name(tag_name)
 
     TagLib::MPEG::File.open(@filename) do |file|
       tag = file.id3v2_tag(true)
@@ -75,6 +74,21 @@ class Mp3MetadataWriter
         tag.send(tag_name + "=", data)
       end
       file.save
+    end
+  end
+
+  def rename_tag_from_priphea_to_metadata_name(priphea_tag_name)
+    case priphea_tag_name
+    when 'track_number'
+      'track'
+    when 'disc_number'
+      'TPOS' # part of set frame
+    when 'album_artist'
+      'TPE2'
+    when 'album_title'
+      'album'
+    else
+      priphea_tag_name
     end
   end
 end

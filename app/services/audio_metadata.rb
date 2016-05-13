@@ -54,34 +54,4 @@ class AudioMetadata
     existing_comment.match /\[PRIPHEA-ID-(.{24})\]/
     $1
   end
-
-  # if track number is stored in priphea db as "track_number", in mp3 id3v2 it's named "track".
-  # this method turns "track_number" into "track".
-
-  # some example of an id3v2 data set:
-  # - ["TIT2 Sea-Cat Walkway [Boy Meets Girl]", "TPE1 arc", "TRCK 1/0", "TALB Sea-Cat Walkway - Mother Arrange+Original Album", "TPOS 0/0", "TDRC 2006", "TCON 同ﾺ", "APIC [image/jpeg]", "POPM no@email rating=255 counter=0", "TBPM 0", "TCMP 0", "TDOR 0000", "TPE2 arc", "UFID ", "USLT "]
-  def self::rename_tag_from_priphea_to_metadata_name(priphea_tag_name, extension)
-    if extension == '.mp3'
-      case priphea_tag_name
-        when 'track_number'
-          'track'
-        when 'disc_number'
-          'TPOS' # part of set frame
-        when 'album_artist'
-          'TPE2'
-        when 'album_title'
-          'album'
-        else
-          priphea_tag_name
-      end
-    else
-      case priphea_tag_name
-        when 'album_title'
-          'album'
-        else
-          priphea_tag_name
-      end
-    end
-  end
-
 end

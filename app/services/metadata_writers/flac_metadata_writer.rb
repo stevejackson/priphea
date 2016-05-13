@@ -29,9 +29,8 @@ class FlacMetadataWriter
 
   def write_tag(tag_name, data)
     return false unless Song::WRITABLE_FIELDS.include? tag_name
-    file_extension = AudioMetadata::file_extension(@filename)
 
-    tag_name = AudioMetadata::rename_tag_from_priphea_to_metadata_name(tag_name, file_extension)
+    tag_name = rename_tag_from_priphea_to_metadata_name(tag_name)
 
     TagLib::FLAC::File.open(@filename) do |file|
       if %w{album artist comment genre title track year}.include?(tag_name)
@@ -40,6 +39,15 @@ class FlacMetadataWriter
         file.xiph_comment.send(:add_field, tag_name, data.to_s)
       end
       file.save
+    end
+  end
+
+  def rename_tag_from_priphea_to_metadata_name(priphea_tag_name)
+    case priphea_tag_name
+    when 'album_title'
+      'album'
+    else
+      priphea_tag_name
     end
   end
 end
