@@ -138,17 +138,17 @@ describe AudioMetadata, file_cleaning: :full do
 
       it "should be able to write a short comment" do
         short_string = "short"
-        AudioMetadata::write_tag(file, "comment", short_string)
+        AudioMetadata.new(file).write_tag("comment", short_string)
 
-        actual_metadata_comment = AudioMetadata::from_file(file)['comment']
+        actual_metadata_comment = AudioMetadata.new(file).metadata_hash['comment']
         expect(actual_metadata_comment).to eq(short_string)
       end
 
       it "should be able to write long comment" do
         long_string = "[BLAH-BLAH-8043782047u2fjeauf892u89rhfe89]"
-        AudioMetadata::write_tag(file, "comment", long_string)
+        AudioMetadata.new(file).write_tag("comment", long_string)
 
-        actual_metadata_comment = AudioMetadata::from_file(file)['comment']
+        actual_metadata_comment = AudioMetadata.new(file).metadata_hash['comment']
         expect(actual_metadata_comment).to eq(long_string)
       end
 
@@ -173,7 +173,7 @@ describe AudioMetadata, file_cleaning: :full do
 
         expect(@song.write_metadata_to_file!).to be_truthy
 
-        metadata = AudioMetadata::from_file(@song.full_path)
+        metadata = AudioMetadata.new(@song.full_path).metadata_hash
         expect(metadata['title']).to eq(new_title)
         expect(metadata['comment']).to eq(new_comment)
         expect(metadata['track_number']).to eq(new_track_number)
@@ -194,36 +194,6 @@ describe AudioMetadata, file_cleaning: :full do
       it_behaves_like "writable_metadata_fields" do
         let!(:file) { File.join(Settings.library_path, "flac-test.flac") }
       end
-    end
-  end
-
-  describe ".rename_tag_from_priphea_to_metadata_name" do
-    it "handles same-name case" do
-      result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("comment", @ext)
-      expect(result).to eq("comment")
-    end
-
-    context "MP3" do
-      before { @ext = ".mp3" }
-
-      it "track_number" do
-        result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("track_number", @ext)
-        expect(result).to eq("track")
-      end
-
-      it "disc_number" do
-        result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("disc_number", @ext)
-        expect(result).to eq("TPOS")
-      end
-
-      it "album_artist" do
-        result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("album_artist", @ext)
-        expect(result).to eq("TPE2")
-      end
-    end
-
-    context "FLAC" do
-      before { @ext = ".flac" }
     end
   end
 end

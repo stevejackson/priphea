@@ -124,7 +124,7 @@ describe LibraryScanner, file_cleaning: :full do
 
       # need to change song title in metadata, then reimport it
       title_after = "TestTitle_#{Random.rand(100000)}"
-      AudioMetadata::write_tag(song.full_path, "title", title_after)
+      AudioMetadata.new(song.full_path).write_tag("title", title_after)
 
       @scanner.scan
 

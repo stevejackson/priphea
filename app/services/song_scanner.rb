@@ -53,12 +53,12 @@ class SongScanner
   end
 
   def load_metadata_from_file_into_hash
-    @metadata ||= AudioMetadata.from_file(@filename)
+    @metadata ||= AudioMetadata.new(@filename).metadata_hash
   end
 
   def write_priphea_id_to_file_metadata
     @metadata['comment'] = AudioMetadata.generate_priphea_id_comment(@metadata['comment'], @song)
-    AudioMetadata::write_tag(@filename, "comment", @metadata['comment'])
+    AudioMetadata.new(@filename).write_tag("comment", @metadata['comment'])
   end
 
   def load_file_metadata_into_song_record

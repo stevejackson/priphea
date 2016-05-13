@@ -130,7 +130,7 @@ class Song
   # write new embedded cover art metadata. erase all previous art in this metadata.
   def write_cover_art_to_metadata!(file_type, cover_art_data)
     Rails.logger.info "--- Trying to write cover art metadata for song #{self.id} - #{self.title}."
-    AudioMetadata::write_cover_art_to_metadata!(self.full_path, cover_art_data, file_type)
+    AudioMetadata.new(self.full_path).write_cover_art_to_metadata!(cover_art_data, file_type)
   end
 
   def delete_source_file!
@@ -166,7 +166,7 @@ class Song
 
   def write_metadata_to_file!
     (Song::WRITABLE_FIELDS).each do |field_name|
-      AudioMetadata::write_tag(self.full_path, field_name, self.send(field_name))
+      AudioMetadata.new(self.full_path).write_tag(field_name, self.send(field_name))
     end
   end
 
