@@ -1,4 +1,22 @@
+require 'forwardable'
+
 class AudioMetadata
+  extend Forwardable
+
+  attr_accessor :metadata_writer
+  delegate [:write_cover_art_to_metadata!] => :metadata_writer
+
+  def initialize(filename)
+    extension = File.extname(filename).downcase
+
+    @metadata_writer = case extension
+    when '.mp3'
+      Mp3MetadataWriter.new
+    when '.flac'
+      FlacMetadataWriter.new
+    end
+  end
+
   def self.file_extension(filename)
     File.extname(filename).downcase
   end
@@ -17,56 +35,6 @@ class AudioMetadata
 
     metadata = extractor.create_metadata_hash
     metadata
-  end
-
-  def self.write_cover_art_to_metadata!(filename, cover_art_data, cover_art_file_type)
-    file_format = File.extname(filename).downcase
-    mime_type = if cover_art_file_type == '.jpg'
-      "image/jpeg"
-    elsif cover_art_file_type == ".png"
-      "image/png"
-    end
-
-    if file_format == '.flac'
-      Rails.logger.info "--- Writing FLAC metadata."
-
-      TagLib::FLAC::File.open(filename) do |file|
-        file.remove_pictures # remove all pre-existing pictures.
-
-        pic = TagLib::FLAC::Picture.new
-        pic.type = TagLib::FLAC::Picture::FrontCover
-        pic.mime_type = mime_type
-        pic.description = "Cover"
-        pic.data = cover_art_data
-
-        file.add_picture(pic)
-        file.save
-      end
-    elsif file_format == '.mp3'
-      Rails.logger.info "--- Writing MP3 metadata."
-
-      TagLib::MPEG::File.open(filename) do |file|
-        tag = file.id3v2_tag
-
-        # Remove pre-existing art
-        tag.frame_list('APIC').each do |frame|
-          tag.remove_frame(frame)
-        end
-
-        file.save
-
-        # Add attached picture frame
-        apic = TagLib::ID3v2::AttachedPictureFrame.new
-        apic.mime_type = mime_type
-        apic.description = "Cover"
-        apic.type = TagLib::ID3v2::AttachedPictureFrame::FrontCover
-        apic.picture = cover_art_data
-
-        tag.add_frame(apic)
-
-        file.save
-      end
-    end
   end
 
   def self.generate_priphea_id_comment(existing_comment, song)
