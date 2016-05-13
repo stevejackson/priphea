@@ -15,7 +15,6 @@ module BackupDatabase
     end
     
     cron_log.info "mongodumb output: #{output}"
-
     cron_log.info("Ran mongodump.")
   end
 end
