@@ -8,7 +8,6 @@ class AudioPlayer
 
   def play
     @active_song = @song_queue.first
-    puts "Next song: #{@song_queue.inspect}"
 
     if @active_song
       cli_command = %Q{ cmus-remote --file "#{@active_song.full_path}" }
@@ -19,12 +18,8 @@ class AudioPlayer
   # is the current song finished playing?
   def finished_song?
     results = self.status
-    puts "Checking if song is finished playing: #{results[:position]} / #{results[:duration]}"
-    if results[:position] == results[:duration]
-      true
-    else
-      false
-    end
+
+    results[:position] == results[:duration]
   end
 
   def resume
@@ -66,7 +61,6 @@ class AudioPlayer
   end
 
   def next_song
-    puts "Next song: #{@song_queue.inspect}"
     @song_queue.shift
     self.play
   end
