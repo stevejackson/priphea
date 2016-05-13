@@ -196,34 +196,4 @@ describe AudioMetadata, file_cleaning: :full do
       end
     end
   end
-
-  describe ".rename_tag_from_priphea_to_metadata_name" do
-    it "handles same-name case" do
-      result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("comment", @ext)
-      expect(result).to eq("comment")
-    end
-
-    context "MP3" do
-      before { @ext = ".mp3" }
-
-      it "track_number" do
-        result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("track_number", @ext)
-        expect(result).to eq("track")
-      end
-
-      it "disc_number" do
-        result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("disc_number", @ext)
-        expect(result).to eq("TPOS")
-      end
-
-      it "album_artist" do
-        result = AudioMetadata::rename_tag_from_priphea_to_metadata_name("album_artist", @ext)
-        expect(result).to eq("TPE2")
-      end
-    end
-
-    context "FLAC" do
-      before { @ext = ".flac" }
-    end
-  end
 end
