@@ -9,5 +9,5 @@ Metrics/MethodLength:
   Max: 15
 
 Documentation:
-  enabled: false
+  Enabled: false
 
