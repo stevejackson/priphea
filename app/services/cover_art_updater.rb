@@ -47,24 +47,26 @@ class CoverArtUpdater
       file = File.join(song_directory, cover_art_filename)
 
       Rails.logger.debug "Checking if cover art file exists: #{file}"
-      if File.exists?(file)
-        Rails.logger.debug "Cover art file exists: #{file}"
-        @album.cover_art_file = file
 
-        md5 = Digest::MD5.hexdigest(File.read(file)) + File.extname(file)
-        cache_location = File.join(Settings.cover_art_cache, md5)
+      next unless File.exist?(file)
 
-        FileUtils.copy(file, cache_location)
+      Rails.logger.debug "Cover art file exists: #{file}"
+      
+      @album.cover_art_file = file
 
-        image_size = ImageMetadata::image_size(cache_location)
-        @album.cover_art_width = image_size[:width]
-        @album.cover_art_height = image_size[:height]
+      md5 = Digest::MD5.hexdigest(File.read(file)) + File.extname(file)
+      cache_location = File.join(Settings.cover_art_cache, md5)
 
-        @album.cover_art_cache_file = md5
-        @album.save!
+      FileUtils.copy(file, cache_location)
 
-        break
-      end
+      image_size = ImageMetadata::image_size(cache_location)
+      @album.cover_art_width = image_size[:width]
+      @album.cover_art_height = image_size[:height]
+
+      @album.cover_art_cache_file = md5
+      @album.save!
+
+      break
     end
   end
 
