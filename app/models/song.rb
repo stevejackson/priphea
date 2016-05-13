@@ -166,7 +166,7 @@ class Song
 
   def write_metadata_to_file!
     (Song::WRITABLE_FIELDS).each do |field_name|
-      AudioMetadata::write_tag(self.full_path, field_name, self.send(field_name))
+      AudioMetadata.new(self.full_path).write_tag(field_name, self.send(field_name))
     end
   end
 

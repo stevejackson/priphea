@@ -138,7 +138,7 @@ describe AudioMetadata, file_cleaning: :full do
 
       it "should be able to write a short comment" do
         short_string = "short"
-        AudioMetadata::write_tag(file, "comment", short_string)
+        AudioMetadata.new(file).write_tag("comment", short_string)
 
         actual_metadata_comment = AudioMetadata::from_file(file)['comment']
         expect(actual_metadata_comment).to eq(short_string)
@@ -146,7 +146,7 @@ describe AudioMetadata, file_cleaning: :full do
 
       it "should be able to write long comment" do
         long_string = "[BLAH-BLAH-8043782047u2fjeauf892u89rhfe89]"
-        AudioMetadata::write_tag(file, "comment", long_string)
+        AudioMetadata.new(file).write_tag("comment", long_string)
 
         actual_metadata_comment = AudioMetadata::from_file(file)['comment']
         expect(actual_metadata_comment).to eq(long_string)
