@@ -1,2 +1,9 @@
+languages:
+   Ruby: true
+engines:
+ rubocop:
+   enabled: true
+ coffeelint:
+   enabled: true
 exclude_paths:
 - "**/vendor/**/*"
