@@ -2,9 +2,11 @@
   "name": "dsl-generated dependencies",
   "dependencies": {
     "dropzone": "~> 4.3",
+    "jquery": "latest",
+    "jquery.lazyload": "~> 1.9",
+    "jquery-ujs": "latest",
     "featherlight": "~> 1.4",
     "sprintf": "~> 1.0",
-    "jquery.lazyload": "~> 1.9",
     "tablesorter": "latest"
   }
 }
