@@ -1,3 +1,0 @@
-rails: bundle install && RAILS_ENV=production rake assets:precompile && RAILS_ENV=production bundle exec rails server thin -p 3456
-mongodb: brew services restart mongodb
-cmus: cmus 2> /dev/null
