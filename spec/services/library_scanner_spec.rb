@@ -109,7 +109,8 @@ describe LibraryScanner, file_cleaning: :full do
       expect(Song.count).to equal(before_song_count)
     end
 
-    it "should be able to rate a song, change song title in metadata, rescan, and retain rating and have changed title" do
+    it "should be able to rate a song, change song title in metadata,
+        rescan, and retain rating and have changed title" do
       @scanner.scan
 
       song_path = "spec/data/test_songs/fakemusiclib/mp3-test.mp3"
