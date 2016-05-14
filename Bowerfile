@@ -1,1 +1,5 @@
 asset 'dropzone', '~> 4.3'
+asset 'featherlight', '~> 1.4'
+asset 'sprintf', '~> 1.0'
+asset 'jquery.lazyload', '~> 1.9'
+asset 'tablesorter'
