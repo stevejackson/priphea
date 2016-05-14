@@ -12,11 +12,11 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require vendor/sprintf
-//= require vendor/jquery.tablesorter.min
+//= require sprintf
+//= require tablesorter/jquery.tablesorter
 //= require vendor/mousetrap
-//= require vendor/jquery.lazyload
-//= require vendor/featherlight.min
+//= require jquery.lazyload
+//= require featherlight
 //= require dropzone
 //= require underscore
 //= require resizer

@@ -237,7 +237,6 @@ DEPENDENCIES
   bower-rails
   database_cleaner (~> 1.2)
   factory_girl_rails
-  jquery-rails (~> 4.0)
   meta_request (~> 0.3)
   mini_exiftool (~> 2.7)
   mongoid (~> 4.0)

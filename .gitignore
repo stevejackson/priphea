@@ -30,3 +30,5 @@ config/environments/*.local.yml
 /.idea
 
 /coverage/*
+
+/vendor/assets/bower_components/**/*
