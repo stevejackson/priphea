@@ -6,37 +6,39 @@ module MetadataWriters
       @filename = String(filename)
     end
 
-    def determine_image_format_mime_type(image_file_type)
-      if image_file_type == '.jpg'
-        "image/jpeg"
-      elsif image_file_type == ".png"
-        "image/png"
+    def open_mp3_file
+      TagLib::MPEG::File.open(@filename) do |file|
+        tag = file.id3v2_tag(true)
+        yield tag
+        file.save
       end
     end
 
     def write_cover_art_to_metadata!(cover_art_data, cover_art_file_type)
-      mime_type = determine_image_format_mime_type(cover_art_file_type)
+      mime_type = MimeTypeConverter.from_extension(cover_art_file_type)
 
-      TagLib::MPEG::File.open(@filename) do |file|
-        tag = file.id3v2_tag
+      remove_preexisting_cover_art
+      embed_new_cover_art(mime_type, cover_art_data)
+    end
 
-        # Remove pre-existing art
+    def remove_preexisting_cover_art
+      open_mp3_file do |tag|
         tag.frame_list('APIC').each do |frame|
           tag.remove_frame(frame)
         end
+      end
+    end
 
-        file.save
-
-        # Add attached picture frame
+    def embed_new_cover_art(mime_type, cover_art_data)
+      open_mp3_file do |tag|
         apic = TagLib::ID3v2::AttachedPictureFrame.new
+
         apic.mime_type = mime_type
         apic.description = "Cover"
         apic.type = TagLib::ID3v2::AttachedPictureFrame::FrontCover
         apic.picture = cover_art_data
 
         tag.add_frame(apic)
-
-        file.save
       end
     end
 
@@ -53,14 +55,6 @@ module MetadataWriters
         write_tpe2_tag(data)
       else
         write_generic_tag(tag_name, data)
-      end
-    end
-
-    def open_mp3_file
-      TagLib::MPEG::File.open(@filename) do |file|
-        tag = file.id3v2_tag(true)
-        yield tag
-        file.save
       end
     end
 
