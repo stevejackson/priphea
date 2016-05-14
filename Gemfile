@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2'
 
+gem 'bower-rails'
+
 gem 'mongoid', '~> 4.0'
 
 gem 'rails_config', '~> 0.3'

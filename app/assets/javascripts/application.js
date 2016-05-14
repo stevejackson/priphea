@@ -17,7 +17,7 @@
 //= require vendor/mousetrap
 //= require vendor/jquery.lazyload
 //= require vendor/featherlight.min
-//= require vendor/dropzone
+//= require dropzone
 //= require underscore
 //= require resizer
 //= require player

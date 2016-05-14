@@ -47,6 +47,7 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bower-rails (0.10.0)
     bson (2.3.0)
     builder (3.2.2)
     byebug (2.7.0)
@@ -225,6 +226,7 @@ DEPENDENCIES
   backbone-on-rails (~> 1.1)
   better_errors (~> 1.1)
   binding_of_caller (~> 0.7)
+  bower-rails
   database_cleaner (~> 1.2)
   factory_girl_rails
   jquery-rails (~> 4.0)

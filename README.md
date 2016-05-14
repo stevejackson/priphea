@@ -18,6 +18,7 @@ Prerequisites:
 * taglib
 * cmus
 * imagemagick
+* nodejs
 
 ### Other setup
 
