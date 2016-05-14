@@ -1,11 +1,17 @@
 #!/bin/sh
 
+set -e
+
 echo "Starting up Priphea in production mode..."
+cd /Users/steve/dev/priphea_production
 
 echo "-----"
 echo "Installing bundle..."
-cd /Users/steve/dev/priphea_production
 bundle install
+
+echo "-----"
+echo "Installing bower assets..."
+RAILS_ENV=production bundle exec rake bower:install
 
 echo "-----"
 echo "Compiling assets..."
