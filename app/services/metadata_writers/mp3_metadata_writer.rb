@@ -6,16 +6,8 @@ module MetadataWriters
       @filename = String(filename)
     end
 
-    def determine_image_format_mime_type(image_file_type)
-      if image_file_type == '.jpg'
-        "image/jpeg"
-      elsif image_file_type == ".png"
-        "image/png"
-      end
-    end
-
     def write_cover_art_to_metadata!(cover_art_data, cover_art_file_type)
-      mime_type = determine_image_format_mime_type(cover_art_file_type)
+      mime_type = MimeTypeConverter.from_extension(cover_art_file_type)
 
       TagLib::MPEG::File.open(@filename) do |file|
         tag = file.id3v2_tag
