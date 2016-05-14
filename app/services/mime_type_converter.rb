@@ -8,7 +8,6 @@ class MimeTypeConverter
   }.freeze
 
   def self.from_extension(extension)
-    extension = extension.downcase
-    EXTENSION_TO_MIME_TYPE_MAPPING[extension]
+    EXTENSION_TO_MIME_TYPE_MAPPING[extension.downcase]
   end
 end
