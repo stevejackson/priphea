@@ -11,7 +11,7 @@
 // about supported directives.
 //
 //= require jquery
-//= require jquery_ujs
+//= require jquery-ujs
 //= require sprintf
 //= require tablesorter/jquery.tablesorter
 //= require vendor/mousetrap
@@ -24,11 +24,11 @@
 //= require volume
 //= require handlers
 //= require backbone
-//= require priphea
+//= require backbone_priphea.js.coffee
 //= require hotkeys
 //= require album_edit
-//= require_tree ../templates
-//= require_tree ./models
-//= require_tree ./collections
-//= require_tree ./views
-//= require_tree ./routers
+//= require_tree ../backbone_templates
+//= require_tree ./backbone_models
+//= require_tree ./backbone_collections
+//= require_tree ./backbone_views
+//= require_tree ./backbone_routers
