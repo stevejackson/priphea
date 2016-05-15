@@ -24,11 +24,10 @@
 //= require volume
 //= require handlers
 //= require backbone
-//= require backbone_priphea.js.coffee
 //= require hotkeys
 //= require album_edit
-//= require_tree ../backbone_templates
-//= require_tree ./backbone_models
-//= require_tree ./backbone_collections
-//= require_tree ./backbone_views
-//= require_tree ./backbone_routers
+//= require angular
+//= require angular-rails-templates
+//= require angular_app
+//= require_tree ./templates
+

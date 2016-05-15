@@ -10,6 +10,7 @@ gem 'rails_config', '~> 0.3'
 
 gem 'sprockets-es6' # Babel JS
 
+gem 'angular-rails-templates'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
 gem 'therubyracer', platforms: :ruby
