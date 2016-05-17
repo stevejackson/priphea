@@ -46,4 +46,4 @@ class Priphea.Views.AlbumsSearch extends Backbone.View
     $('img.lazy').lazyload({
       container: $('#cover_art_gallery'),
       effect: 'fadeIn'
-    });
+    })
