@@ -17,4 +17,8 @@ let albumBrowserController = function($scope, $http) {
         $scope.albums = data;
       }
     );
+
+  $scope.showAlbum = function(albumId) {
+    alert('single click');
+  }
 };

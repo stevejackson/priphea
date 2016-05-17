@@ -3,6 +3,10 @@
   <div id="content_area">
     <div class="album" ng-repeat="album in albums">
       <div class="cover">
+        <a ng-click="showAlbum(album.id)" href="#albums/{{ album.id }}" data-album-id="{{ album.id }}">
+          <img ng-show="album.has_cover_art" src="{{ '/cover_art/' + album.id }}">
+          <div ng-hide="album.has_cover_art" class="no_cover"></div>
+        </a>
       </div>
 
       <div class="album_title">
@@ -15,3 +19,4 @@
   </div> <!-- #content_area -->
 
 </div> <!-- #cover_art_gallery -->
+
