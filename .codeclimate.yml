@@ -17,6 +17,8 @@ engines:
 exclude_paths:
 - "**/vendor/**/*"
 - "config/initializers/patches/**/*.rb"
+- "spec/teaspoon_env.rb"
+- "public/**/*"
 
 ratings:
    paths:
