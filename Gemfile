@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2'
+gem 'rake', '~> 11'
 
 gem 'bower-rails'
 
@@ -38,6 +39,8 @@ group :development, :test do
 
   gem 'rspec-rails', '~> 3.0'
   gem 'database_cleaner', '~> 1.2'
+
+  gem 'teaspoon-mocha'
 end
 
 group :test do

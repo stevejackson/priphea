@@ -1,6 +1,5 @@
 $(document).ready(function() {
   function updateVolume() {
-    console.log("OKOKOK");
     let value = $("#volume_control").val();
     let player = new Player();
 

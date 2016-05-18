@@ -7,3 +7,5 @@ before_install:
   - sudo apt-get install -qq libimage-exiftool-perl # exiftool
   - sudo apt-get install -qq libtag1-dev # taglib
   - sudo apt-get install -qq imagemagick
+script:
+  - bundle exec rake test
