@@ -3,10 +3,12 @@ let priphea = angular.module(
   [
     'templates',
     'controllers',
-    'directives'
+    'directives',
+    'services'
   ]
 );
 
 let controllers = angular.module('controllers', []);
 let directives = angular.module('directives', []);
+let services = angular.module('services', []);
 

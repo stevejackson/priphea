@@ -5,12 +5,12 @@ let albumBrowser = function() {
   return {
     restrict: 'E',
     templateUrl: 'angular/album_browser/albumBrowser.html',
-    controller: ['$scope', '$http', albumBrowserController]
+    controller: ['$scope', '$http', 'AlbumSelectionService', albumBrowserController]
   };
 };
 directives.directive('albumBrowser', albumBrowser);
 
-let albumBrowserController = function($scope, $http) {
+let albumBrowserController = function($scope, $http, AlbumSelectionService) {
   $http.get('/api/albums').
     success(
       function(data) {
@@ -18,7 +18,5 @@ let albumBrowserController = function($scope, $http) {
       }
     );
 
-  $scope.showAlbum = function(albumId) {
-    alert('single click');
-  }
+  $scope.showAlbum = AlbumSelectionService.setSelectedAlbum;
 };
