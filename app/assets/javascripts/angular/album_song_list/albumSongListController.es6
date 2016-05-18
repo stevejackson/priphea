@@ -1,4 +1,4 @@
-let controllers = angular.module("controllers", []);
+let controllers = angular.module("controllers");
 
 let albumSongListController = function($scope, $http, AlbumSelectionService) {
   $scope.$watch(
