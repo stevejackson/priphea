@@ -5,6 +5,7 @@ let priphea = angular.module(
     'controllers',
     'directives',
     'services',
+    'filters',
     'tableSort' // angular-tablesort
   ]
 );
@@ -12,4 +13,5 @@ let priphea = angular.module(
 let controllers = angular.module('controllers', []);
 let directives = angular.module('directives', []);
 let services = angular.module('services', []);
+let filters = angular.module('filters', []);
 
