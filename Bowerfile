@@ -1,4 +1,5 @@
 asset 'angular', '~> 1'
+asset 'angular-mocks'
 asset 'dropzone', '~> 4.3'
 asset 'jquery'
 asset 'jquery.lazyload', '~> 1.9'

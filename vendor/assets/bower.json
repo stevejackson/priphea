@@ -2,6 +2,7 @@
   "name": "dsl-generated dependencies",
   "dependencies": {
     "angular": "~> 1",
+    "angular-mocks": "latest",
     "dropzone": "~> 4.3",
     "jquery": "latest",
     "jquery.lazyload": "~> 1.9",
