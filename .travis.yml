@@ -8,6 +8,7 @@ before_install:
   - sudo apt-get install -qq libtag1-dev # taglib
   - sudo apt-get install -qq imagemagick
 install:
+  - bundle install
   - bundle exec rake bower:install
 script:
   - bundle exec rake test
