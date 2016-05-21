@@ -3,13 +3,6 @@ let controllers = angular.module('controllers');
 let albumBrowserController = function($scope, $http) {
   $scope.selectedAlbum = null;
 
-  $http.get('/api/albums').
-    success(
-      function(data) {
-        $scope.albums = data;
-      }
-    );
-
   $scope.showAlbum = function(albumId) {
     $http.get(`/api/albums/${albumId}`).
       success(
@@ -17,7 +10,23 @@ let albumBrowserController = function($scope, $http) {
           $scope.selectedAlbum = data;
         }
       );
-  }
+  };
+
+  let fetchAllAlbums = function() {
+    $http.get('/api/albums').
+    success(
+      function(data) {
+        $scope.albums = data;
+      }
+    );
+  };
+
+  let init = function() {
+    fetchAllAlbums();
+  };
+
+  init();
+
 };
 
 controllers.controller(
