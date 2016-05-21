@@ -1,6 +1,7 @@
 let controllers = angular.module('controllers');
 
 let albumBrowserController = function($scope, $http) {
+  $scope.albums = [];
   $scope.selectedAlbum = null;
 
   $scope.showAlbum = function(albumId) {
@@ -26,7 +27,6 @@ let albumBrowserController = function($scope, $http) {
   };
 
   init();
-
 };
 
 controllers.controller(
