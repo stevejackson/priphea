@@ -1,6 +1,58 @@
-<div id="browser" class="twenty-one columns">
+<div id="browser" class="twenty-one columns" ng-controller="albumBrowserController">
 
-  <%= render 'album_browser' %>
-  <%= render 'song_list' %>
+  <div id="cover_art_gallery">
+
+    <div id="content_area">
+      <div class="album" ng-repeat="album in albums">
+        <div class="cover">
+          <a ng-click="showAlbum(album.id)" ng-href="#albums/{{ album.id }}" data-album-id="{{ album.id }}">
+            <img ng-show="album.has_cover_art" ng-src="/cover_art/{{ album.id }}">
+            <div ng-hide="album.has_cover_art" class="no_cover"></div>
+          </a>
+        </div>
+
+        <div class="album_title">
+          <p>
+            {{ album.title }}
+          </p>
+        </div>
+
+      </div>
+    </div> <!-- #content_area -->
+
+  </div> <!-- #cover_art_gallery -->
+
+  <div id="song_list" ng-show="selectedAlbum">
+    <table id="song_list_table" class="tablesorter">
+      <thead>
+      <tr>
+        <th class='now_playing'>
+        </th>
+        <th>Disc #</th>
+        <th>Track #</th>
+        <th>Title</th>
+        <th>Artist</th>
+        <th>Duration</th>
+        <th>Album</th>
+        <th>Rating</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr ng-repeat="song in selectedAlbum.songs">
+        <td class="now_playing"></td>
+        <td>{{ song.disc_number }}</td>
+        <td>{{ song.track_number }}</td>
+        <td>{{ song.title }}</td>
+        <td>{{ song.artist }}</td>
+        <td>{{ song.duration }}</td>
+        <td>{{ album.title }}</td>
+        <td class="rating" data-sort-value="{{ song.rating }}" data-rating="{{ song.rating }}"></td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+
 
 </div>
