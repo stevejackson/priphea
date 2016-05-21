@@ -4,7 +4,8 @@ let priphea = angular.module(
     'templates',
     'controllers',
     'directives',
-    'services'
+    'services',
+    'tableSort' // angular-tablesort
   ]
 );
 
