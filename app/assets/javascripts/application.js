@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery-ujs
 //= require sprintf
-//= require tablesorter/jquery.tablesorter
 //= require vendor/mousetrap
 //= require jquery.lazyload
 //= require featherlight
@@ -27,6 +26,7 @@
 //= require hotkeys
 //= require album_edit
 //= require angular
+//= require angular-tablesort
 //= require angular-rails-templates
 //= require angular_app
 //= require_tree ./angular

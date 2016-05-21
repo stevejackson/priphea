@@ -9,6 +9,6 @@
     "jquery-ujs": "latest",
     "featherlight": "~> 1.4",
     "sprintf": "~> 1.0",
-    "tablesorter": "latest"
+    "angular-tablesort": "latest"
   }
 }
