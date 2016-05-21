@@ -30,7 +30,6 @@ let albumBrowserController = function($scope, $http) {
 };
 
 controllers.controller(
-  'albumBrowserController',
+  'AlbumBrowserController',
   ["$scope", "$http", albumBrowserController]
 );
-
