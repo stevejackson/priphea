@@ -47,7 +47,7 @@
           <td>{{ song.artist }}</td>
           <td>{{ song.duration }}</td>
           <td>{{ album.title }}</td>
-          <td>{{ song.rating | ratingToStarCount }}</td>
+          <td><star-bar song-star-rating="{{song.rating | ratingToStarCount}}" song-id="{{ song.id }}"></star-bar></td>
         </tr>
       </tbody>
     </table>
