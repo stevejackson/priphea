@@ -2,13 +2,14 @@
   "name": "dsl-generated dependencies",
   "dependencies": {
     "angular": "~> 1",
+    "angular-ui-router": "latest",
     "angular-mocks": "latest",
+    "angular-tablesort": "latest",
     "dropzone": "~> 4.3",
     "jquery": "latest",
     "jquery.lazyload": "~> 1.9",
     "jquery-ujs": "latest",
     "featherlight": "~> 1.4",
-    "sprintf": "~> 1.0",
-    "angular-tablesort": "latest"
+    "sprintf": "~> 1.0"
   }
 }
