@@ -36,6 +36,14 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('home.playbackQueue', {
+      url: '/playback_queue',
+      views: {
+        "content-by-sidebar": {
+          templateUrl: "angular/playback_queue/playback_queue.html"
+        }
+      }
+    })
     .state('albumDetails', {
       url: "/album/:id",
       views: {
