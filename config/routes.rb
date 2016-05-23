@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
 
   namespace :api do
-    resources :albums, only: [:index, :show] do
+    resources :albums, only: [:index, :show]
+    resources :songs, only: [:show, :update] do
+      collection do
+        get :playback_queue
+      end
     end
-
-    resources :songs, only: [:index, :show, :update]
     resources :song_files, only: [:show]
     resources :smart_playlists, only: [:index, :show]
     resources :player, only: [] do
