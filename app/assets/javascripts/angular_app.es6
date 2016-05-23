@@ -40,7 +40,8 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
       url: '/playback_queue',
       views: {
         "content-by-sidebar": {
-          templateUrl: "angular/playback_queue/playback_queue.html"
+          templateUrl: "angular/playback_queue/playback_queue.html",
+          controller: "PlaybackQueueController"
         }
       }
     })
