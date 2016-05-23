@@ -17,35 +17,16 @@
 
   <div id="smart_playlist_list">
     <ul>
-    <% SmartPlaylist.all.each do |playlist| %>
+      <% SmartPlaylist.all.each do |playlist| %>
       <li>
         <i class="fa fa-list-ul"></i>
         <%= link_to playlist.name, "#smart_playlists/#{playlist.id}" %>
         (<%= link_to "Edit", edit_smart_playlist_path(playlist) %>)
       </li>
 
-    <% end %>
+      <% end %>
     </ul>
   </div>
 
   <%= link_to "Create new...", new_smart_playlist_path %>
-
-<!--
-  <h3>Playlists</h3>
-  <ul>
-    <li>
-      <i class="fa fa-list"></i>
-      Piano Greats
-    </li>
-    <li>
-      <i class="fa fa-list"></i>
-      Workout
-    </li>
-    <li>
-      <i class="fa fa-list"></i>
-      Relaxing
-    </li>
-  </ul>
-
--->
 </div>

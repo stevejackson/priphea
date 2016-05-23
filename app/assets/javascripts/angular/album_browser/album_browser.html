@@ -1,0 +1,54 @@
+<div id="browser" class="twenty-one columns" ng-controller="AlbumBrowserController">
+
+  <div id="cover_art_gallery">
+    <div id="content_area">
+      <div class="album" ng-repeat="album in albums">
+        <div class="cover">
+          <a ng-click="showAlbum(album.id)" ng-href="#albums/{{ album.id }}" data-album-id="{{ album.id }}">
+            <img ng-show="album.has_cover_art" ng-src="/cover_art/{{ album.id }}">
+            <div ng-hide="album.has_cover_art" class="no_cover"></div>
+          </a>
+        </div>
+
+        <div class="album_title">
+          <p>
+            <a ui-sref="albumDetails({id: album.id})">album.title</a>
+          </p>
+        </div>
+      </div>
+    </div> <!-- #content_area -->
+  </div> <!-- #cover_art_gallery -->
+
+  <div id="song_list" ng-show="selectedAlbum">
+    <table id="song_list_table" ts-wrapper>
+      <thead>
+      <tr>
+        <th class='now_playing'>
+        </th>
+        <th ts-criteria="disc_number | parseInt">Disc #</th>
+        <th ts-criteria="track_number | parseInt">Track #</th>
+        <th ts-criteria="title | lowercase">Title</th>
+        <th ts-criteria="artist | lowercase">Artist</th>
+        <th ts-criteria="duration">Duration</th>
+        <th>Album</th>
+        <th ts-criteria="rating | parseInt">Rating</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr ng-repeat="song in selectedAlbum.songs" ts-repeat>
+        <td class="now_playing"></td>
+        <td>{{ song.disc_number }}</td>
+        <td>{{ song.track_number }}</td>
+        <td>{{ song.title }}</td>
+        <td>{{ song.artist }}</td>
+        <td>{{ song.duration }}</td>
+        <td>{{ album.title }}</td>
+        <td>
+          <star-bar song-star-rating="{{song.rating | ratingToStarCount}}" song-id="{{ song.id }}"></star-bar>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

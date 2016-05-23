@@ -1,10 +1,13 @@
 <%= render partial: 'hangbar' %>
 
-<main>
+<main ui-view="main-content-area">
 
   <div id="outer_container" class="row">
     <%= render partial: 'sidebar' %>
-    <%= render partial: 'browser' %>
+    <div ui-view="sidebar"></div>
+
+    <div ui-view="content-by-sidebar">
+    </div>
   </div>
 
 </main>

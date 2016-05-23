@@ -26,6 +26,7 @@
 //= require hotkeys
 //= require album_edit
 //= require angular
+//= require angular-ui-router
 //= require angular-tablesort
 //= require angular-rails-templates
 //= require angular_app
