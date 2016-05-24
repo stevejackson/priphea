@@ -1,21 +1,21 @@
-<div id="song_list" ng-show="selectedAlbum">
-  <table id="song_list_table" ts-wrapper>
+<div id="song_list_fullscreen">
+  <table id="song_list_table">
     <thead>
     <tr>
       <th class='now_playing'>
       </th>
-      <th ts-criteria="disc_number | parseInt">Disc #</th>
-      <th ts-criteria="track_number | parseInt">Track #</th>
-      <th ts-criteria="title | lowercase">Title</th>
-      <th ts-criteria="artist | lowercase">Artist</th>
-      <th ts-criteria="duration">Duration</th>
+      <th>Disc #</th>
+      <th>Track #</th>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Duration</th>
       <th>Album</th>
-      <th ts-criteria="rating | parseInt">Rating</th>
+      <th>Rating</th>
     </tr>
     </thead>
 
     <tbody>
-    <tr ng-repeat="song in playback_queue" ts-repeat>
+    <tr ng-repeat="song in playback_queue">
       <td class="now_playing"></td>
       <td>{{ song.disc_number }}</td>
       <td>{{ song.track_number }}</td>

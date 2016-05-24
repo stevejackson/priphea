@@ -31,11 +31,11 @@ describe("AlbumBrowserController", function() {
   });
 
   describe('#showAlbum', function() {
-    it('should fetch specific album', function() {
+    it('can fetch specific album', function() {
       httpBackend.expectGET('/api/albums/abc123').respond({ 'blah': 123 });
 
       var $scope = {};
-      var controller = $controller('AlbumBrowserController', { $scope: $scope });
+      $controller('AlbumBrowserController', { $scope: $scope });
       $scope.showAlbum('abc123');
 
       httpBackend.flush();

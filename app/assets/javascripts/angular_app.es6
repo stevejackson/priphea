@@ -1,6 +1,7 @@
 let priphea = angular.module(
   "priphea",
   [
+    // 3rd party dependencies
     'templates', // rails-angular-templates
     'ui.router', // angular-ui-router
     'tableSort', // angular-tablesort

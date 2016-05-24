@@ -36,7 +36,10 @@
       </thead>
 
       <tbody>
-      <tr ng-repeat="song in selectedAlbum.songs" ts-repeat>
+      <tr ng-repeat="song in selectedAlbum.songs"
+          ts-repeat
+          ng-click="addSongsToPlaybackQueueStartingAtSongId(song.id)"
+          data-song-id="{{ song.id }}">
         <td class="now_playing"></td>
         <td>{{ song.disc_number }}</td>
         <td>{{ song.track_number }}</td>

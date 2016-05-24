@@ -22,4 +22,3 @@ class Api::SongsController < ApplicationController
     render json: $player.song_queue.collect(&:as_json)
   end
 end
-

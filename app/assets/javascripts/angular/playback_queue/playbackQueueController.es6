@@ -1,12 +1,12 @@
 let controllers = angular.module('controllers');
 
-let playbackQueueController = function($scope, $http) {
+let playbackQueueController = function($scope, $http, PlaybackQueueService) {
   $scope.playback_queue = null;
 
   let fetchPlaybackQueue = function() {
-    $http.get('/api/songs/playback_queue').
-      success(function(data) {
-        $scope.playback_queue = data;
+    PlaybackQueueService.getPlaybackQueue().
+      then(function(response) {
+        $scope.playback_queue = response.data;
       });
   };
 
@@ -19,7 +19,7 @@ let playbackQueueController = function($scope, $http) {
 
 controllers.controller(
   "PlaybackQueueController",
-  ["$scope", "$http", playbackQueueController]
+  ["$scope", "$http", 'PlaybackQueueService', playbackQueueController]
 );
 
 
