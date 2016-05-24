@@ -1,12 +1,6 @@
-<div id="hangbar" class="row">
+<div id="hangbar" class="row" ng-controller="HangbarController">
 
   <div id="song_controls" class="four columns">
-    <!--<div id="previous_song" class="control">
-      <a href="#">
-        <i class="fa fa-backward fa-2x"></i>
-      </a>
-    </div>-->
-
     <div id="play_pause_button" class="control">
       <a href="#">
         <i class="fa fa-play fa-2x"></i>
@@ -28,7 +22,13 @@
 
   <div id="now_playing" class="eight columns">
     <div id="song_art">
-      <div id="thumbnail" class="no_art">
+      <div ng-if="nowPlayingSong.album.has_cover_art" id="thumbnail">
+        <a class="lightbox" data-featherlight="/cover_art/{{ nowPlayingSong.album_id }}">
+          <img ng-src="/cover_art/{{ nowPlayingSong.album_id }}" />
+        </a>
+      </div>
+
+      <div ng-hide="nowPlayingSong.album.has_cover_art" id="thumbnail" class="no_art">
       </div>
     </div>
 

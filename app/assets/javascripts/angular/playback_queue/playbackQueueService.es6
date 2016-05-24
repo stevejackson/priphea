@@ -1,7 +1,6 @@
 let services = angular.module('services');
 
 let playbackQueueService = function($http) {
-  var playbackQueue = [];
   var service = {};
 
   service.getPlaybackQueue = function() {
