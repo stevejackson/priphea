@@ -32,14 +32,22 @@
       </div>
     </div>
 
-    <span id="song_info">
-      <span>&nbsp;</span>
-    </span>
+    <div id="now_playing_right_side">
+      <a id="scroll_to_album" href="#">
+        <i class="fa fa-binoculars"></i>
+      </a>
 
-    <div id="progress_bar">
-      <span id="current_time">00:00</span>
-      <progress value="0" max="100"></progress>
-      <span id="total_length">00:00</span>
+      <a ng-if="nowPlayingSong" id="song_info" ng-href="#now_playing_to_show_album/{{ nowPlayingSong.album_id}}">
+        <strong>{{ nowPlayingSong.title }}</strong>
+        by
+        <strong>{{ nowPlayingSong.artist }}</strong>
+      </a>
+
+      <div id="progress_bar">
+        <span id="current_time">00:00</span>
+        <progress value="0" max="100"></progress>
+        <span id="total_length">00:00</span>
+      </div>
     </div>
   </div> <!-- now_playing -->
 
