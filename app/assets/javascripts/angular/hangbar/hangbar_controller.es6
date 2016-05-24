@@ -1,6 +1,6 @@
 let controllers = angular.module('controllers');
 
-let hangbarController = function($scope, $http, PlaybackQueueService) {
+let hangbarController = function($scope, $http, $interval, PlaybackQueueService) {
   $scope.nowPlayingStatus = null;
   $scope.nowPlayingSong = null;
 
@@ -13,7 +13,7 @@ let hangbarController = function($scope, $http, PlaybackQueueService) {
   };
 
   let init = function() {
-    fetchNowPlaying();
+    $interval(fetchNowPlaying, 250);
   };
 
   init();
@@ -21,5 +21,5 @@ let hangbarController = function($scope, $http, PlaybackQueueService) {
 
 controllers.controller(
   'HangbarController',
-  ['$scope', '$http', 'PlaybackQueueService', hangbarController]
+  ['$scope', '$http', '$interval', 'PlaybackQueueService', hangbarController]
 );
