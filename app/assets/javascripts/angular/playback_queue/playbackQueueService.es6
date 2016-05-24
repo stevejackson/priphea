@@ -11,7 +11,7 @@ let playbackQueueService = function($http) {
   service.setPlaybackQueue = function(newPlaybackQueue) {
     let params = { song_queue: newPlaybackQueue };
 
-    return $http.post('/api/player/set_song_queue', params);
+    return $http.post('/api/player/set_song_queue_and_play', params);
   };
 
   return service;
