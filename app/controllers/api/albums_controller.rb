@@ -33,7 +33,7 @@ class Api::AlbumsController < ApplicationController
 
     album.write_new_album_art!(file_type, uploaded_io.read)
 
-    render :json => {}, status: 200
+    render json: {}, status: 200
   end
 
 end
