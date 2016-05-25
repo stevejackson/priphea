@@ -16,7 +16,6 @@
 //= require vendor/mousetrap
 //= require jquery.lazyload
 //= require featherlight
-//= require dropzone
 //= require underscore
 //= require resizer
 //= require player
