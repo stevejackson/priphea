@@ -1,4 +1,6 @@
 class Api::AlbumsController < ApplicationController
+  protect_from_forgery with: :null_session
+
   def index
     albums =  Album.asc(:title).all
     if params[:q].present? && params[:q][:search_terms_special_match].present? && !params[:q][:search_terms_special_match].blank?
@@ -22,6 +24,16 @@ class Api::AlbumsController < ApplicationController
     else
       render json: {}, status: 404
     end
+  end
+
+  def change_album_art
+    album = Album.find(params[:id])
+    uploaded_io = params[:file]
+    file_type = File.extname(uploaded_io.original_filename).downcase
+
+    album.write_new_album_art!(file_type, uploaded_io.read)
+
+    render :json => {}, status: 200
   end
 
 end

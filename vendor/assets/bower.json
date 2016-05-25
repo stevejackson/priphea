@@ -5,6 +5,7 @@
     "angular-ui-router": "latest",
     "angular-mocks": "latest",
     "angular-tablesort": "latest",
+    "ng-file-upload": "latest",
     "dropzone": "~> 4.3",
     "jquery": "latest",
     "jquery.lazyload": "~> 1.9",

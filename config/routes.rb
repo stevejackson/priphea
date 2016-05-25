@@ -1,7 +1,11 @@
 Rails.application.routes.draw do
 
   namespace :api do
-    resources :albums, only: [:index, :show]
+    resources :albums, only: [:index, :show] do
+      member do
+        post 'change_album_art'
+      end
+    end
     resources :songs, only: [:show, :update] do
       collection do
         get :playback_queue
@@ -30,7 +34,6 @@ Rails.application.routes.draw do
     member do
       post 'delete_all_songs_from_database'
       post 'delete_all_songs_from_database_with_files'
-      post 'change_album_art'
       patch 'update_all_songs_metadata'
       post :deep_rescan_specific_directory
     end

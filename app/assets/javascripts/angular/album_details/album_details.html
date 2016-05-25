@@ -1,3 +1,22 @@
-ALBUM DETAILS!
-
 <a ui-sref="home">Go back home...</a>
+
+<h2 id="album_edit">Edit album {{ album.title }}</h2>
+
+<fieldset>
+  <h3>Replace album art</h3>
+  <input type="file" ngf-select ng-model="picFile" name="file"
+         accept="image/*" ngf-max-size="2MB" required>
+
+  <button ng-click="uploadPic(picFile)">Submit</button>
+
+  <span class="progress" ng-show="picFile.progress >= 0">
+    <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'">
+
+    </div>
+  </span>
+
+  <span ng-show="picFile.result">Upload Successful</span>
+  <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+  <br>
+</fieldset>
+

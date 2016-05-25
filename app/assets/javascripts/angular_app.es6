@@ -5,6 +5,7 @@ let priphea = angular.module(
     'templates', // rails-angular-templates
     'ui.router', // angular-ui-router
     'tableSort', // angular-tablesort
+    'ngFileUpload', // ng-file-upload
     // custom modules
     'controllers',
     'directives',
@@ -50,7 +51,8 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
       url: "/album/:id",
       views: {
         "main-content-area": {
-          templateUrl: "angular/album_details/album_details.html"
+          templateUrl: "angular/album_details/album_details.html",
+          controller: "AlbumDetailsController"
         }
       }
     });

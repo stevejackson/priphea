@@ -28,6 +28,7 @@
 //= require angular
 //= require angular-ui-router
 //= require angular-tablesort
+//= require ng-file-upload
 //= require angular-rails-templates
 //= require angular_app
 //= require_tree ./angular
