@@ -21,8 +21,6 @@
 //= require resizer
 //= require player
 //= require volume
-//= require handlers
-//= require backbone
 //= require hotkeys
 //= require album_edit
 //= require angular

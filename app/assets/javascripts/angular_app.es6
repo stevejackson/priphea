@@ -56,6 +56,15 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
           controller: "AlbumDetailsController"
         }
       }
+    })
+    .state('home.showSmartPlaylist', {
+      url: "/smart_playlist/:id",
+      views: {
+        "content-by-sidebar": {
+          templateUrl: "angular/smart_playlists/show_smart_playlist.html",
+          controller: "ShowSmartPlaylistController"
+        }
+      }
     });
 });
 
