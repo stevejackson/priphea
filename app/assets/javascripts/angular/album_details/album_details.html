@@ -10,8 +10,7 @@
   <button ng-click="uploadPic(picFile)">Submit</button>
 
   <span class="progress" ng-show="picFile.progress >= 0">
-    <div style="width:{{picFile.progress}}%" ng-bind="picFile.progress + '%'">
-
+    <div style="width:{{ picFile.progress }}%" ng-bind="picFile.progress + '%'">
     </div>
   </span>
 

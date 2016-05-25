@@ -34,7 +34,8 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
           controller: 'AlbumBrowserController'
         },
         "sidebar@home": {
-          templateUrl: "angular/sidebar/sidebar.html"
+          templateUrl: "angular/sidebar/sidebar.html",
+          controller: 'SidebarController'
         }
       }
     })

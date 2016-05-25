@@ -17,16 +17,12 @@
 
   <div id="smart_playlist_list">
     <ul>
-      <% SmartPlaylist.all.each do |playlist| %>
-      <li>
+      <li ng-repeat="smartPlaylist in smartPlaylists">
         <i class="fa fa-list-ul"></i>
-        <%= link_to playlist.name, "#smart_playlists/#{playlist.id}" %>
-        (<%= link_to "Edit", edit_smart_playlist_path(playlist) %>)
+        <a href="#">{{ smartPlaylist.name }}</a>
       </li>
-
-      <% end %>
     </ul>
   </div>
 
-  <%= link_to "Create new...", new_smart_playlist_path %>
+  <a href="#">Create new...</a>
 </div>
