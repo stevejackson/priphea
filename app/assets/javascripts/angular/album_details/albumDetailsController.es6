@@ -32,7 +32,6 @@ let albumDetailsController = function($scope, $http, $stateParams, Upload, $time
       });
   };
 
-
   let init = function() {
     fetchAlbum();
   };

@@ -17,8 +17,8 @@ Rails.application.routes.draw do
       collection do
         post 'set_song_queue'
         post 'set_song_queue_and_play'
-        get 'pause'
-        get 'resume'
+        post 'pause'
+        post 'resume'
         get 'update_and_get_status'
         post 'seek'
         post 'set_volume'
