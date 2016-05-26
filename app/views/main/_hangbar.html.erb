@@ -23,7 +23,7 @@
 
   <div id="volume" class="four columns">
     <i class="fa fa-volume-down"></i>
-    <input id="volume_control" type="range" min="0" max="100" step="1">
+    <input id="volume_control" type="range" min="0" max="100" step="1" ng-model="volume" ng-change="updateVolume()">
     <i class="fa fa-volume-up"></i>
   </div> <!-- volume -->
 

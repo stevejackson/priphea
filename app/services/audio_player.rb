@@ -86,6 +86,8 @@ class AudioPlayer
         if line.match /(^.*) (.*)/
           hash[$1] = $2
         end
+
+        hash["volume"] = hash["set vol_left"] if hash["set vol_left"]
       end
 
       hash

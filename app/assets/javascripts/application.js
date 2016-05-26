@@ -19,7 +19,6 @@
 //= require underscore
 //= require resizer
 //= require player
-//= require volume
 //= require hotkeys
 //= require album_edit
 //= require angular
