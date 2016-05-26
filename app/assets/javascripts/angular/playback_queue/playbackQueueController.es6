@@ -1,7 +1,9 @@
 let controllers = angular.module('controllers');
 
-let playbackQueueController = function($scope, $http, PlaybackQueueService) {
+let playbackQueueController = function($scope, $http, PlaybackQueueService, SongQueuerService) {
   $scope.playback_queue = null;
+
+  $scope.queueFromSong = SongQueuerService.queueFromSong;
 
   let fetchPlaybackQueue = function() {
     PlaybackQueueService.getPlaybackQueue().
@@ -19,7 +21,7 @@ let playbackQueueController = function($scope, $http, PlaybackQueueService) {
 
 controllers.controller(
   "PlaybackQueueController",
-  ["$scope", "$http", 'PlaybackQueueService', playbackQueueController]
+  ["$scope", "$http", 'PlaybackQueueService', 'SongQueuerService', playbackQueueController]
 );
 
 

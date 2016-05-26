@@ -15,7 +15,9 @@
     </thead>
 
     <tbody>
-    <tr ng-repeat="song in playback_queue">
+    <tr ng-repeat="song in playback_queue"
+        data-song-id="{{ song.id }}"
+        ng-click="queueFromSong(song.id)">
       <td class="now_playing"></td>
       <td>{{ song.disc_number }}</td>
       <td>{{ song.track_number }}</td>
