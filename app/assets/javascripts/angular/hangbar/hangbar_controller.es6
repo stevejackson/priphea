@@ -12,6 +12,10 @@ let hangbarController = function($scope, $http, $interval, PlaybackQueueService)
     $http.post('/api/player/pause');
   };
 
+  $scope.nextSong = function() {
+    $http.post('/api/player/next_song');
+  };
+
   let fetchNowPlaying = function() {
     $http.get('/api/player/update_and_get_status')
       .success(function(data) {

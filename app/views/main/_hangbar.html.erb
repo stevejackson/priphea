@@ -2,23 +2,22 @@
 
   <div id="song_controls" class="four columns">
     <div id="play_pause_button" class="control">
-      <a href="#"
-         ng-click="resume()"
-         ng-if="nowPlayingStatus.status != 'playing'">
+      <span ng-click="resume()"
+            ng-if="nowPlayingStatus.status != 'playing'">
         <i class="fa fa-play fa-2x"></i>
-      </a>
+      </span>
 
-      <a href="#"
-         ng-click="pause()"
-         ng-if="nowPlayingStatus.status == 'playing'">
+      <span ng-click="pause()"
+            ng-if="nowPlayingStatus.status == 'playing'">
         <i class="fa fa-pause fa-2x"></i>
-      </a>
+      </span>
     </div>
 
     <div id="next_song" class="control">
-      <a href="#">
+      <span ng-if="nowPlayingSong"
+            ng-click="nextSong()">
         <i class="fa fa-forward fa-2x"></i>
-      </a>
+      </span>
     </div>
   </div> <!-- song_controls -->
 
