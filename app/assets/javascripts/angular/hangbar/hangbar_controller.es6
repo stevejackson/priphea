@@ -1,9 +1,10 @@
 let controllers = angular.module('controllers');
 
-let hangbarController = function($scope, $http, $interval, PlaybackQueueService) {
+let hangbarController = function($scope, $http, $interval, PlaybackQueueService, $state) {
   $scope.volume = null;
   $scope.nowPlayingStatus = null;
   $scope.nowPlayingSong = null;
+  $scope.searchKeywords = null;
 
   $scope.resume = function() {
     $http.post('/api/player/resume');
@@ -20,6 +21,10 @@ let hangbarController = function($scope, $http, $interval, PlaybackQueueService)
   $scope.updateVolume = function() {
     let params = { volume: $scope.volume };
     $http.post('/api/player/set_volume', params);
+  };
+
+  $scope.search = function() {
+    $state.go("home.search", { keywords: $scope.searchKeywords });
   };
 
   let fetchNowPlaying = function() {
@@ -40,5 +45,5 @@ let hangbarController = function($scope, $http, $interval, PlaybackQueueService)
 
 controllers.controller(
   'HangbarController',
-  ['$scope', '$http', '$interval', 'PlaybackQueueService', hangbarController]
+  ['$scope', '$http', '$interval', 'PlaybackQueueService', "$state", hangbarController]
 );

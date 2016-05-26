@@ -58,18 +58,14 @@
     </div>
   </div> <!-- now_playing -->
 
-<!--
-  <div id="playback_mode" class="one column">
-    <div class="medium primary button">
-      <a href="#">
-        <i class="fa fa-repeat fa-2x"></i>
-      </a>
-    </div>
-  </div> <!-- playback_mode -->
-
   <div id="search_area" class="five columns">
     <div id="search_container_2">
-      <input id="search" type="text" required />
+      <input id="search"
+             type="text"
+             required
+             ng-model="searchKeywords"
+             ng-change="search()" />
+
       <label for="search-bar" id="search-bar-label">
         <span id="search-placeholder">
           <i class="fa fa-search"></i>

@@ -39,6 +39,15 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
+    .state('home.search', {
+      url: "/search/:keywords",
+      views: {
+        "content-by-sidebar": {
+          templateUrl: "angular/album_browser/album_browser.html",
+          controller: 'AlbumBrowserController'
+        }
+      }
+    })
     .state('home.playbackQueue', {
       url: '/playback_queue',
       views: {

@@ -3,12 +3,18 @@ class Api::AlbumsController < ApplicationController
 
   def index
     albums =  Album.asc(:title).all
-    if params[:q].present? && params[:q][:search_terms_special_match].present? && !params[:q][:search_terms_special_match].blank?
+    query = params[:query]
+
+    if query.present?
       # is this a search for recent albums?
-      if params[:q][:search_terms_special_match].match(/^(recent) (\d*)/i)
+      if query.match(/^(recent) (\d*)/i)
         albums = albums.recently_created($2.to_i).asc(:title)
       else # normal search
-        q = Album.ransack(params[:q])
+        ransack_search_query = {
+          search_terms_special_match: query
+        }
+
+        q = Album.ransack(ransack_search_query)
         albums = q.result.asc(:title)
       end
     end
@@ -33,7 +39,7 @@ class Api::AlbumsController < ApplicationController
 
     album.write_new_album_art!(file_type, uploaded_io.read)
 
-    render json: {}, status: 200
+    render json {}, status: 200
   end
 
 end

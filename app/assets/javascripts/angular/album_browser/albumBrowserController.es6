@@ -1,6 +1,6 @@
 let controllers = angular.module('controllers');
 
-let albumBrowserController = function($scope, $http, SongQueuerService) {
+let albumBrowserController = function($scope, $http, SongQueuerService, $stateParams) {
   $scope.albums = [];
   $scope.selectedAlbum = null;
 
@@ -16,12 +16,20 @@ let albumBrowserController = function($scope, $http, SongQueuerService) {
   $scope.queueFromSong = SongQueuerService.queueFromSong;
 
   let fetchAllAlbums = function() {
-    $http.get('/api/albums').
-    success(
-      function(data) {
-        $scope.albums = data;
-      }
-    );
+    let params = null;
+
+    if($stateParams.keywords) {
+      params = {
+        "query": $stateParams.keywords
+      };
+    }
+
+    $http.get('/api/albums', { params: params }).
+      success(
+        function(data) {
+          $scope.albums = data;
+        }
+      );
   };
 
   let init = function() {
@@ -33,5 +41,5 @@ let albumBrowserController = function($scope, $http, SongQueuerService) {
 
 controllers.controller(
   'AlbumBrowserController',
-  ["$scope", "$http", 'SongQueuerService', albumBrowserController]
+  ["$scope", "$http", 'SongQueuerService', "$stateParams", albumBrowserController]
 );
