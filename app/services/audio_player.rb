@@ -78,18 +78,18 @@ class AudioPlayer
 
   private
 
-    # read the status of cmus-remote --query command
-    def parse_status_into_hash(output)
-      hash = HashWithIndifferentAccess.new
+  # read the status of cmus-remote --query command
+  def parse_status_into_hash(output)
+    hash = HashWithIndifferentAccess.new
 
-      output.each_line do |line|
-        if line.match /(^.*) (.*)/
-          hash[$1] = $2
-        end
-
-        hash["volume"] = hash["set vol_left"] if hash["set vol_left"]
+    output.each_line do |line|
+      if line.match /(^.*) (.*)/
+        hash[$1] = $2
       end
 
-      hash
+      hash["volume"] = hash["set vol_left"] if hash["set vol_left"]
     end
+
+    hash
+  end
 end
