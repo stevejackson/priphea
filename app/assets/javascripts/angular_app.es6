@@ -74,6 +74,14 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
           controller: "ShowSmartPlaylistController"
         }
       }
+    })
+    .state('home.settings', {
+      url: '/settings',
+      views: {
+        "content-by-sidebar": {
+          templateUrl: "angular/settings/settings.html"
+        }
+      }
     });
 });
 

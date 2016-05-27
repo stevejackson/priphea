@@ -1,0 +1,43 @@
+<h1>Settings</h1>
+
+<fieldset>
+  <%= form_tag(rescan_path, method: :post) do %>
+  <%= submit_tag "Rescan library", data: { confirm: "This may take awhile to rescan. You sure?" } %>
+  <% end %>
+</fieldset>
+
+<fieldset>
+  <%= form_tag(deep_rescan_path, method: :post) do %>
+  <%= submit_tag "Deep rescan library", data: { confirm: "This may take long time to rescan. You sure? This will rescan all file's tags." } %>
+  <% end %>
+</fieldset>
+
+<fieldset>
+  <%= form_tag(destroy_and_rescan_path, method: :post) do %>
+  <%= submit_tag "Destroy and rescan library", data: { confirm: "THIS WILL DESTROY ALL YOUR CUSTOM DATA!" } %>
+  <% end %>
+</fieldset>
+
+<fieldset>
+  <%= form_tag(update_cover_art_cache_path, method: :post) do %>
+  <%= submit_tag "Update cover art cache", data: { confirm: "You want to reprocess your artworks?" } %>
+  <% end %>
+</fieldset>
+
+<fieldset>
+  <%= form_tag(check_file_existence_path, method: :post) do %>
+  <p>
+    This will mark songs whose files are not found as "missing", and found files as "active".
+  </p>
+  <%= submit_tag "Check for song file existences (#{Song.count} songs to scan)" %>
+  <% end %>
+</fieldset>
+
+<fieldset>
+  <%= form_tag(delete_missing_unrated_files_path, method: :post) do %>
+  <p>
+    This will delete all files who are "missing" and also have nil rating.
+  </p>
+  <%= submit_tag "Delete all missing, unrated songs (#{Song.missing.unrated.count} songs to delete)" %>
+  <% end %>
+</fieldset>
