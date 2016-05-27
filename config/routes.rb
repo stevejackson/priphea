@@ -11,6 +11,11 @@ Rails.application.routes.draw do
         get :playback_queue
       end
     end
+    resources :settings, only: [] do
+      collection do
+        post 'rescan'
+      end
+    end
     resources :song_files, only: [:show]
     resources :smart_playlists, only: [:index, :show]
     resources :player, only: [] do
@@ -28,7 +33,6 @@ Rails.application.routes.draw do
   end
 
   resources :smart_playlists
-  resources :settings, only: [:index]
 
   resources :albums do
     member do
@@ -43,8 +47,6 @@ Rails.application.routes.draw do
 
   resources :main, only: [:index] do
     collection do
-      post 'rescan'
-      post 'deep_rescan'
       post 'destroy_and_rescan'
       post 'update_cover_art_cache'
       post 'check_file_existence'
@@ -52,8 +54,6 @@ Rails.application.routes.draw do
     end
   end
 
-  post '/rescan' => 'main#rescan', as: :rescan
-  post '/deep_rescan' => 'main#deep_rescan', as: :deep_rescan
   post '/destroy_and_rescan' => 'main#destroy_and_rescan', as: :destroy_and_rescan
   post '/update_cover_art_cache' => 'main#update_cover_art_cache', as: :update_cover_art_cache
   post '/check_file_existence' => 'main#check_file_existence', as: :check_file_existence

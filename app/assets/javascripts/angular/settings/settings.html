@@ -1,6 +1,14 @@
 <h1>Settings</h1>
 
 <fieldset>
+  <a ng-click="rescanLibrary(false)">Rescan library: quick mode</a>
+</fieldset>
+
+<fieldset>
+  <a ng-click="rescanLibrary(true)">Rescan library: deep scan mode</a>
+</fieldset>
+
+<fieldset>
   <%= form_tag(rescan_path, method: :post) do %>
   <%= submit_tag "Rescan library", data: { confirm: "This may take awhile to rescan. You sure?" } %>
   <% end %>

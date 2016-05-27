@@ -79,7 +79,8 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
       url: '/settings',
       views: {
         "content-by-sidebar": {
-          templateUrl: "angular/settings/settings.html"
+          templateUrl: "angular/settings/settings.html",
+          controller: "SettingsController"
         }
       }
     });
