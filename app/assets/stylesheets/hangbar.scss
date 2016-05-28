@@ -1,276 +1,30 @@
-
-div#hangbar {
+#hangbar {
   height: $hangbar-height;
-  padding-top: 10px;
   overflow: hidden;
-  //background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #E5E5E5), color-stop(100%, #EEE));
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f5f5f5), color-stop(100%, #E5E5E5));
-  box-shadow: 0px 3px 5px rgba(50, 50, 50, 0.40);
-  position: relative;
 }
 
-#song_controls {
-  padding-left: 30px;
-  margin-top: 20px;
+//
+// Play/pause buttons
+//
 
-  div.control {
-    display: inline-block;
-    padding-right: 15px;
-
-    a, a:visited {
-      color: black;
-    }
-  }
+#hangbar #song_controls .control {
+  height: $hangbar-height;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-#volume {
-  margin-top: 25px;
-}
+//
+// Volume control
+//
 
-#now_playing {
-  margin-top: 0px;
-  height: 72px; // 50px + 10px padding + 10px padding + 2px of border
-
-  padding: 0px;
-
-  background-color: $color-now-playing-background;
-  border-radius: 10px;
-
-  border: 1px solid $color-sidebar-border;
-
-  #song_art {
-    float: left;
-
-    padding-right: 10px;
-
-    div#thumbnail {
-      img, &, a {
-        cursor: pointer;
-
-        width: 70px;
-        height: 70px;
-
-        border-top-left-radius: 10px;
-        border-bottom-left-radius: 10px;
-
-        object-fit: scale-down;
-      }
-
-      &.no_art {
-        width: 69px;
-        height: 69px;
-        z-index: -1;
-        border: 1px dashed black;
-      }
-    }
+#hangbar #volume {
+  .input-container {
+    width: 100%;
   }
 
-  #now_playing_right_side {
-    padding-top: 10px;
-    overflow: hidden;
-  }
-
-  a#scroll_to_album, a#scroll_to_album:visited {
-    font-size: 0.9em;
-    margin: 0;
-    padding: 0;
-    padding-right: 14px;
-
-    width: 90%;
-    height: 1.3em;
-    overflow: hidden;
-
-    text-decoration: none;
-  }
-
-  a#song_info, a#song_info:visited {
-    display: inline-block;
-    font-size: 0.9em;
-    margin: 0;
-    padding: 0;
-
-    width: 90%;
-    height: 1.3em;
-    overflow: hidden;
-
-    text-decoration: none;
-  }
-
-  #progress_bar {
-    margin: 0;
-    padding: 0;
-
-    margin-top: 10px;
-
-    #current_time, #total_length {
-      display: inline-block;
-      font-size: 0.8em;
-      color: black;
-
-      margin: 0;
-      padding: 0;
-    }
-
-    progress {
-      display: inline-block;
-
-      width: 70%;
-
-      border: 0;
-      height: 1em;
-      border-radius: 9px;
-
-
-      color: $color-major-theme-lightened;
-    }
-
-    // Background
-    progress::-webkit-progress-bar {
-      background-color: $color-now-playing-progress-bar-background;
-    	border-radius: 2px;
-    	padding: 2px;
-    	box-shadow: 0 1px 0px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    // Actual value bar
-    progress::-webkit-progress-value {
-    	border-radius: 2px;
-    	box-shadow: inset 0 1px 1px 0 rgba(255, 255, 255, 0.4);
-    	background: $color-now-playing-progress-bar-foreground;
-
-      // Animation
-    	background-size: 25px 14px, 100% 100%, 100% 100%;
-    	-webkit-animation: move 5s linear 0 infinite;
-    }
-
-    /* That's it! Now let's try creating a new stripe pattern and animate it using animation and keyframes properties  */
-
-    @-webkit-keyframes move {
-    	0% {background-position: 0px 0px, 0 0, 0 0}
-    	100% {background-position: -100px 0px, 0 0, 0 0}
-    }
-  }
-}
-
-#playback_mode {
-  margin-top: 15px;
-  a, a:visited {
-    color: black;
-  }
-}
-
-#search_area {
-  margin-top: 15px;
-  margin-left: 15px;
-  margin-right: 15px;
-
-  * {
-    box-sizing:border-box;
-    transition:.25s ease-in-out;
-  }
-
-  div#search_container_2 {
-    position:relative;
-
-    > #search {
-      display:block;
-
-      width:100%;
-      height:36px;
-      padding:10px 10px 10px 30px;
-      position:absolute;
-      z-index:1;
-      border:none;
-      background:transparent;
-
-      font-size: 12px;
-
-      opacity:0;
-      box-shadow:0 0 3px 10px #92bcea;
-      border-radius:5px;
-
-      &:valid {
-        opacity:1;
-        box-shadow:0 0 0px 0px #92bcea;
-      }
-      &:focus {
-        opacity:1;
-        outline:none;
-        box-shadow:0 0 0px 3px #92bcea;
-      }
-      &:focus + #search-bar-label, &:valid + #search-bar-label {
-        > #search-placeholder {
-          left:-40%;
-          > i {
-            opacity: 0;
-          }
-          > #placeholder-text {
-            opacity:0;
-          }
-        }
-      }
-      &:focus ~ #close-btn {
-        z-index:3;
-        i {
-          font-size:14px;
-          cursor:pointer;
-        }
-      }
-      &:valid ~ #close-btn {
-        z-index:0;
-        i {
-          font-size:0px;
-          cursor:pointer;
-        }
-      }
-    }
-    > #search-bar-label {
-      display:block;
-      position:relative;
-      padding:10px;
-      width:100%;
-      background:white;
-      border-radius:5px;
-      box-shadow: 0 1px 0 rgba(0,0,0,.2);
-
-      > #search-placeholder {
-        display: block;
-        position: relative;
-        left: 0%;
-        text-align: center;
-        width: 100%;
-        color: #585858;
-        font-size: 14px;
-        > #placeholder-text {
-          opacity: 1;
-          color: #b2b2b2;
-          font-size: 14px;
-        }
-      }
-    }
-    #close-btn {
-      width:36px;
-      height:36px;
-      position:absolute;
-      top:0px;
-      right:0px;
-      z-index:0;
-      > i {
-        width:36px;
-        line-height:36px;
-        font-size:0px;
-        text-align:center;
-        color:#7d7d7d;
-      }
-    }
-  }
-}
-
-div#hangbar #settings {
-  margin-top: 15px;
-
-  a, a:visited {
-    color: black;
-  }
-
+  height: $hangbar-height;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

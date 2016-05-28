@@ -28,4 +28,5 @@
 //= require angular-rails-templates
 //= require angular_app
 //= require_tree ./angular
+//= require bootstrap/dist/js/bootstrap
 
