@@ -3,6 +3,7 @@
   "dependencies": {
     "angular": "~> 1",
     "angular-ui-router": "latest",
+    "angular-lazy-img": "latest",
     "angular-mocks": "latest",
     "angular-tablesort": "latest",
     "ng-file-upload": "latest",

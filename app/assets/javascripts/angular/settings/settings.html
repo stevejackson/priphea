@@ -9,18 +9,6 @@
 </fieldset>
 
 <fieldset>
-  <%= form_tag(rescan_path, method: :post) do %>
-  <%= submit_tag "Rescan library", data: { confirm: "This may take awhile to rescan. You sure?" } %>
-  <% end %>
-</fieldset>
-
-<fieldset>
-  <%= form_tag(deep_rescan_path, method: :post) do %>
-  <%= submit_tag "Deep rescan library", data: { confirm: "This may take long time to rescan. You sure? This will rescan all file's tags." } %>
-  <% end %>
-</fieldset>
-
-<fieldset>
   <%= form_tag(destroy_and_rescan_path, method: :post) do %>
   <%= submit_tag "Destroy and rescan library", data: { confirm: "THIS WILL DESTROY ALL YOUR CUSTOM DATA!" } %>
   <% end %>

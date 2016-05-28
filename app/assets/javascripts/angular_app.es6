@@ -6,6 +6,7 @@ let priphea = angular.module(
     'ui.router', // angular-ui-router
     'tableSort', // angular-tablesort
     'ngFileUpload', // ng-file-upload
+    'angularLazyImg', // angular-lazy-img
     // custom modules
     'controllers',
     'directives',

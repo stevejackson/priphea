@@ -1,5 +1,6 @@
 asset 'angular', '~> 1'
 asset 'angular-ui-router'
+asset 'angular-lazy-img'
 asset 'angular-mocks'
 asset 'angular-tablesort'
 asset 'ng-file-upload'

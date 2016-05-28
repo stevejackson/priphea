@@ -1,11 +1,11 @@
 <div id="browser" class="twenty-one columns" ng-controller="AlbumBrowserController">
 
-  <div id="cover_art_gallery">
+  <div id="cover_art_gallery" lazyImgContainer>
     <div id="content_area">
       <div class="album" ng-repeat="album in albums">
         <div class="cover">
           <a ng-click="showAlbum(album.id)" ng-href="#albums/{{ album.id }}" data-album-id="{{ album.id }}">
-            <img ng-if="album.has_cover_art" ng-src="/cover_art/{{ album.id }}">
+            <img ng-if="album.has_cover_art" lazy-img="/cover_art/{{ album.id }}">
             <div ng-hide="album.has_cover_art" class="no_cover"></div>
           </a>
         </div>
