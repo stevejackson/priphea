@@ -6,5 +6,8 @@
 
 main {
   padding-top: $hangbar-height + 25px;
-  min-height: 100%;
+}
+
+#content-by-sidebar {
+  min-height: calc(100vh - #{$hangbar-height-with-padding});
 }

@@ -1,0 +1,42 @@
+#browser {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - #{$hangbar-height-with-padding});
+
+  #cover_art_gallery {
+    height: 65%;
+  }
+  #cover_art_gallery.fullscreen {
+    height: 100%;
+  }
+
+  #song_list {
+    height: 35%;
+  }
+}
+
+#cover_art_gallery {
+  overflow: scroll;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  width: 100%;
+
+  .album {
+    display: inline-block;
+    width: 300px;
+  }
+
+  img {
+    width: 200px;
+    height: 200px;
+  }
+}
+
+#browser #song_list {
+  overflow: scroll;
+  width: 100%;
+}
+
