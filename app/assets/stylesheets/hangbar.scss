@@ -50,8 +50,8 @@
   display: flex;
 
   background-color: $color-now-playing-background;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-radius: 10px;
+  border: 1px solid $color-sidebar-border;
 
   flex-direction: row;
   align-items: center; // center all items vertically
@@ -64,12 +64,13 @@
 
   #thumbnail {
     img {
-      width: 70px;
-      height: 70px;
+      width: 68px;
+      height: 68px;
       border-top-left-radius: 10px;
       border-bottom-left-radius: 10px;
       object-fit: scale-down;
     }
+    z-index: 1;
   }
 }
 
