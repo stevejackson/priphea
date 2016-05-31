@@ -1,3 +1,4 @@
 #sidebar {
-  min-height: 100%;
+  height: calc(100vh - #{$hangbar-height-with-padding});
+  background-color: $color-sidebar-background;
 }
