@@ -44,7 +44,7 @@
               <strong>{{ nowPlayingSong.artist }}</strong>
             </a>
 
-            <div id="progress_bar">
+            <div id="progress_bar" ng-if="nowPlayingSong">
               <div class="input-container">
                 <span id="current_time">{{ nowPlayingStatus.position }}</span>
                 <progress class="progress"
