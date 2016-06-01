@@ -14,7 +14,6 @@
 //= require jquery-ujs
 //= require vendor/mousetrap
 //= require underscore
-//= require player
 //= require album_edit
 //= require angular
 //= require angular-lazy-img
