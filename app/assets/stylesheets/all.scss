@@ -1,38 +1,20 @@
-
-@import "vendor/skeleton";
-
 @import "_variables";
-@import "_typography";
-@import "base";
 @import "hangbar";
 @import "sidebar";
 @import "browser";
 @import "song_list";
 
-body.player {
-  overflow: hidden; // hide main scrollbar
-  margin: 0;
-  padding: 0;
-  background: $color-background;
+html, body {
+  font-size: 0.95rem;
 }
-
 main {
+  padding-top: $hangbar-height;
 }
 
-// contains the sidebar, browser, and songlist
-div#outer_container {
+#content-by-sidebar {
+  min-height: calc(100vh - #{$hangbar-height});
 }
 
-div#sidebar {
-  height: 100%;
-}
-
-
-div#song_list {
-  height: 150px;
-  overflow: scroll;
-}
-
-fieldset {
-  border-bottom: 1px dotted blue;
+.fa-star-o {
+  color: #8c8c8c;
 }

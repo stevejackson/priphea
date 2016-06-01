@@ -12,20 +12,18 @@
 //
 //= require jquery
 //= require jquery-ujs
-//= require sprintf
 //= require vendor/mousetrap
-//= require jquery.lazyload
-//= require featherlight
 //= require underscore
-//= require resizer
 //= require player
 //= require hotkeys
 //= require album_edit
 //= require angular
+//= require angular-lazy-img
 //= require angular-ui-router
 //= require angular-tablesort
 //= require ng-file-upload
 //= require angular-rails-templates
 //= require angular_app
 //= require_tree ./angular
+//= require bootstrap/dist/js/bootstrap
 

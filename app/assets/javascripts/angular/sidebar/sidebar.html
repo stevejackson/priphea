@@ -1,24 +1,24 @@
-<div id="sidebar" class="three columns">
+<div id="sidebar">
   <ul>
 
     <li>
-      <i class="fa fa-book"></i>
+      <span class="fa fa-book fa-1x"></span>
       <a ui-sref="home">Library</a>
     </li>
 
     <li>
-      <i class="fa fa-list-ol"></i>
+      <span class="fa fa-list-ol"></span>
       <a ui-sref="home.playbackQueue">Playback Queue</a>
     </li>
 
   </ul>
 
-  <h3>Smart Playlists</h3>
+  <h5>Smart Playlists</h5>
 
   <div id="smart_playlist_list">
     <ul>
       <li ng-repeat="smartPlaylist in smartPlaylists">
-        <i class="fa fa-list-ul"></i>
+        <span class="fa fa-list-ul"></span>
         <a ui-sref="home.showSmartPlaylist({id: smartPlaylist.id})">{{ smartPlaylist.name }}</a>
       </li>
     </ul>

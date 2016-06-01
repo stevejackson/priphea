@@ -1,27 +1,31 @@
-<div id="browser" class="twenty-one columns" ng-controller="AlbumBrowserController">
+<div id="browser" ng-controller="AlbumBrowserController">
 
-  <div id="cover_art_gallery">
+  <div id="cover_art_gallery"
+       class="col-md-8"
+       ng-class="{'fullscreen': !selectedAlbum}"
+       lazy-img-container>
     <div id="content_area">
       <div class="album" ng-repeat="album in albums">
-        <div class="cover">
-          <a ng-click="showAlbum(album.id)" ng-href="#albums/{{ album.id }}" data-album-id="{{ album.id }}">
-            <img ng-if="album.has_cover_art" ng-src="/cover_art/{{ album.id }}">
-            <div ng-hide="album.has_cover_art" class="no_cover"></div>
-          </a>
+        <div class="card cover text-xs-center" ng-click="showAlbum(album.id)">
+          <img class="card-img-top" ng-if="album.has_cover_art" lazy-img="/cover_art/{{ album.id }}?thumbnail=true">
+          <div class="card-img-top no-cover" ng-if="!album.has_cover_art">
+          </div>
+
+          <div class="card-block">
+            <p class="card-title">
+              <a ui-sref="albumDetails({id: album.id})">{{ album.title }}</a>
+            </p>
+            <p class="card-text">{{ album.album_artist }}</p>
+          </div>
         </div>
 
-        <div class="album_title">
-          <p>
-            <a ui-sref="albumDetails({id: album.id})">{{ album.title }}f</a>
-          </p>
-        </div>
       </div>
     </div> <!-- #content_area -->
   </div> <!-- #cover_art_gallery -->
 
   <div id="song_list" ng-show="selectedAlbum">
-    <table id="song_list_table" ts-wrapper>
-      <thead>
+    <table id="song_list_table" ts-wrapper class="table table-striped table-hover table-sm">
+      <thead class="thead-default">
       <tr>
         <th class='now_playing'>
         </th>

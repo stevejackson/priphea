@@ -1,25 +1,10 @@
-$hangbar-height: 80px;
+$hangbar-height: 100px;
 
-$cover-art-thumbnail-size: 300px;
+$upper-padding: 15px;
 
-
-// Colors //
-// $color-background: #f9f9f9;
-// $color-hangbar-background: #f9f9f9;
-$color-background: white;
-$color-hangbar-background: white;
-$color-browser-background: white;
-
-$color-major-theme: #cfffff;
-$color-major-theme-lightened: #E2EAD3;
-$color-major-theme-lightened: #A0F000;
-$color-major-theme-darkened: darken(#A0F000, 20%);
-
-$color-sidebar-background: #fafafa;
 $color-sidebar-border: #c7c7c7;
+$color-sidebar-background: #fafafa;
 
-$color-now-playing-background: #fcfcfc;
-$color-now-playing-progress-bar-background: #E5E5E5;
-$color-now-playing-progress-bar-foreground: rgb(83, 152, 237);
+$color-now-playing-background: white;
 
-$color-medium-gray: #a7a7a7;
+$cover-art-thumbnail-size: 200px;

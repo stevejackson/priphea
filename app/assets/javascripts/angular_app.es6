@@ -6,6 +6,7 @@ let priphea = angular.module(
     'ui.router', // angular-ui-router
     'tableSort', // angular-tablesort
     'ngFileUpload', // ng-file-upload
+    'angularLazyImg', // angular-lazy-img
     // custom modules
     'controllers',
     'directives',
@@ -72,6 +73,15 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
         "content-by-sidebar": {
           templateUrl: "angular/smart_playlists/show_smart_playlist.html",
           controller: "ShowSmartPlaylistController"
+        }
+      }
+    })
+    .state('home.settings', {
+      url: '/settings',
+      views: {
+        "content-by-sidebar": {
+          templateUrl: "angular/settings/settings.html",
+          controller: "SettingsController"
         }
       }
     });

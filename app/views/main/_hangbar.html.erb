@@ -1,89 +1,82 @@
-<div id="hangbar" class="row" ng-controller="HangbarController">
+<nav id="hangbar" class="navbar navbar-default navbar-fixed-top">
+  <div ng-controller="HangbarController">
+    <div class="container-fluid">
 
-  <div id="song_controls" class="four columns">
-    <div id="play_pause_button" class="control">
-      <span ng-click="resume()"
-            ng-if="nowPlayingStatus.status != 'playing'">
-        <i class="fa fa-play fa-2x"></i>
-      </span>
+      <div id="song_controls" class="col-md-1">
+        <div id="play_pause_button" class="control">
+          <span ng-click="resume()"
+                ng-if="nowPlayingStatus.status != 'playing'">
+            <i class="fa fa-play fa-2x"></i>
+          </span>
 
-      <span ng-click="pause()"
-            ng-if="nowPlayingStatus.status == 'playing'">
-        <i class="fa fa-pause fa-2x"></i>
-      </span>
-    </div>
+          <span ng-click="pause()"
+                ng-if="nowPlayingStatus.status == 'playing'">
+            <i class="fa fa-pause fa-2x"></i>
+          </span>
+        </div>
+      </div> <!-- song_controls -->
 
-    <div id="next_song" class="control">
-      <span ng-if="nowPlayingSong"
-            ng-click="nextSong()">
-        <i class="fa fa-forward fa-2x"></i>
-      </span>
-    </div>
-  </div> <!-- song_controls -->
+      <div id="volume" class="col-md-2">
+        <div class="input-container">
+          <i class="icon-left fa fa-volume-down"></i>
+          <input id="volume_control" type="range" min="0" max="100" step="1" ng-model="volume" ng-change="updateVolume()">
+          <i class="icon-right fa fa-volume-up"></i>
+        </div>
+      </div> <!-- volume -->
 
-  <div id="volume" class="four columns">
-    <i class="fa fa-volume-down"></i>
-    <input id="volume_control" type="range" min="0" max="100" step="1" ng-model="volume" ng-change="updateVolume()">
-    <i class="fa fa-volume-up"></i>
-  </div> <!-- volume -->
+      <div id="now_playing_container" class="col-md-5">
+        <div id="now_playing">
+          <div id="song_art">
+            <div ng-if="nowPlayingSong.album.has_cover_art" id="thumbnail">
+              <img ng-src="/cover_art/{{ nowPlayingSong.album_id }}?thumbnail=true" />
+            </div>
 
-  <div id="now_playing" class="eight columns">
-    <div id="song_art">
-      <div ng-if="nowPlayingSong.album.has_cover_art" id="thumbnail">
-        <a class="lightbox" data-featherlight="/cover_art/{{ nowPlayingSong.album_id }}">
-          <img ng-src="/cover_art/{{ nowPlayingSong.album_id }}" />
-        </a>
+            <div ng-hide="nowPlayingSong.album.has_cover_art" id="thumbnail" class="no_art">
+            </div>
+          </div>
+
+          <div id="now_playing_right_side">
+            <a ng-if="nowPlayingSong"
+               id="song_info"
+               ng-href="#now_playing_to_show_album/{{ nowPlayingSong.album_id}}">
+              <strong>{{ nowPlayingSong.title }}</strong>
+              by
+              <strong>{{ nowPlayingSong.artist }}</strong>
+            </a>
+
+            <div id="progress_bar" ng-if="nowPlayingSong">
+              <div class="input-container">
+                <span id="current_time">{{ nowPlayingStatus.position }}</span>
+                <progress class="progress"
+                          value="{{ nowPlayingStatus.percent_complete }}"
+                          max="100">
+                  {{ nowPlayingStatus.position }}
+                </progress>
+                <span id="total_length">{{ nowPlayingStatus.duration }}</span>
+              </div>
+            </div>
+          </div>
+        </div> <!-- now_playing -->
       </div>
 
-      <div ng-hide="nowPlayingSong.album.has_cover_art" id="thumbnail" class="no_art">
-      </div>
+      <div id="search_area" class="col-md-3">
+        <input id="search"
+               class="form-control"
+               type="text"
+               placeholder="Search for..."
+               required
+               ng-model="searchKeywords"
+               ng-change="search()">
+      </div> <!-- search -->
+
+      <div id="settings" class="col-md-1">
+        <button type="button"
+                class="btn btn-primary"
+                ui-sref="home.settings">
+          <span class="fa fa-cogs fa-2x"></span>
+        </button>
+      </div> <!-- settings -->
+
     </div>
-
-    <div id="now_playing_right_side">
-      <a id="scroll_to_album" href="#">
-        <i class="fa fa-binoculars"></i>
-      </a>
-
-      <a ng-if="nowPlayingSong" id="song_info" ng-href="#now_playing_to_show_album/{{ nowPlayingSong.album_id}}">
-        <strong>{{ nowPlayingSong.title }}</strong>
-        by
-        <strong>{{ nowPlayingSong.artist }}</strong>
-      </a>
-
-      <div id="progress_bar">
-        <span id="current_time">00:00</span>
-        <progress value="0" max="100"></progress>
-        <span id="total_length">00:00</span>
-      </div>
-    </div>
-  </div> <!-- now_playing -->
-
-  <div id="search_area" class="five columns">
-    <div id="search_container_2">
-      <input id="search"
-             type="text"
-             required
-             ng-model="searchKeywords"
-             ng-change="search()" />
-
-      <label for="search-bar" id="search-bar-label">
-        <span id="search-placeholder">
-          <i class="fa fa-search"></i>
-          <span id="placeholder-text">Search</span>
-        </span>
-      </label>
-      <div id="close-btn">
-        <i class="fa fa-times-circle"></i>
-      </div>
-    </div>
-  </div> <!-- search -->
-
-  <div id="settings" class="one column">
-    <div class="medium default button">
-      <a href="/settings">
-        <i class="fa fa-cog fa-2x"></i>
-      </a>
-    </div>
-  </div> <!-- settings -->
-
-</div>
+  </div>
+</nav>

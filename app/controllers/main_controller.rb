@@ -6,26 +6,6 @@ class MainController < ApplicationController
     @albums = @albums.is_active
   end
 
-  def rescan
-    background do
-      scanner = LibraryScanner.new(Settings.library_path)
-      scanner.scan
-    end
-
-    redirect_to root_path
-  end
-
-  def deep_rescan
-    path = Settings.library_path
-
-    background do
-      scanner = LibraryScanner.new(path)
-      scanner.scan(true)
-    end
-
-    redirect_to root_path
-  end
-
   def destroy_and_rescan
     Album.destroy_all
     Song.destroy_all
