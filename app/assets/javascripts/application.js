@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery-ujs
-//= require vendor/mousetrap
 //= require underscore
 //= require album_edit
 //= require angular
