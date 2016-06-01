@@ -38,6 +38,10 @@
     cursor: pointer;
   }
 
+  .card-title {
+    margin-bottom: 5px;
+  }
+
   .card:hover {
     background-color: #e8e8e8;
     transition: background-color 0.5s ease;
