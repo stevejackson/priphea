@@ -86,10 +86,21 @@ class AudioPlayer
       if line.match /(^.*) (.*)/
         hash[$1] = $2
       end
-
-      hash["volume"] = hash["set vol_left"] if hash["set vol_left"]
     end
 
+    hash["volume"] = hash["set vol_left"] if hash["set vol_left"]
+    hash["position_integer"] = hash["position"]
+    hash["position"] = seconds_to_formatted_time(hash["position"].to_i) if hash["position"]
+
+    hash["duration_integer"] = hash["duration"]
+    hash["duration"] = seconds_to_formatted_time(hash["duration"].to_i) if hash["duration"]
+
+    hash["percent_complete"] = (hash["position_integer"].to_f / hash["duration_integer"].to_f) * 100.0
+
     hash
+  end
+
+  def seconds_to_formatted_time(seconds)
+    Time.at(seconds.to_i).strftime("%M:%S")
   end
 end

@@ -46,9 +46,13 @@
 
             <div id="progress_bar">
               <div class="input-container">
-                <span id="current_time">00:00</span>
-                <progress class="progress" value="40" max="100">02:34</progress>
-                <span id="total_length">00:00</span>
+                <span id="current_time">{{ nowPlayingStatus.position }}</span>
+                <progress class="progress"
+                          value="{{ nowPlayingStatus.percent_complete }}"
+                          max="100">
+                  {{ nowPlayingStatus.position }}
+                </progress>
+                <span id="total_length">{{ nowPlayingStatus.duration }}</span>
               </div>
             </div>
           </div>
