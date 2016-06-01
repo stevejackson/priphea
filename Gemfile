@@ -19,7 +19,6 @@ gem 'sprockets-es6' # Babel JS
 gem 'angular-rails-templates'
 gem 'sass-rails', '~> 5.0'
 gem 'uglifier', '>= 1.3.0'
-gem 'backbone-on-rails', '~> 1.1'
 
 group :development do
   gem 'thin', '~> 1.6'
