@@ -6,19 +6,6 @@
        lazyImgContainer>
     <div id="content_area">
       <div class="album" ng-repeat="album in albums">
-        <!--<div class="cover">-->
-          <!--<a ng-click="showAlbum(album.id)"-->
-             <!--data-album-id="{{ album.id }}">-->
-            <!--<img ng-if="album.has_cover_art" lazy-img="/cover_art/{{ album.id }}?thumbnail=true">-->
-            <!--<div ng-hide="album.has_cover_art" class="no_cover"></div>-->
-          <!--</a>-->
-        <!--</div>-->
-
-        <!--<div class="album_title">-->
-          <!--<p>-->
-            <!--<a ui-sref="albumDetails({id: album.id})">{{ album.title }}</a>-->
-          <!--</p>-->
-        <!--</div>-->
         <div class="card cover text-xs-center" ng-click="showAlbum(album.id)">
           <img class="card-img-top" ng-if="album.has_cover_art" lazy-img="/cover_art/{{ album.id }}?thumbnail=true">
           <div class="card-img-top no-cover" ng-if="!album.has_cover_art">
