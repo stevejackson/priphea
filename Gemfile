@@ -2,26 +2,24 @@ source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2'
 gem 'rake', '~> 11'
-
-gem 'bower-rails'
-
 gem 'mongoid', '~> 4.0'
 
 gem 'rails_config', '~> 0.3'
 
-gem 'sprockets-es6' # Babel JS
-
-gem 'angular-rails-templates'
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
 gem 'therubyracer', platforms: :ruby
-
-gem 'backbone-on-rails', '~> 1.1'
 
 gem 'ransack', '~> 1.6'
 
 gem 'taglib-ruby', '~> 0.7'
 gem 'mini_exiftool', '~> 2.7'
+
+# assets
+gem 'bower-rails'
+gem 'sprockets-es6' # Babel JS
+gem 'angular-rails-templates'
+gem 'sass-rails', '~> 5.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'backbone-on-rails', '~> 1.1'
 
 group :development do
   gem 'thin', '~> 1.6'

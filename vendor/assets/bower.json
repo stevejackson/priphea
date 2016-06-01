@@ -9,8 +9,7 @@
     "bootstrap": "~> 4",
     "ng-file-upload": "latest",
     "jquery": "latest",
-    "jquery.lazyload": "~> 1.9",
     "jquery-ujs": "latest",
-    "sprintf": "~> 1.0"
+    "components-font-awesome": "latest"
   }
 }

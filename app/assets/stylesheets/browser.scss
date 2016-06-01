@@ -1,7 +1,8 @@
 #browser {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - #{$hangbar-height-with-padding});
+  height: calc(100vh - #{$hangbar-height});
+  padding-top: $upper-padding;
 
   #cover_art_gallery {
     height: 65%;
@@ -21,17 +22,38 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  align-items: flex-start;
 
   width: 100%;
 
   .album {
     display: inline-block;
     width: 300px;
+    flex: 1 0 auto;
   }
 
+  .card {
+    margin: 10px;
+    background-color: #f8f8f8;
+    cursor: pointer;
+  }
+
+  .card:hover {
+    background-color: #e8e8e8;
+    transition: background-color 0.5s ease;
+  }
+}
+
+#cover_art_gallery .album {
+  .card-img-top {
+    width: $cover-art-thumbnail-size;
+    height: $cover-art-thumbnail-size;
+    padding-top: 10px;
+  }
   img {
-    width: 200px;
-    height: 200px;
+    width: $cover-art-thumbnail-size;
+    height: $cover-art-thumbnail-size;
+    object-fit: scale-down;
   }
 }
 

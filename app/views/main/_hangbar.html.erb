@@ -60,23 +60,21 @@
       </div>
 
       <div id="search_area" class="col-md-3">
-        <div class="input-group">
-          <input id="search"
-                 class="form-control"
-                 type="text"
-                 placeholder="Search for..."
-                 required
-                 ng-model="searchKeywords"
-                 ng-change="search()">
-        </div>
+        <input id="search"
+               class="form-control"
+               type="text"
+               placeholder="Search for..."
+               required
+               ng-model="searchKeywords"
+               ng-change="search()">
       </div> <!-- search -->
 
       <div id="settings" class="col-md-1">
-        <div class="medium default button">
-          <a ui-sref="home.settings">
-            <i class="fa fa-cog fa-2x"></i>
-          </a>
-        </div>
+        <button type="button"
+                class="btn btn-primary"
+                ui-sref="home.settings">
+          <span class="fa fa-cogs fa-2x"></span>
+        </button>
       </div> <!-- settings -->
 
     </div>

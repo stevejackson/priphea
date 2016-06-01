@@ -12,10 +12,7 @@
 //
 //= require jquery
 //= require jquery-ujs
-//= require sprintf
 //= require vendor/mousetrap
-//= require jquery.lazyload
-//= require featherlight
 //= require underscore
 //= require player
 //= require hotkeys

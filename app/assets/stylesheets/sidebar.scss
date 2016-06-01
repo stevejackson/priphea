@@ -1,4 +1,13 @@
 #sidebar {
-  height: calc(100vh - #{$hangbar-height-with-padding});
+  height: calc(100vh - #{$hangbar-height});
   background-color: $color-sidebar-background;
+  padding-top: $upper-padding;
+}
+
+#sidebar ul {
+  padding-left: 12px;
+
+  li {
+    list-style-type: none;
+  }
 }

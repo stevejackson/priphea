@@ -4,10 +4,17 @@
 @import "browser";
 @import "song_list";
 
+html, body {
+  font-size: 0.95rem;
+}
 main {
-  padding-top: $hangbar-height + 25px;
+  padding-top: $hangbar-height;
 }
 
 #content-by-sidebar {
-  min-height: calc(100vh - #{$hangbar-height-with-padding});
+  min-height: calc(100vh - #{$hangbar-height});
+}
+
+.fa-star-o {
+  color: #8c8c8c;
 }
