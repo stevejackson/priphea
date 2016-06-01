@@ -38,6 +38,7 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.2'
 
   gem 'teaspoon-mocha'
+  gem 'coffee-rails' # required for teaspoon to work due to a bug
 end
 
 group :test do
