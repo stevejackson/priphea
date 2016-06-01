@@ -15,7 +15,6 @@
 //= require vendor/mousetrap
 //= require underscore
 //= require player
-//= require hotkeys
 //= require album_edit
 //= require angular
 //= require angular-lazy-img
