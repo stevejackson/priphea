@@ -12,7 +12,6 @@
 //
 //= require jquery
 //= require jquery-ujs
-//= require album_edit
 //= require angular
 //= require angular-lazy-img
 //= require angular-ui-router
