@@ -12,6 +12,7 @@ main {
 }
 
 #content-by-sidebar {
+  padding-top: $upper-padding;
   min-height: calc(100vh - #{$hangbar-height});
 }
 

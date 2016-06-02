@@ -2,7 +2,6 @@
   display: flex;
   flex-direction: column;
   height: calc(100vh - #{$hangbar-height});
-  padding-top: $upper-padding;
 
   #cover_art_gallery {
     height: 65%;

@@ -27,6 +27,16 @@ let hangbarController = function($scope, $http, $interval, PlaybackQueueService,
     $state.go("home.search", { keywords: $scope.searchKeywords });
   };
 
+  $scope.seekToPosition = function($event) {
+    let element = angular.element($event.target);
+
+    let mouseClickX = $event.offsetX;
+    let barWidth = element.width();
+    let seekPercentage = (mouseClickX / barWidth) * 100.0;
+
+    $http.post('/api/player/seek', { percent: seekPercentage });
+  };
+
   let fetchNowPlaying = function() {
     $http.get('/api/player/update_and_get_status')
       .success(function(data) {
