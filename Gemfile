@@ -1,25 +1,24 @@
 source 'https://rubygems.org'
 
 gem 'rails', '~> 4.2'
-
-gem 'bower-rails'
-
+gem 'rake', '~> 11'
 gem 'mongoid', '~> 4.0'
 
 gem 'rails_config', '~> 0.3'
 
-gem 'sprockets-es6' # Babel JS
-
-gem 'sass-rails', '~> 5.0'
-gem 'uglifier', '>= 1.3.0'
 gem 'therubyracer', platforms: :ruby
-
-gem 'backbone-on-rails', '~> 1.1'
 
 gem 'ransack', '~> 1.6'
 
 gem 'taglib-ruby', '~> 0.7'
 gem 'mini_exiftool', '~> 2.7'
+
+# assets
+gem 'bower-rails'
+gem 'sprockets-es6' # Babel JS
+gem 'angular-rails-templates'
+gem 'sass-rails', '~> 5.0'
+gem 'uglifier', '>= 1.3.0'
 
 group :development do
   gem 'thin', '~> 1.6'
@@ -37,6 +36,9 @@ group :development, :test do
 
   gem 'rspec-rails', '~> 3.0'
   gem 'database_cleaner', '~> 1.2'
+
+  gem 'teaspoon-mocha'
+  gem 'coffee-rails' # required for teaspoon to work due to a bug
 end
 
 group :test do

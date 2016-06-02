@@ -1,0 +1,61 @@
+<div id="browser" ng-controller="AlbumBrowserController">
+
+  <div id="cover_art_gallery"
+       class="col-md-8"
+       ng-class="{'fullscreen': !selectedAlbum}"
+       lazy-img-container>
+    <div id="content_area">
+      <div class="album" ng-repeat="album in albums">
+        <div class="card cover text-xs-center" ng-click="showAlbum(album.id)">
+          <img class="card-img-top" ng-if="album.has_cover_art" lazy-img="/cover_art/{{ album.id }}?thumbnail=true">
+          <div class="card-img-top no-cover" ng-if="!album.has_cover_art">
+          </div>
+
+          <div class="card-block">
+            <p class="card-title">
+              <a ui-sref="albumDetails({id: album.id})">{{ album.title }}</a>
+            </p>
+            <p class="card-text">{{ album.album_artist }}</p>
+          </div>
+        </div>
+
+      </div>
+    </div> <!-- #content_area -->
+  </div> <!-- #cover_art_gallery -->
+
+  <div id="song_list" ng-show="selectedAlbum">
+    <table id="song_list_table" ts-wrapper class="table table-striped table-hover table-sm">
+      <thead class="thead-default">
+      <tr>
+        <th class='now_playing'>
+        </th>
+        <th ts-criteria="disc_number | parseInt">Disc #</th>
+        <th ts-criteria="track_number | parseInt">Track #</th>
+        <th ts-criteria="title | lowercase">Title</th>
+        <th ts-criteria="artist | lowercase">Artist</th>
+        <th ts-criteria="duration">Duration</th>
+        <th>Album</th>
+        <th ts-criteria="rating | parseInt">Rating</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <tr ng-repeat="song in selectedAlbum.songs"
+          ts-repeat
+          ng-click="queueFromSong(song.id)"
+          data-song-id="{{ song.id }}">
+        <td class="now_playing"></td>
+        <td>{{ song.disc_number }}</td>
+        <td>{{ song.track_number }}</td>
+        <td>{{ song.title }}</td>
+        <td>{{ song.artist }}</td>
+        <td>{{ song.duration }}</td>
+        <td>{{ album.title }}</td>
+        <td>
+          <star-bar song-star-rating="{{song.rating | ratingToStarCount}}" song-id="{{ song.id }}"></star-bar>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

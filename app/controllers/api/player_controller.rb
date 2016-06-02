@@ -1,4 +1,5 @@
 class Api::PlayerController < ApplicationController
+  protect_from_forgery with: :null_session
 
   def set_song_queue
     song_ids = params[:song_queue]

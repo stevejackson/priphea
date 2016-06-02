@@ -1,0 +1,28 @@
+<div id="sidebar">
+  <ul>
+
+    <li>
+      <span class="fa fa-book fa-1x"></span>
+      <a ui-sref="home">Library</a>
+    </li>
+
+    <li>
+      <span class="fa fa-list-ol"></span>
+      <a ui-sref="home.playbackQueue">Playback Queue</a>
+    </li>
+
+  </ul>
+
+  <h5>Smart Playlists</h5>
+
+  <div id="smart_playlist_list">
+    <ul>
+      <li ng-repeat="smartPlaylist in smartPlaylists">
+        <span class="fa fa-list-ul"></span>
+        <a ui-sref="home.showSmartPlaylist({id: smartPlaylist.id})">{{ smartPlaylist.name }}</a>
+      </li>
+    </ul>
+  </div>
+
+  <a href="#">Create new...</a>
+</div>

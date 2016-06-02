@@ -16,13 +16,20 @@ Prerequisites:
 * exiftool
 * mongodb
 * taglib
-* cmus
-* imagemagick
-* nodejs
+* cmus - `brew install cmus`
+* imagemagick - `brew install imagemagick`
+* nodejs (for bower)
+* phantomjs (for teaspoon tests) - `npm install phantomjs -g`
 
 ### Other setup
 
 `./setup.sh`
+
+### Running the tests
+
+There are two test suites: rspec and teaspoon-mocha.
+
+Run them together: `rake test`. Just rspec: `rspec spec`. Just teaspoon: `rake teaspoon`.
 
 ## To view database
 

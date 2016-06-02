@@ -1,10 +1,8 @@
 <%= render partial: 'hangbar' %>
 
-<main>
-
-  <div id="outer_container" class="row">
-    <%= render partial: 'sidebar' %>
-    <%= render partial: 'browser' %>
+<div class="container-fluid">
+  <div class="row">
+    <main ui-view="main-content-area">
+    </main>
   </div>
-
-</main>
+</div>

@@ -75,6 +75,7 @@ class Album
     res["id"] = res.delete("_id").to_s
     res["has_cover_art"] = self.has_cover_art?
     res["active"] = self.active?
+    res["album_artist"] = self.try!(:songs).first.try!(:album_artist)
 
     res
   end

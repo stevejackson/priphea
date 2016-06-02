@@ -12,23 +12,13 @@
 //
 //= require jquery
 //= require jquery-ujs
-//= require sprintf
-//= require tablesorter/jquery.tablesorter
-//= require vendor/mousetrap
-//= require jquery.lazyload
-//= require featherlight
-//= require dropzone
-//= require underscore
-//= require resizer
-//= require player
-//= require volume
-//= require handlers
-//= require backbone
-//= require backbone_priphea.js.coffee
-//= require hotkeys
-//= require album_edit
-//= require_tree ../backbone_templates
-//= require_tree ./backbone_models
-//= require_tree ./backbone_collections
-//= require_tree ./backbone_views
-//= require_tree ./backbone_routers
+//= require angular
+//= require angular-lazy-img
+//= require angular-ui-router
+//= require angular-tablesort
+//= require ng-file-upload
+//= require angular-rails-templates
+//= require angular_app
+//= require_tree ./angular
+//= require bootstrap/dist/js/bootstrap
+

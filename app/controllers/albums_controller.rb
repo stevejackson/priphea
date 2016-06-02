@@ -45,16 +45,6 @@ class AlbumsController < ApplicationController
     redirect_to root_path
   end
 
-  def change_album_art
-    album = Album.find(params[:id])
-    uploaded_io = params[:file]
-    file_type = File.extname(uploaded_io.original_filename).downcase
-
-    album.write_new_album_art!(file_type, uploaded_io.read)
-
-    render :json => {}, status: 200
-  end
-
   def update_all_songs_metadata
     album = Album.includes(:songs).find(params[:id])
     album.update_attributes(params.require(:album).permit(:songs_attributes => ["id"] + Song::WRITABLE_FIELDS))

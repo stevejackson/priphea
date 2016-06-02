@@ -1,0 +1,8 @@
+<span ng-repeat="starIndex in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+  <i class="fa"
+     ng-class="{'fa-star': songStarRating >= starIndex, 'fa-star-o': songStarRating < starIndex}"
+     ng-click="rateSong(songId, starIndex); $event.stopPropagation();">
+  </i>
+
+  <span ng-show="starIndex == 5">-</span>
+</span>

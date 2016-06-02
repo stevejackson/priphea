@@ -1,5 +1,6 @@
 Rails.application.configure do
-  Mongoid.logger.level = Logger::DEBUG
+  Mongoid.logger.level = Logger::ERROR
+  Moped.logger = Logger.new(StringIO.new) # disable moped logger
   Mongoid.raise_not_found_error = false
   
   # Settings specified here will take precedence over those in config/application.rb.
@@ -39,4 +40,11 @@ Rails.application.configure do
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
   config.serve_static_files = true
+
+  ####
+  #### assets precompiling testing
+  ####
+  # config.assets.digest = false
+  # config.assets.debug = false
+  # config.assets.compile = true
 end

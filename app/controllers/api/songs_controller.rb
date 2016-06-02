@@ -1,11 +1,5 @@
 class Api::SongsController < ApplicationController
-  def index
-    # is this a request to return the active playback queue?
-    if params[:playback_queue]
-      $player.song_queue.each(&:reload)
-      render json: $player.song_queue.collect(&:as_json)
-    end
-  end
+  protect_from_forgery with: :null_session
 
   def show
     song = Song.find(params[:id])
@@ -14,9 +8,17 @@ class Api::SongsController < ApplicationController
 
   def update
     song = Song.find(params[:id])
+    song.attributes = params.require(:song).permit(:rating)
 
-    song.update_attributes(params)
+    if song.save
+      render json: song.as_json
+    else
+      render json: song.as_json, status: 500
+    end
+  end
 
-    render json: song.as_json
+  def playback_queue
+    $player.song_queue.each(&:reload)
+    render json: $player.song_queue.collect(&:as_json)
   end
 end

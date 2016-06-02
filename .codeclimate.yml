@@ -1,19 +1,28 @@
 languages:
    Ruby: true
+
 engines:
- rubocop:
-   enabled: true
-   checks:
-     Rubocop/Style/StringLiterals:
-       enabled: false
- coffeelint:
-   enabled: true
+  rubocop:
+    enabled: true
+    checks:
+      Rubocop/Style/StringLiterals:
+        enabled: false
+  eslint:
+    enabled: true
+    channel: "eslint-2"
+  csslint:
+    enabled: true
+
 exclude_paths:
 - "**/vendor/**/*"
 - "config/initializers/patches/**/*.rb"
+- "spec/teaspoon_env.rb"
+- "public/**/*"
+
 ratings:
    paths:
    - "app/**/*"
    - "lib/**/*"
-   - "**.rb"
+
+
 

@@ -1,12 +1,15 @@
 {
   "name": "dsl-generated dependencies",
   "dependencies": {
-    "dropzone": "~> 4.3",
+    "angular": "~> 1",
+    "angular-ui-router": "latest",
+    "angular-lazy-img": "latest",
+    "angular-mocks": "latest",
+    "angular-tablesort": "latest",
+    "bootstrap": "~> 4",
+    "ng-file-upload": "latest",
     "jquery": "latest",
-    "jquery.lazyload": "~> 1.9",
     "jquery-ujs": "latest",
-    "featherlight": "~> 1.4",
-    "sprintf": "~> 1.0",
-    "tablesorter": "latest"
+    "components-font-awesome": "latest"
   }
 }

@@ -2,17 +2,28 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :albums, only: [:index, :show] do
+      member do
+        post 'change_album_art'
+      end
     end
-
-    resources :songs, only: [:index, :show, :update]
+    resources :songs, only: [:show, :update] do
+      collection do
+        get :playback_queue
+      end
+    end
+    resources :settings, only: [] do
+      collection do
+        post 'rescan'
+      end
+    end
     resources :song_files, only: [:show]
     resources :smart_playlists, only: [:index, :show]
     resources :player, only: [] do
       collection do
         post 'set_song_queue'
         post 'set_song_queue_and_play'
-        get 'pause'
-        get 'resume'
+        post 'pause'
+        post 'resume'
         get 'update_and_get_status'
         post 'seek'
         post 'set_volume'
@@ -22,13 +33,11 @@ Rails.application.routes.draw do
   end
 
   resources :smart_playlists
-  resources :settings, only: [:index]
 
   resources :albums do
     member do
       post 'delete_all_songs_from_database'
       post 'delete_all_songs_from_database_with_files'
-      post 'change_album_art'
       patch 'update_all_songs_metadata'
       post :deep_rescan_specific_directory
     end
@@ -38,8 +47,6 @@ Rails.application.routes.draw do
 
   resources :main, only: [:index] do
     collection do
-      post 'rescan'
-      post 'deep_rescan'
       post 'destroy_and_rescan'
       post 'update_cover_art_cache'
       post 'check_file_existence'
@@ -47,8 +54,6 @@ Rails.application.routes.draw do
     end
   end
 
-  post '/rescan' => 'main#rescan', as: :rescan
-  post '/deep_rescan' => 'main#deep_rescan', as: :deep_rescan
   post '/destroy_and_rescan' => 'main#destroy_and_rescan', as: :destroy_and_rescan
   post '/update_cover_art_cache' => 'main#update_cover_art_cache', as: :update_cover_art_cache
   post '/check_file_existence' => 'main#check_file_existence', as: :check_file_existence

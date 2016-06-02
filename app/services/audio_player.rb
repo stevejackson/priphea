@@ -40,8 +40,7 @@ class AudioPlayer
   # takes a percent like "50"
   def seek(percent)
     # cmus-remote --seek takes a parameter in seconds.
-    results = self.status
-    if status[:duration]
+    if status[:duration_integer]
       # example:
       # --------
       # duration: 90 seconds
@@ -50,7 +49,7 @@ class AudioPlayer
       # 90 * 0.5
       # 45 seconds
 
-      duration = status[:duration].to_f
+      duration = status[:duration_integer].to_f
       percent = percent.to_f * 0.01
 
       seek_seconds = (duration * percent).to_i
@@ -78,16 +77,29 @@ class AudioPlayer
 
   private
 
-    # read the status of cmus-remote --query command
-    def parse_status_into_hash(output)
-      hash = HashWithIndifferentAccess.new
+  # read the status of cmus-remote --query command
+  def parse_status_into_hash(output)
+    hash = HashWithIndifferentAccess.new
 
-      output.each_line do |line|
-        if line.match /(^.*) (.*)/
-          hash[$1] = $2
-        end
+    output.each_line do |line|
+      if line.match /(^.*) (.*)/
+        hash[$1] = $2
       end
-
-      hash
     end
+
+    hash["volume"] = hash["set vol_left"] if hash["set vol_left"]
+    hash["position_integer"] = hash["position"]
+    hash["position"] = seconds_to_formatted_time(hash["position"].to_i) if hash["position"]
+
+    hash["duration_integer"] = hash["duration"]
+    hash["duration"] = seconds_to_formatted_time(hash["duration"].to_i) if hash["duration"]
+
+    hash["percent_complete"] = (hash["position_integer"].to_f / hash["duration_integer"].to_f) * 100.0
+
+    hash
+  end
+
+  def seconds_to_formatted_time(seconds)
+    Time.at(seconds.to_i).strftime("%M:%S")
+  end
 end

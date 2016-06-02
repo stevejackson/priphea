@@ -7,3 +7,9 @@ before_install:
   - sudo apt-get install -qq libimage-exiftool-perl # exiftool
   - sudo apt-get install -qq libtag1-dev # taglib
   - sudo apt-get install -qq imagemagick
+install:
+  - bundle install --jobs=3 --retry=3
+  - npm install bower -g
+  - bundle exec rake bower:install
+script:
+  - bundle exec rake test
