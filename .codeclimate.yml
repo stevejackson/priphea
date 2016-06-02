@@ -7,8 +7,6 @@ engines:
     checks:
       Rubocop/Style/StringLiterals:
         enabled: false
-  coffeelint:
-    enabled: true
   eslint:
     enabled: true
   csslint:
@@ -24,6 +22,6 @@ ratings:
    paths:
    - "app/**/*"
    - "lib/**/*"
-   - "**.rb"
+
 
 
