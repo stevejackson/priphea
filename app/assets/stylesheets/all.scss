@@ -17,7 +17,7 @@ main {
 
 #content-by-sidebar {
   padding-top: $upper-padding;
-  min-height: calc(100vh - #{$hangbar-height});
+  min-height: calc(100vh - #{$hangbar-height-with-padding});
 }
 
 .fa-star-o {
