@@ -1,21 +1,41 @@
 <a ui-sref="home">Go back home...</a>
 
-<h2 id="album_edit">Edit album {{ album.title }}</h2>
+<h4 id="album_edit">
+  Album details
+  <small class="text-muted">{{ album.title }}</small>
+</h4>
 
-<fieldset>
-  <h3>Replace album art</h3>
-  <input type="file" ngf-select ng-model="picFile" name="file"
-         accept="image/*" ngf-max-size="2MB" required>
+<form>
+  <fieldset class="form-group">
+    <h5>Replace album art</h5>
+  </fieldset>
 
-  <button ng-click="uploadPic(picFile)">Submit</button>
+  <fieldset class="form-group">
+    <input type="file"
+           ngf-select
+           ng-model="picFile"
+           name="file"
+           accept="image/*"
+           ngf-max-size="2MB"
+           id="file-upload-box"
+           class="form-control"
+           required>
+  </fieldset>
 
-  <span class="progress" ng-show="picFile.progress >= 0">
-    <div style="width:{{ picFile.progress }}%" ng-bind="picFile.progress + '%'">
-    </div>
-  </span>
+  <fieldset class="form-group">
+    <button type="button"
+            class="btn btn-secondary"
+            ng-click="uploadPic(picFile)">Submit</button>
+  </fieldset>
 
-  <span ng-show="picFile.result">Upload Successful</span>
-  <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
-  <br>
-</fieldset>
+  <fieldset class="form-group">
+    <span class="progress" ng-show="picFile.progress >= 0">
+      <div style="width:{{ picFile.progress }}%" ng-bind="picFile.progress + '%'">
+      </div>
+    </span>
+
+    <span ng-show="picFile.result">Upload Successful</span>
+    <span class="err" ng-show="errorMsg">{{errorMsg}}</span>
+  </fieldset>
+</form>
 

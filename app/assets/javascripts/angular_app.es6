@@ -58,10 +58,10 @@ priphea.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('albumDetails', {
+    .state('home.albumDetails', {
       url: "/album/:id",
       views: {
-        "main-content-area": {
+        "content-by-sidebar": {
           templateUrl: "angular/album_details/album_details.html",
           controller: "AlbumDetailsController"
         }

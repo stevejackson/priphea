@@ -38,7 +38,7 @@
           <div id="now_playing_right_side">
             <a ng-if="nowPlayingSong"
                id="song_info"
-               ng-href="#now_playing_to_show_album/{{ nowPlayingSong.album_id}}">
+               ui-sref="home.albumDetails({ id: nowPlayingSong.album_id })">
               <strong>{{ nowPlayingSong.title }}</strong>
               by
               <strong>{{ nowPlayingSong.artist }}</strong>
