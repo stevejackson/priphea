@@ -24,7 +24,7 @@ let albumBrowserController = function($scope, $http, SongQueuerService, $statePa
       };
     }
 
-    $http.get('/api/albums', { params: params }).
+    $http.get('/api/albums', { params: params, cache: true }).
       success(
         function(data) {
           $scope.albums = data;
