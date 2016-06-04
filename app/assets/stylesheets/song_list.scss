@@ -1,5 +1,5 @@
 #song_list_fullscreen {
-  height: calc(100vh - #{$hangbar-height});
+  height: calc(100vh - #{$hangbar-height-with-padding});
   overflow: scroll;
   padding-top: $upper-padding;
 }
