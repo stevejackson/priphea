@@ -1,13 +1,28 @@
-<a ui-sref="home">Go back home...</a>
+<form>
+  <fieldset class="form-group">
+    <div class="btn-group" role="group" aria-label="Basic example">
+      <button type="button"
+              class="btn btn-secondary"
+              ui-sref="home">
+        Go back home...
+      </button>
+      <button type="button"
+              class="btn btn-secondary"
+              ui-sref="home.showAlbumInBrowser({ showAlbum: album.id })">
+        Show album in browser
+      </button>
+    </div>
+  </fieldset>
+</form>
 
-<h4 id="album_edit">
-  Album details
-  <small class="text-muted">{{ album.title }}</small>
-</h4>
+
+<p class="lead" id="album_edit">
+  {{ album.title }}
+</p>
 
 <form>
   <fieldset class="form-group">
-    <h5>Replace album art</h5>
+    <h6>Replace album art</h6>
   </fieldset>
 
   <fieldset class="form-group">
@@ -41,9 +56,4 @@
 
 
 <form>
-  <button type="button"
-          class="btn btn-secondary"
-          ui-sref="home.showAlbumInBrowser({ showAlbum: album.id })">
-    Show album in browser
-  </button>
 </form>
