@@ -1,6 +1,6 @@
 let controllers = angular.module('controllers');
 
-let albumBrowserController = function($scope, $http, SongQueuerService, $stateParams) {
+let albumBrowserController = function($scope, $http, SongQueuerService, $stateParams, $timeout) {
   $scope.albums = [];
   $scope.selectedAlbum = null;
 
@@ -32,6 +32,20 @@ let albumBrowserController = function($scope, $http, SongQueuerService, $statePa
       );
   };
 
+  $scope.$watch("albums", function(value) {
+      if ($stateParams.showAlbum) {
+        $timeout(function() {
+          var elementToShow = $(`#album-anchor-${$stateParams.showAlbum}`);
+          var scrollTop = elementToShow.position().top;
+
+          $("#cover_art_gallery").animate({
+            scrollTop: scrollTop
+          }, "slow");
+        }, 400);
+      }
+    }
+  );
+
   let init = function() {
     fetchAllAlbums();
   };
@@ -41,5 +55,5 @@ let albumBrowserController = function($scope, $http, SongQueuerService, $statePa
 
 controllers.controller(
   'AlbumBrowserController',
-  ["$scope", "$http", 'SongQueuerService', "$stateParams", albumBrowserController]
+  ["$scope", "$http", 'SongQueuerService', "$stateParams", "$timeout", albumBrowserController]
 );

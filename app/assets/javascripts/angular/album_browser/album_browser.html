@@ -6,7 +6,7 @@
        lazy-img-container>
     <div id="content_area">
       <div class="album" ng-repeat="album in albums">
-        <div class="card cover text-xs-center" ng-click="showAlbum(album.id)">
+        <div id="album-anchor-{{ album.id }}" class="card cover text-xs-center" ng-click="showAlbum(album.id)">
           <img class="card-img-top" ng-if="album.has_cover_art" lazy-img="/cover_art/{{ album.id }}?thumbnail=true">
           <div class="card-img-top no-cover" ng-if="!album.has_cover_art">
           </div>
