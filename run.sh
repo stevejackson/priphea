@@ -32,7 +32,7 @@ brew services restart mongodb
 
 echo "-----"
 echo "Killing existing cmus..."
-kill $(ps aux | grep '[c]mus' | awk '{print $2}')
+killall -9 cmus
 
 echo "-----"
 echo "Starting up cmus for audio playback..."
