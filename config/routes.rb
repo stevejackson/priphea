@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     resources :settings, only: [] do
       collection do
         post 'rescan'
+        post 'restart_priphea_backend'
       end
     end
     resources :song_files, only: [:show]
