@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -e
+#set -e
 
 echo "Starting up Priphea in production mode..."
 cd /Users/steve/dev/priphea_production
