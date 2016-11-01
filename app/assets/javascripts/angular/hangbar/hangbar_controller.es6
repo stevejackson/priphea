@@ -47,7 +47,7 @@ let hangbarController = function($scope, $http, $interval, PlaybackQueueService,
   };
 
   let init = function() {
-    $interval(fetchNowPlaying, 250);
+    $interval(fetchNowPlaying, 500);
   };
 
   init();

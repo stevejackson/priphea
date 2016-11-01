@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       collection do
         post 'rescan'
         post 'restart_priphea_backend'
+        post 'update_cover_art_cache'
       end
     end
     resources :song_files, only: [:show]
