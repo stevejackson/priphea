@@ -23,8 +23,10 @@ class Api::SettingsController < ApplicationController
   end
 
   def update_cover_art_cache
-    Album.all.each do |album|
-      CoverArtUpdater.new(album).update_cover_art
+    background do
+      Album.all.each do |album|
+        CoverArtUpdater.new(album).update_cover_art
+      end
     end
 
     render json: {}, status: 200
